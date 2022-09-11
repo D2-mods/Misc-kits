@@ -1,0 +1,36 @@
+//Jesterblade (d2mk3)
+
+//Clone and edit jester song
+COPY_EXISTING ~SPCL751.SPL~ ~override/%e1%.SPL~
+  LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
+  
+COPY_EXISTING ~SPCL751A.SPL~ ~override/%s1%.SPL~
+  FOR (x = 2; x <= 30; x += 1) BEGIN
+    LPF DELETE_SPELL_HEADER INT_VAR header_type=1 min_level=%x% END
+  END
+  
+//Clone existing Blade 2da
+COPY_EXISTING ~CLABBA02.2DA~ ~override/%kitid%.2DA~
+  REPLACE_TEXTUALLY ~FJBLADE~ ~%e1%~
+  REPLACE_TEXTUALLY ~#BARD-1~ ~%e1%~
+  PRETTY_PRINT_2DA
+
+//Kit function
+LAF ADD_KIT_EX
+  INT_VAR
+    mixed = RESOLVE_STR_REF (@10301)
+    lower = RESOLVE_STR_REF (@10302)
+    help = RESOLVE_STR_REF (@10303)
+  STR_VAR
+    kit_name = ~JESTERBLADE~
+    source_kit = ~BLADE~
+    clab_path = ~%kitid%~
+  RET 
+    kit_id
+END
+
+
+
+/*
+
+*/

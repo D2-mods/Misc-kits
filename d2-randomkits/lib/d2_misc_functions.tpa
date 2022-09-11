@@ -1,0 +1,39 @@
+//
+//
+
+/*functions:
+d2_portrait_icon		- ACTION function
+*/
+
+////////////////////////////////////////////////////////////
+
+//Adds new portrait icon to statdesc.2da
+
+/*Example usage:
+LAF d2_portrait_icon INT_VAR name = RESOLVE_STR_REF (@99) STR_VAR bam = resname RET icon END
+*/
+
+
+DEFINE_ACTION_FUNCTION ~d2_portrait_icon~
+
+    INT_VAR name = 0    // string ref for display name
+	
+    STR_VAR bam  = ~~    // resource name of BAM icon
+	
+	RET icon    // number for icon effects (display/remove/prevent)
+
+	
+BEGIN
+
+  COPY_EXISTING ~STATDESC.2DA~ ~override~
+    COUNT_2DA_ROWS 1 row_count
+    READ_2DA_ENTRY (row_count - 1) 0 1 icon    // check column 0 of last line, then add +1
+    SET icon += 1
+  
+    INSERT_2DA_ROW row_count 1 ~%icon% %name% %bam%~    // add line with placeholder text
+    PRETTY_PRINT_2DA
+  BUT_ONLY
+
+END
+
+////////////////////////////////////////////////////////////
