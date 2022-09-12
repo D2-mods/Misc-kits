@@ -13,6 +13,7 @@ COPY ~%MOD_FOLDER%/abilities/blazingweapon.EFF~      ~override/%s1%.EFF~
 COPY ~%MOD_FOLDER%/abilities/blazingweapon.SPL~      ~override/%s1%.SPL~
   SAY NAME1 @101
   SAY UNIDENTIFIED_DESC @201
+  LPF ALTER_EFFECT INT_VAR match_opcode=321 STR_VAR resource=~%s1%~ END
   LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s1%~ END
   LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=%icon% END
 
@@ -20,10 +21,10 @@ COPY ~%MOD_FOLDER%/abilities/blazingweapon.SPL~      ~override/%s1%.SPL~
 //Add Sever
 COPY ~%MOD_FOLDER%/icons/sever.BAM~ ~override/%s2%.BAM~
 LAF d2_portrait_icon INT_VAR name=RESOLVE_STR_REF (@102) STR_VAR bam=~%s2%~ RET icon END
-COPY ~%MOD_FOLDER%/abilities/severvisual.EFF~  ~override/%s2%a.EFF~
-COPY ~%MOD_FOLDER%/abilities/severdeath.EFF~        ~override/%s2%b.EFF~
+COPY ~%MOD_FOLDER%/abilities/severvisual.EFF~    ~override/%s2%a.EFF~
+COPY ~%MOD_FOLDER%/abilities/severdeath.EFF~     ~override/%s2%b.EFF~
 COPY ~%MOD_FOLDER%/abilities/severslashing.EFF~  ~override/%s2%c.EFF~
-COPY ~%MOD_FOLDER%/abilities/severremove.EFF~  ~override/%s2%d.EFF~
+COPY ~%MOD_FOLDER%/abilities/severremove.EFF~    ~override/%s2%d.EFF~
   WRITE_ASCII 0x30 ~%s2%e~ #8
 COPY ~%MOD_FOLDER%/abilities/severremove.SPL~  ~override/%s2%e.SPL~
   LPF ALTER_EFFECT INT_VAR match_opcode=321 STR_VAR resource=~%s2%~ END
@@ -40,11 +41,15 @@ COPY ~%MOD_FOLDER%/abilities/sever.SPL~        ~override/%s2%.SPL~
 
 //Clone base Monk 2da file
 COPY_EXISTING ~CLABMO01.2DA~ ~override/%kitid%.2DA~
+  REPLACE_TEXTUALLY ~GA_SPCL811~ ~****~    // stunning blow
+  REPLACE_TEXTUALLY ~GA_SPCL820~ ~****~    // quivering palm 
+  REPLACE_TEXTUALLY ~GA_QDMNKA1~ ~****~    // stunning blows (monastic orders pre-0.42)
+  REPLACE_TEXTUALLY ~GA_QDMNKA4~ ~****~    // quivering palm  (monastic orders pre-0.42)
   LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e1%~ END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END
   LPF d2_kit_ability_adder INT_VAR level=2 multi=1 increment=4 STR_VAR resource=~%s1%~ END
-  REPLACE_TEXTUALLY ~SPCL820~ ~%s2%~
-  REPLACE_TEXTUALLY ~GA_SPCL811~ ~****      ~
+  LPF d2_kit_ability_adder INT_VAR level=13 STR_VAR resource=~%s2%~ END
+  PRETTY_PRINT_2DA
 BUT_ONLY
 
 
@@ -57,9 +62,9 @@ LAF ADD_KIT_EX
     help = RESOLVE_STR_REF (@10203)
   STR_VAR
     kit_name = ~MONASTERYSWORDSMAN~
-	weapprof = ~0 4 0 0 4 0 0 4 0 4 4 0 0 4 4 4 0 4 0 0 0 0 0 0 0 0 0 0 0 0 2 3~
+    weapprof = ~0 4 0 0 4 0 0 4 0 4 4 0 0 4 4 4 0 4 0 0 0 0 0 0 0 0 0 0 0 0 2 3~
     clab_path = ~%kitid%~
-	clswpbon = ~1 0 2~    // middle number is levels per fist 1/2 apr bonus
+    clswpbon = ~1 0 2~    // middle number is levels per fist 1/2 apr bonus
   RET 
     kit_id
 END
