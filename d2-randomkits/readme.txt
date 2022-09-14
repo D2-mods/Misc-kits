@@ -21,6 +21,8 @@ Monastery Swordsman:
 - fixed compatibility issue when installed after Monastic Orders mod (pre-v0.42)
 - This kit clones the existing base Monk 2da file. If installed after a revision mod like Monastic Orders v0.41 or Artisan's kitpack, any changes will be included.
 	
+v1.2
+- added modder prefix to internal kit names
 	
 	
 

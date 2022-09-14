@@ -62,7 +62,7 @@ LAF ADD_KIT_EX
     lower = RESOLVE_STR_REF (@10102)
     help = RESOLVE_STR_REF (@10103)
   STR_VAR
-    kit_name = ~KENSAIZERKER~
+    kit_name = ~D2KENSAIZERKER~
     source_kit = ~KENSAI~
 	alignmnt = ~0 0 0 1 1 1 1 1 1~
     clab_path = ~%kitid%~

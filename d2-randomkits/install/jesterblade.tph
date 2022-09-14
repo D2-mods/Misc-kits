@@ -22,7 +22,7 @@ LAF ADD_KIT_EX
     lower = RESOLVE_STR_REF (@10302)
     help = RESOLVE_STR_REF (@10303)
   STR_VAR
-    kit_name = ~JESTERBLADE~
+    kit_name = ~D2JESTERBLADE~
     source_kit = ~BLADE~
     clab_path = ~%kitid%~
   RET 

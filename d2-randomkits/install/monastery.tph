@@ -61,7 +61,7 @@ LAF ADD_KIT_EX
     lower = RESOLVE_STR_REF (@10202)
     help = RESOLVE_STR_REF (@10203)
   STR_VAR
-    kit_name = ~MONASTERYSWORDSMAN~
+    kit_name = ~D2MONASTERY~
     weapprof = ~0 4 0 0 4 0 0 4 0 4 4 0 0 4 4 4 0 4 0 0 0 0 0 0 0 0 0 0 0 0 2 3~
     clab_path = ~%kitid%~
     clswpbon = ~1 0 2~    // middle number is levels per fist 1/2 apr bonus
