@@ -1,4 +1,4 @@
-//Patch or Action function
+//PATCH or ACTION function
 //add abilities to kit 2das
 //specify level or per level gains
 //running the function with no variables adds a line of ****
@@ -12,12 +12,13 @@ d2_kit_ability_adder
   
 DEFINE_PATCH_FUNCTION d2_kit_ability_adder
 
-  INT_VAR level = 1    // level gained, or starting level if multi=1
-          passive = 0    // 0 = special ability, 1 = permanent effect
-          multi = 0    // 0 = gained once, 1 = gained per x levels
-          increment = 0    // ex. set to 4 if gained every 4 levels (starting from %level% variable)
+  INT_VAR level = 1       // level gained, or starting level if multi=1
+          passive = 0     // 0 = special ability, 1 = permanent effect
+          multi = 0       // 0 = gained once, 1 = gained per x levels
+          increment = 0   // ex. set to 4 if gained every 4 levels (starting from %level% variable)
+          limit = 50      // upper limit for per level gains (max = 50)
   
-  STR_VAR resource = ~~    // ability filename
+  STR_VAR resource = ~~   // ability filename
 	  
   RET     
   
@@ -26,6 +27,8 @@ BEGIN
 //Set some variables
   COUNT_2DA_ROWS 3 rows
   SET row_count = (rows - 1)    // count starts at 0 for some weidu actions
+  PATCH_IF ((level < 1) OR (level > 50)) BEGIN SET level = 1 END
+  PATCH_IF ((limit < 1) OR (limit > 50)) BEGIN SET limit = 50 END
   
 //Set entry name for ability
   PATCH_IF (~%resource%~ STRING_EQUAL_CASE ~~) BEGIN
@@ -64,7 +67,7 @@ BEGIN
       TEXT_SPRINT ~a%level%~ ~%i%~
     END
     ELSE BEGIN
-      FOR (x = level; x < 51; x += increment) BEGIN
+      FOR (x = level; x <= limit; x += increment) BEGIN
         TEXT_SPRINT ~a%x%~ ~%i%~
       END
     END
@@ -84,13 +87,14 @@ END
 
 DEFINE_ACTION_FUNCTION d2_kit_ability_adder
 
-  INT_VAR level = 1    // level gained, or starting level if multi=1
-          passive = 0    // 0 = special ability, 1 = permanent effect
-          multi = 0    // 0 = gained once, 1 = gained per x levels
-          increment = 0    // ex. set to 4 if gained every 4 levels (starting from %level% variable)
+  INT_VAR level = 1       // level gained, or starting level if multi=1
+          passive = 0     // 0 = special ability, 1 = permanent effect
+          multi = 0       // 0 = gained once, 1 = gained per x levels
+          increment = 0   // ex. set to 4 if gained every 4 levels (starting from %level% variable)
+          limit = 50      // upper limit for per level gains (max = 50)
   
-  STR_VAR resource = ~~    // ability filename
-          2da = ~~    // 2da filename
+  STR_VAR resource = ~~   // ability filename
+          2da = ~~        // 2da filename
 	  
   RET     
   
@@ -102,6 +106,8 @@ COPY_EXISTING ~%2da%.2da~ ~override~
 //Set some variables
   COUNT_2DA_ROWS 3 rows
   SET row_count = (rows - 1)    // count starts at 0 for some weidu actions
+  PATCH_IF ((level < 1) OR (level > 50)) BEGIN SET level = 1 END
+  PATCH_IF ((limit < 1) OR (limit > 50)) BEGIN SET limit = 50 END
   
 //Set entry name for ability
   PATCH_IF (~%resource%~ STRING_EQUAL_CASE ~~) BEGIN
@@ -140,7 +146,7 @@ COPY_EXISTING ~%2da%.2da~ ~override~
       TEXT_SPRINT ~a%level%~ ~%i%~
     END
     ELSE BEGIN
-      FOR (x = level; x < 51; x += increment) BEGIN
+      FOR (x = level; x <= limit; x += increment) BEGIN
         TEXT_SPRINT ~a%x%~ ~%i%~
       END
     END

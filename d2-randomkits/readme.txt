@@ -2,7 +2,9 @@ GitHub: https://github.com/D2-mods/Misc-kits
 
 Notes:
 - compatible with EEs and classic BG2 engine
+- mod made with Notepad++, WeiDU, and Near Infinity
 - uses ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
+- LibIconv (http://gnuwin32.sourceforge.net/packages/libiconv.htm)
 
 
 //Kits
@@ -24,7 +26,7 @@ Monastery Swordsman:
 v1.2
 - added modder prefix to internal kit names
 
-v1.3
+v1.3/v1.4
 - Some backend fixes (no changes to kits)
 	
 	
