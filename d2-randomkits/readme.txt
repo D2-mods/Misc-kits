@@ -80,7 +80,7 @@ Disadvantages:
 
 
 ==================================================
-Jesterblade (bard)
+Jesterblade (Bard)
 ==================================================
 JESTERBLADE: The Jesterblade is well versed in the arts of ridicule and hilarity, and uses <PRO_HISHER> abilities to confuse enemies, cavorting madly during combat. Do not mistake <PRO_HIMHER> for a true fool, however. This bard is an expert fighter and adventurer, whose fighting style is lethally dangerous.
 
