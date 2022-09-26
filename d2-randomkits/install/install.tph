@@ -14,15 +14,15 @@ COPY - ~%MOD_FOLDER%/config.ini~ ~%MOD_FOLDER%/temp~
 ACTION_IF (%nokensaizerker% = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk1~
   OUTER_TEXT_SPRINT kitname ~kensaizerker~
-  INCLUDE ~%MOD_FOLDER%/install/variables.tph~
+  INCLUDE ~%install%/variables.tph~
 
-  COPY ~%MOD_FOLDER%/install/%kitname%.tph~ ~weidu_external/Workspace~
+  COPY ~%install%/%kitname%.tph~ ~%workspace%~
     PATCH_IF !(GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
       REPLACE_TEXTUALLY ~@200~ ~@99200~
       REPLACE_TEXTUALLY ~@301~ ~@99301~
       REPLACE_TEXTUALLY ~@10103~ ~@9910103~
     END
-  INCLUDE ~weidu_external/Workspace/%kitname%.tph~
+  INCLUDE ~%workspace%/%kitname%.tph~
 END
 
 //Monastery Swordsman (d2mk2)
@@ -30,8 +30,8 @@ ACTION_IF (%nomonastery% = 0) BEGIN
 ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk2~
   OUTER_TEXT_SPRINT kitname ~monastery~
-  INCLUDE ~%MOD_FOLDER%/install/variables.tph~
-  INCLUDE ~%MOD_FOLDER%/install/%kitname%.tph~
+  INCLUDE ~%install%/variables.tph~
+  INCLUDE ~%install%/%kitname%.tph~
 END
 END
 
@@ -39,13 +39,13 @@ END
 ACTION_IF (%nojesterblade% = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk3~
   OUTER_TEXT_SPRINT kitname ~jesterblade~
-  INCLUDE ~%MOD_FOLDER%/install/variables.tph~
+  INCLUDE ~%install%/variables.tph~
 
-  COPY ~%MOD_FOLDER%/install/%kitname%.tph~ ~weidu_external/Workspace~
+  COPY ~%install%/%kitname%.tph~ ~%workspace%~
     PATCH_IF !(GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
       REPLACE_TEXTUALLY ~@10303~ ~@9910303~
     END
-  INCLUDE ~weidu_external/Workspace/%kitname%.tph~
+  INCLUDE ~%workspace%/%kitname%.tph~
 END
 
 

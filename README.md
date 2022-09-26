@@ -2,7 +2,7 @@
 
 Download: https://github.com/D2-mods/Misc-kits/releases
 
-Some kits.
+Some kits I made for practice, while planning a bigger kitpack (still working on it).
 
 #### Notes:
 - compatible with EEs and classic BG2 engine
@@ -59,9 +59,9 @@ Monastery Swordsman (Monk)
   
 </details>
 <details>
-  <summary>Jesterblade (Bard)         - EE and classic</summary>
+  <summary>Jesterblade (bard)         - EE and classic</summary>
   
-Jesterblade (bard)
+Jesterblade (Bard)
 -
 >JESTERBLADE: The Jesterblade is well versed in the arts of ridicule and hilarity, and uses <PRO_HISHER> abilities to confuse enemies, cavorting madly during combat. Do not mistake <PRO_HIMHER> for a true fool, however. This bard is an expert fighter and adventurer, whose fighting style is lethally dangerous.
 >

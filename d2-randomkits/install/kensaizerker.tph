@@ -1,9 +1,9 @@
 //Kensaizerker (d2mk1)
 
 //Copy passive effects
-COPY ~%MOD_FOLDER%/passives/hitdamage1.SPL~        ~override/%e1%.SPL~
-COPY ~%MOD_FOLDER%/passives/speedfactorkensai.SPL~ ~override/%e2%.SPL~
-COPY ~%MOD_FOLDER%/passives/acbonus2.SPL~          ~override/%e3%.SPL~ 
+COPY ~%passives%/hitdamage1.SPL~        ~override/%e1%.SPL~
+COPY ~%passives%/speedfactorkensai.SPL~ ~override/%e2%.SPL~
+COPY ~%passives%/acbonus2.SPL~          ~override/%e3%.SPL~ 
 
 
 //Check for Enrage file
@@ -17,8 +17,8 @@ ACTION_IF (~%ragename%~ STRING_EQUAL_CASE ~Enrage~) BEGIN
   COPY_EXISTING ~SPCL321D.SPL~ ~override/%s2%.SPL~
 END
 ELSE BEGIN
-  COPY ~%MOD_FOLDER%/abilities/enrage.SPL~ ~override/%s1%.SPL~    // or add new files
-  COPY ~%MOD_FOLDER%/abilities/winded.SPL~ ~override/%s2%.SPL~
+  COPY ~%abilities%/enrage.SPL~ ~override/%s1%.SPL~    // or add new files
+  COPY ~%abilities%/winded.SPL~ ~override/%s2%.SPL~
 END
 
   
@@ -45,7 +45,7 @@ BUT_ONLY
 
 
 //Make 2da file
-COPY ~%MOD_FOLDER%/2da/d2kitA.2DA~ ~override/%kitid%.2DA~
+COPY ~%files%/kit0.2DA~ ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR multi=1 increment=4 STR_VAR resource=~%s1%~ END
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e1%~ END
   LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END
@@ -92,7 +92,7 @@ ACTION_IF ((%d1%>0) AND (%d2%>0) AND (%d3%>0) AND (%d4%>0)) BEGIN    // copy ken
   BUT_ONLY
 END
 ELSE BEGIN
-  COPY ~%MOD_FOLDER%/2da/d2kitA.2DA~ ~override/%kitid%.2DA~    // or make new 2da
+  COPY ~%files%/kit0.2DA~ ~override/%kitid%.2DA~    // or make new 2da
     LPF d2_kit_ability_adder INT_VAR multi=1 increment=4 STR_VAR resource=~%s1%~ END
     LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e1%~ END
     LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END

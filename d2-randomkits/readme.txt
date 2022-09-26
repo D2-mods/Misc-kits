@@ -28,6 +28,10 @@ v1.2
 
 v1.3/v1.4
 - Some backend fixes (no changes to kits)
+
+v1.5
+- Monastery Swordsman: improved the way Sever is removed after a hit
+- minor edits to install files to match the way I'm currently doing things
 	
 	
 

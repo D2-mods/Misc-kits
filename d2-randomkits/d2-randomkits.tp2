@@ -24,6 +24,13 @@ ALWAYS
       noconvert_array  = ~d2noconvert~
       reload_array     = ~d2reload~
   END
+
+  OUTER_TEXT_SPRINT install    ~%MOD_FOLDER%/install~    // folder variables
+  OUTER_TEXT_SPRINT files      ~%MOD_FOLDER%/files~
+  OUTER_TEXT_SPRINT abilities  ~%MOD_FOLDER%/abilities~
+  OUTER_TEXT_SPRINT passives   ~%MOD_FOLDER%/passives~
+  OUTER_TEXT_SPRINT icons      ~%MOD_FOLDER%/icons~
+  OUTER_TEXT_SPRINT workspace  ~weidu_external/Workspace~
 END
 
 AUTO_EVAL_STRINGS
@@ -42,7 +49,7 @@ BEGIN @1
 DESIGNATED 9999
 REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee iwdee eet bg2 tob tutu tutu_totsc iwd_in_bg2 ca~) ~Game not supported~
 LABEL ~D2_MISC_KITS~
-INCLUDE ~%MOD_FOLDER%/install/install.tph~
+INCLUDE ~%install%/install.tph~
 
 
 
