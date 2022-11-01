@@ -2,7 +2,7 @@
 
 Download: https://github.com/D2-mods/Misc-kits/releases
 
-Some kits I made for practice, while planning a bigger kitpack (still working on it).
+Some kits I made for practice, while planning a bigger kitpack -> [The Workshop Kitpack](https://github.com/D2-mods/The-Workshop-Kitpack).
 
 #### Notes:
 - compatible with EEs and classic BG2 engine
