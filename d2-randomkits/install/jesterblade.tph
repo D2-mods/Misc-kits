@@ -9,11 +9,14 @@ COPY_EXISTING ~SPCL751A.SPL~ ~override/%s1%.SPL~
     LPF DELETE_SPELL_HEADER INT_VAR header_type=1 min_level=%x% END
   END
   
+
 //Clone existing Blade 2da
 COPY_EXISTING ~CLABBA02.2DA~ ~override/%kitid%.2DA~
   REPLACE_TEXTUALLY ~FJBLADE~ ~%e1%~
   REPLACE_TEXTUALLY ~#BARD-1~ ~%e1%~
   PRETTY_PRINT_2DA
+BUT_ONLY
+
 
 //Kit function
 LAF ADD_KIT_EX

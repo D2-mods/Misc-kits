@@ -1,11 +1,10 @@
-//PATCH or ACTION function
 //add abilities to kit 2das
 //specify level or per level gains
 //running the function with no variables adds a line of ****
 
 
 /*function list
-d2_kit_ability_adder
+d2_kit_ability_adder		PATCH or ACTION
 */
 
 ////////////////////////////////////////////////////////////

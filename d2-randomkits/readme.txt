@@ -16,25 +16,14 @@ Jesterblade (bard)         - EE and classic
 Set a kit to = 0 to prevent install
 
 
+v1.6
+- all kits now clone an existing 2da, similar to my other kit mod, The Workshop Kitpack:
+	- Kensaizerker clones the Fighter 2da
+	- Monastery Swordsman clones the Monk 2da
+	- Jesterblade clones the Blade 2da
 
-v1.1
-Monastery Swordsman:
-- Blazing Weapon no longer stacks when used multiple times (each use will overwrite the previous)
-- fixed compatibility issue when installed after Monastic Orders mod (pre-v0.42)
-- This kit clones the existing base Monk ability table. If installed after a revision mod like Monastic Orders v0.41 or Artisan's kitpack, any changes will be included.
-	
-v1.2
-- added modder prefix to internal kit names
-
-v1.3/v1.4
-- Some backend fixes (no changes to kits)
-
-v1.5
-- Monastery Swordsman: improved the way Sever is removed after a hit
-- minor edits to install files to match the way I'm currently doing things
-	
-	
-
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
 
 //Kit descriptions
 
@@ -101,3 +90,6 @@ Disadvantages:
 – Bard Song does not gain additional effects at higher levels.
 – Only has one half the normal Lore value.
 – Only has one half the normal Pick Pockets skill.
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------

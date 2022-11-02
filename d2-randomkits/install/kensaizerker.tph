@@ -44,14 +44,13 @@ COPY_EXISTING ~%s2%.SPL~ ~override~
 BUT_ONLY
 
 
-//Make 2da file
-COPY ~%files%/kit0.2DA~ ~override/%kitid%.2DA~
+//Clone base Fighter 2da file
+COPY_EXISTING ~CLABFI01.2DA~ ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR multi=1 increment=4 STR_VAR resource=~%s1%~ END
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e1%~ END
   LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e3%~ END
-  LPF d2_kit_ability_adder END
 BUT_ONLY
 
 
@@ -69,7 +68,6 @@ LAF ADD_KIT_EX
   RET 
     kit_id
 END
-
 
 
 
