@@ -16,11 +16,16 @@ Jesterblade (bard)         - EE and classic
 Set a kit to = 0 to prevent install
 
 
+v1.7
+- Jesterblade: fixed compatibility when installed after Bardic Wonders revisions
+	- will use the vanilla Jester song (Confuse at +2 bonus)
+	- will use the revised Blade Offensive/Defensive Spin if installed
+
 v1.6
-- all kits now clone an existing 2da, similar to my other kit mod, The Workshop Kitpack:
-	- Kensaizerker clones the Fighter 2da
-	- Monastery Swordsman clones the Monk 2da
-	- Jesterblade clones the Blade 2da
+- all kits now clone an existing abilities table:
+	- Kensaizerker clones the base Fighter table
+	- Monastery Swordsman clones the base Monk table
+	- Jesterblade clones the Blade table
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------

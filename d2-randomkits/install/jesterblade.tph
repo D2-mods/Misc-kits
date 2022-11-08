@@ -1,19 +1,36 @@
 //Jesterblade (d2mk3)
 
 //Clone and edit jester song
-COPY_EXISTING ~SPCL751.SPL~ ~override/%e1%.SPL~
+COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
   LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
   
-COPY_EXISTING ~SPCL751A.SPL~ ~override/%s1%.SPL~
-  FOR (x = 2; x <= 30; x += 1) BEGIN
-    LPF DELETE_SPELL_HEADER INT_VAR header_type=1 min_level=%x% END
-  END
-  
+ACTION_IF !(FILE_EXISTS ~override/c0jes02.SPL~) BEGIN    // skip if Bardic Wonders revisions
+  COPY_EXISTING ~SPCL751A.SPL~  ~override/%s1%.SPL~
+    FOR (x = 2; x <= 30; x += 1) BEGIN
+      LPF DELETE_SPELL_HEADER INT_VAR header_type=1 min_level=%x% END
+    END
+END
+
+ACTION_IF (FILE_EXISTS ~override/c0jes02.SPL~) BEGIN     // if Bardic Wonders revision
+  ACTION_IF (GAME_IS ~iwdee~) BEGIN COPY ~%abilities%/jestersongiwd.SPL~  ~override/%s1%.SPL~ END    // IWDEE
+                         ELSE BEGIN COPY ~%abilities%/jestersongbg2.SPL~  ~override/%s1%.SPL~ END    // BGEE games
+END
+
+ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
+  COPY_EXISTING ~%s1%.SPL~  ~override~
+    LPF ALTER_EFFECT INT_VAR match_opcode=321 STR_VAR resource=~%s1%~ END
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=318 STR_VAR resource=~%s1%~ END    // BG games
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=324 STR_VAR resource=~%s1%~ END    // IWDEE
+  BUT_ONLY
+END
+
 
 //Clone existing Blade 2da
 COPY_EXISTING ~CLABBA02.2DA~ ~override/%kitid%.2DA~
-  REPLACE_TEXTUALLY ~FJBLADE~ ~%e1%~
-  REPLACE_TEXTUALLY ~#BARD-1~ ~%e1%~
+  REPLACE_TEXTUALLY ~AP_FJBLADE~ ~****~    // BG games
+  REPLACE_TEXTUALLY ~AP_#BARD-1~ ~****~    // IWDEE
+  REPLACE_TEXTUALLY ~AP_C0BLD01~ ~****~    // Bardic Wonders
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e1%~ END
   PRETTY_PRINT_2DA
 BUT_ONLY
 
@@ -35,5 +52,4 @@ END
 
 
 /*
-
 */
