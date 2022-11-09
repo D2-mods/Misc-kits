@@ -16,10 +16,14 @@ Jesterblade (bard)         - EE and classic
 Set a kit to = 0 to prevent install
 
 
+v1.8
+- Jesterblade: fixed compatibility when installed after Rogue Rebalancing revisions
+	- Works the same way as with Bardic Wonders. Song will be the vanilla Jester song. Everything else will be based on the revised Blade if installed.
+
 v1.7
 - Jesterblade: fixed compatibility when installed after Bardic Wonders revisions
-	- will use the vanilla Jester song (Confuse at +2 bonus)
-	- will use the revised Blade Offensive/Defensive Spin if installed
+	- will always use the vanilla Jester song (Confuse at +2 bonus)
+	- if revised Blade is installed, everything else will be based on the Blade revision
 
 v1.6
 - all kits now clone an existing abilities table:
