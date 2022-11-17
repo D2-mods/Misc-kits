@@ -1,0 +1,158 @@
+//Dialogue messages
+@300 = ~Lorsque la rage du Kensaizerker prend fin, le personnage subit 15 points de dégâts.~
+@301 = ~La rage du Kensaizerker est arrivé à son terme. Le personnage perd à présent les 15 points de vie supplémentaires acquis précédemment. Si le personnage dispose de moins de 15 points de vie, il perdra connaissance.~
+@302 = ~Vous ne pouvez pas lancer ce sort tant que les effets du précédent ne sont pas dissipés.~
+@303 = ~Impossible d'utiliser cet objet.~
+@304 = ~Confus~
+@305 = ~~
+
+
+
+//Kensaizerker
+@10101 = ~Kensaizerker~
+@10102 = ~kensaizerker~
+@10103 = ~KENSAIZERKER : Proche du kensai, ou « Seigneur de l'épée », ce guerrier est en phase avec son côté animal et peut atteindre un état d'extase qui lui permet de se battre plus longtemps, plus durement et plus sauvagement, au-delà de toute raison.
+
+Avantages :
+– Bonus de 2 à la classe d'armure.
+– Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
+– Bonus de 1 au facteur de vitesse tout les 4 niveaux.
+– Peut utiliser la capacité « Enragé » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+
+ENRAGÉ : Pendant 1 tour, le personnage gagne un bonus de 2 à sa classe d'armure, à ses jets d'attaque et de dégâts, il bénéficie d'une immunité au charme, à la confusion, à la peur, à la débilité mentale, à l'immobilisation, à l'emprisonnement, au drainage de niveau, au sort de labyrinthe, à l'étourdissement et au sommeil. Le personnage reçoit également 15 points de vie supplémentaires qui seront retirés lorsque sa fureur prendra fin, ce qui peut entraîner une perte de connaissance.
+
+Inconvénients : 
+– Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à la classe d'armure, aux jets d'attaque et aux jets de dégâts.
+– Ne peut porter aucune armure.
+– Ne peut utiliser des armes à distance.
+– Ne peut porter de gantelets ou de bracelets.
+– Ne peut pas être d'alignement loyal.~
+@10104 = ~~
+@10105 = ~~
+
+
+//Monastery Swordsman
+@10201 = ~Adepte de l'épée~
+@10202 = ~adepte de l'épée~
+@10203 = ~ADEPTE DE L'ÉPÉE : Les moines sont des guerriers qui cherchent la perfection à travers la contemplation et l'action. Parmi eux, certains ont été spécialement formés pour ne faire qu'un avec leurs armes de prédilection. Le prouesse la plus connue des moines est leur aptitude à couper en deux un adversaire d'un seul coup.
+
+Avantages :
+– Peut atteindre la grande maîtrise (4 points de compétence) avec les armes utilisable par les moines.
+– Peut se spécialiser (2 points de compétence) dans n'importe quel style de combat à une main, et allouer trois étoiles dans le style de combat à deux armes.
+– Bonus de 1 aux jets d'attaque et de dégâts tout les 4 niveaux.
+– 2ème niveau : Peut utiliser la capacité « Brasier » une fois par jour, puis une fois supplémentaire tous les 4 niveaux.
+
+BRASIER : Le moine canalise sa lumière intérieure, enveloppant ses armes d'une flamme vive, mais éphémère. Les attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 1 round. Cette durée passe à 2 rounds au niveau 9, à 3 rounds au niveau 12, à 4 rounds au niveau 15, et à 5 rounds au niveau 25.
+
+– 13ème niveau : Peut utiliser la capacité « Vorpal » une fois par jour.
+
+VORPAL : Un seul coup mais un coup mortel. La prochaine attaque réussie sous 2 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
+
+Inconvénients : 
+– Les attaques à mains nues ne bénéficient pas du bonus d'attaques par round..
+– Ne peut utiliser « Coup étourdissant ».
+– Ne peut utiliser « Paume tremblante ».
+– Ne peut utiliser les frondes et les fléchettes.~
+@10204 = ~~
+@10205 = ~~
+
+
+//Jesterblade
+@10301 = ~Bouffon cinglant~ // Maître Bouffon
+@10302 = ~bouffon cinglant~
+@10303 = ~BOUFFON CINGLANT : Le Bouffon cinglant est versé dans l'art du ridicule et de la plaisanterie, il utilise ses capacités pour déconcerter ses ennemis en cabriolant joyeusement. Cependant, vous feriez mieux de le prendre au sérieux. Ce barde est un expert du combat et un grand aventurier, avec un style... mortel.
+
+Avantages :
+– Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, elle affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts à -2 ou devenir confus pendant 1 round.
+– Peut allouer trois étoiles dans le style de combat à deux armes.
+– Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+
+SPIRALE OFFENSIVE : Durant les 4 prochains rounds, la vitesse de déplacement du personnage est doublée et il obtient un bonus de 2 au toucher et aux dégâts, ainsi qu'une attaque supplémentaire par round, et toutes ses attaques font le maximum de dégâts. Ne peut être utilisée en conjonction avec les sorts profanes Hâte ou Hâte améliorée.
+
+SPIRALE DÉFENSIVE : Durant les 4 prochains rounds, le personnage ne peut plus se déplacer, mais obtient un bonus de 1 à sa classe d'armure par niveau d'expérience, jusqu'à un maximum de 10.
+
+Inconvénients : 
+– Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
+– Score de connaissances divisé par deux.
+– Score de Vol à la tire divisé par deux.~
+@10304 = ~~
+@10305 = ~~
+
+
+
+//Ability text
+@100 = ~Enragé~
+@200 = ~Enragé
+
+Le personnage devient enragé pour 1 tour. Sous l'emprise de la fureur, il gagne un bonus de 2 à sa classe d'armure, à ses jets d'attaque et de dégâts, il bénéficie d'une immunité au charme, à la confusion, à la peur, à la débilité mentale, à l'immobilisation, à l'emprisonnement, au drainage de niveau, au sort de labyrinthe, à l'étourdissement et au sommeil. Le personnage reçoit également 15 points de vie supplémentaires qui sont retirés lorsque sa fureur prend fin (ce qui peut entraîner une perte de connaissance).
+
+Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à sa classe d'armure, à ses jets d'attaque et de dégâts.~
+
+@101 = ~Brasier~
+@201 = ~Brasier
+
+Le moine canalise sa lumière intérieure, enveloppant ses armes d'une flamme vive, mais éphémère. Les attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 1 round. Cette durée passe à 2 rounds au niveau 9, à 3 rounds au niveau 12, à 4 rounds au niveau 15, et à 5 rounds au niveau 25.~
+
+@102 = ~Vorpal~
+@202 = ~Vorpal
+
+Un seul coup mais un coup mortel. La prochaine attaque réussie sous 2 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
+
+Contrairement à Paume tremblante, cette capacité ne peut servir que pour une seule attaque.~
+
+@103 = ~~
+@203 = ~~
+
+@104 = ~~
+@204 = ~~
+
+@105 = ~~
+@205 = ~~
+
+
+
+
+//Alt dialogue for classic BG2
+@99301 = ~La rage du Kensaizerker est arrivé à son terme. Le personnage perd à présent les 15 points de vie supplémentaires acquis précédemment. Si le personnage dispose de moins de 15 points de vie, il ou elle perdra la vie.~
+
+
+//Alt kit text for classic BG2
+@9910103 = ~KENSAIZERKER : Très proche du kensai, ou « Seigneur de l'épée », ce guerrier est en phase avec son côté animal et peut atteindre un état d'extase qui lui permet de se battre plus longtemps, plus durement et plus sauvagement, au-delà de toute raison.
+
+Avantages :
+– Bonus de 2 à la classe d'armure.
+– Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
+– Bonus de 1 au facteur de vitesse tout les 4 niveaux.
+– Peut utiliser la capacité « Enragé », pendant 60 secondes une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+- Sous l'effet de la rage : Bonus de 2 à la classe d'armure, aux jets d'attaque et aux jets de dégâts.
+- Sous l'effet de la rage : Immunité au charme, à la confusion, à la peur, à la débilité mentale, à l'immobilisation, à l'emprisonnement, au drainage de niveau, au sort de labyrinthe, à l'étourdissement et au sommeil.
+- Sous l'effet de la rage : Reçoit 15 points de vie supplémentaires qui seront retirés lorsque la fureur prendra fin, ce qui peut entraîner une mort immédiate.
+
+Inconvénients : 
+– Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à sa classe d'armure, aux jets d'attaque et aux jets de dégâts.
+– Ne peut porter aucune armure.
+– Ne peut utiliser des armes à distance.
+– Ne peut porter de gantelets ou de bracelets.
+– Ne peut pas être d'alignement loyal.~
+
+@9910303 = ~BOUFFON CINGLANT : Le Bouffon cinglant est versé dans l'art du ridicule et de la plaisanterie, il utilise ses capacités pour déconcerter ses ennemis en cabriolant joyeusement. Cependant, vous feriez mieux de le prendre au sérieux. Ce barde est un expert du combat et un grand aventurier, avec un style... mortel.
+
+Avantages :
+– Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, elle affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts à -2 ou être sous l'effet de la confusion pendant 1 round.
+-  – Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+-  Spirale offensive : Durant les 24 prochains secondes, la vitesse de déplacement du personnage est doublée et il obtient un bonus de 2 au toucher et aux dégâts, ainsi qu'une attaque supplémentaire par round, et toutes ses attaques font le maximum de dégâts. Ne peut être utilisée en conjonction avec les sorts profanes Hâte ou Hâte améliorée.
+-  Spirale défensive : Durant les 24 prochains secondes, le personnage ne peut plus se déplacer, mais obtient un bonus de 1 à sa classe d'armure par niveau d'expérience, jusqu'à un maximum de 10.
+– Peut allouer trois étoiles dans le style de combat à deux armes.
+
+Inconvénients : 
+– Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
+– Score de connaissances divisé par deux.
+– Score de Vol à la tire divisé par deux.~
+
+
+//Alt ability text for classic BG2 (not used for special abilities)
+@99200 = ~Enragé
+
+Le personnage devient enragé pour 1 tour. Sous l'emprise de la fureur, il gagne un bonus de 2 à sa classe d'armure, à ses jets d'attaque et de dégâts, il bénéficie d'une immunité au charme, à la confusion, à la peur, à la débilité mentale, à l'immobilisation, à l'emprisonnement, au drainage de niveau, au sort de labyrinthe, à l'étourdissement et au sommeil. Le personnage reçoit également 15 points de vie supplémentaires qui sont retirés lorsque sa fureur prend fin (ce qui peut entraîner une mort immédiate).
+
+Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à sa classe d'armure, à ses jets d'attaque et de dégâts.~

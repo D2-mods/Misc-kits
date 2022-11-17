@@ -39,6 +39,13 @@ LANGUAGE ~English~
          ~english~
          ~d2-randomkits/tra/english/setup.tra~
          ~d2-randomkits/tra/english/main.tra~
+	
+LANGUAGE ~French~
+         ~french~
+         ~d2-randomkits/tra/english/setup.tra~
+         ~d2-randomkits/tra/english/main.tra~
+         ~d2-randomkits/tra/french/setup.tra~
+         ~d2-randomkits/tra/french/main.tra~
 		 
 		 
 /*
