@@ -16,6 +16,9 @@ Jesterblade (bard)         - EE and classic
 Set a kit to = 0 to prevent install
 
 
+v1.9
+- Added French translation by 11jo
+
 v1.8
 - Jesterblade: fixed compatibility when installed after Rogue Rebalancing revisions
 	- Works the same way as with Bardic Wonders. Song will be the vanilla Jester song. Everything else will be based on the revised Blade if installed.

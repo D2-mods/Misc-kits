@@ -16,6 +16,9 @@ Bouffon cinglant (Kit de barde)         - Enhanced Editions et BG2 original
 - Mettez la valeur d'un kit à = 0 pour ne pas l'installer
 
 
+v1.9
+- Added French translation by 11jo
+
 v1.8
 - Jesterblade: fixed compatibility when installed after Rogue Rebalancing revisions
 	- Works the same way as with Bardic Wonders. Song will be the vanilla Jester song. Everything else will be based on the revised Blade if installed.
