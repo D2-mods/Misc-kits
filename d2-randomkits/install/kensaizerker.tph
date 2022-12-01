@@ -27,7 +27,7 @@ COPY_EXISTING ~%s1%.SPL~ ~override~
   SAY NAME1 @100
   SAY UNIDENTIFIED_DESC @200
   LPF ALTER_EFFECT INT_VAR match_opcode=146 STR_VAR match_resource=~SPCL321D~ resource=~%s2%~ END
-  LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1=RESOLVE_STR_REF (@300) END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@300) END
   
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
@@ -40,7 +40,7 @@ COPY_EXISTING ~%s1%.SPL~ ~override~
 BUT_ONLY
 
 COPY_EXISTING ~%s2%.SPL~ ~override~
-  LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1=RESOLVE_STR_REF (@301) END  
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@301) END  
 BUT_ONLY
 
 
@@ -70,35 +70,17 @@ LAF ADD_KIT_EX
 END
 
 
-
-
-/*Alt version that checks existing 2da, then clones or makes new file
-
-//Make 2da file
-COPY_EXISTING - ~CLABFI04.2DA~ ~override~    // check if kensai was overhauled
-  COUNT_REGEXP_INSTANCES ~AP_SPCL141~ d1
-  COUNT_REGEXP_INSTANCES ~AP_SPCL142~ d2
-  COUNT_REGEXP_INSTANCES ~AP_SPCL143~ d3
-  COUNT_REGEXP_INSTANCES ~GA_SPCL144~ d4
-  
-ACTION_IF ((%d1%>0) AND (%d2%>0) AND (%d3%>0) AND (%d4%>0)) BEGIN    // copy kensai 2da
-  COPY_EXISTING ~CLABFI04.2DA~ ~override/%kitid%.2DA~
-    REPLACE_TEXTUALLY ~SPCL141~ ~%e1%~
-    REPLACE_TEXTUALLY ~SPCL142~ ~%e3%~
-    REPLACE_TEXTUALLY ~SPCL143~ ~%e2%~
-    REPLACE_TEXTUALLY ~SPCL144~ ~%s1%~
-    PRETTY_PRINT_2DA
-  BUT_ONLY
-END
-ELSE BEGIN
-  COPY ~%files%/kit0.2DA~ ~override/%kitid%.2DA~    // or make new 2da
-    LPF d2_kit_ability_adder INT_VAR multi=1 increment=4 STR_VAR resource=~%s1%~ END
-    LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e1%~ END
-    LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END
-    LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END
-    LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e3%~ END
-    LPF d2_kit_ability_adder END
-  BUT_ONLY
+//Make abilities unaffected by casting speed changes
+ACTION_FOR_EACH ~ability~ IN ~%s1%~ ~%s2%~ BEGIN
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%ability%.SPL~) BEGIN
+    COPY_EXISTING ~%ability%.SPL~  ~override~
+      READ_SHORT 0x84 speed
+      LPF DELETE_EFFECT INT_VAR check_headers=0 match_opcode=189 match_timing=0 END
+      LPF ADD_SPELL_CFEFFECT INT_VAR opcode=189 target=1 parameter1=~%speed%~ parameter2=1 resist_dispel=2 duration=1 END
+    BUT_ONLY
+  END
 END
 
+
+/*
 */

@@ -16,6 +16,11 @@ Jesterblade (bard)         - EE and classic
 Set a kit to = 0 to prevent install
 
 
+
+v2.0
+- Kit abilities are now unaffected by casting speed penalties.
+- Fixed harmless WeiDU warning when installed after EE Fixpack.
+
 v1.9
 - Added French translation by 11jo
 

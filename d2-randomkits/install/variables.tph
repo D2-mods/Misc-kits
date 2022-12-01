@@ -15,11 +15,6 @@ OUTER_TEXT_SPRINT e7 ~%kitid%e7~
 OUTER_TEXT_SPRINT e8 ~%kitid%e8~
 OUTER_TEXT_SPRINT e9 ~%kitid%e9~
 OUTER_TEXT_SPRINT e0 ~%kitid%e0~
-OUTER_TEXT_SPRINT ea ~%kitid%ea~
-OUTER_TEXT_SPRINT eb ~%kitid%eb~
-OUTER_TEXT_SPRINT ec ~%kitid%ec~
-OUTER_TEXT_SPRINT ed ~%kitid%ed~
-OUTER_TEXT_SPRINT ee ~%kitid%ee~
 
 //special abilities
 OUTER_TEXT_SPRINT s1 ~%kitid%s1~
@@ -32,8 +27,3 @@ OUTER_TEXT_SPRINT s7 ~%kitid%s7~
 OUTER_TEXT_SPRINT s8 ~%kitid%s8~
 OUTER_TEXT_SPRINT s9 ~%kitid%s9~
 OUTER_TEXT_SPRINT s0 ~%kitid%s0~
-OUTER_TEXT_SPRINT sa ~%kitid%sa~
-OUTER_TEXT_SPRINT sb ~%kitid%sb~
-OUTER_TEXT_SPRINT sc ~%kitid%sc~
-OUTER_TEXT_SPRINT sd ~%kitid%sd~
-OUTER_TEXT_SPRINT se ~%kitid%se~

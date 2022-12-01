@@ -16,6 +16,11 @@ Bouffon cinglant (Kit de barde)         - Enhanced Editions et BG2 original
 - Mettez la valeur d'un kit à = 0 pour ne pas l'installer
 
 
+
+v2.0
+- Kit abilities are now unaffected by casting speed penalties.
+- Fixed harmless WeiDU warning when installed after EE Fixpack.
+
 v1.9
 - Added French translation by 11jo
 
