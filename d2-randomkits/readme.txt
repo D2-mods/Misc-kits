@@ -1,9 +1,9 @@
 GitHub: https://github.com/D2-mods/Misc-kits
 
 Notes:
-- compatible with EEs and classic BG2 engine
-- mod made with Notepad++, WeiDU, and Near Infinity
-- uses ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
+- Compatible with EEs and classic BG2 engine
+- Mod made with Notepad++, WeiDU, and Near Infinity
+- Uses ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
 - LibIconv (http://gnuwin32.sourceforge.net/packages/libiconv.htm)
 
 
@@ -16,6 +16,16 @@ Jesterblade (bard)         - EE and classic
 Set a kit to = 0 to prevent install
 
 
+Translations:
+- French (by 11jo)
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+v2.1
+- Monastery Swordsman: 
+	- Installing this kit will now also re-enable the Monk class (if disabled by another mod).
+	- Install after any mods that disable the Monk class (i.e. Monastic Orders v0.42).
 
 v2.0
 - Kit abilities are now unaffected by casting speed penalties.

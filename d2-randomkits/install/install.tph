@@ -1,14 +1,7 @@
-//Read config.ini
+/*
+Install kits
+*/
 
-COPY - ~%MOD_FOLDER%/config.ini~ ~%MOD_FOLDER%/temp~
-  COUNT_REGEXP_INSTANCES  ~Kensaizerker.*=.*[^0-9]0[^0-9]*$~        nokensaizerker
-  COUNT_REGEXP_INSTANCES  ~MonasterySwordsman.*=.*[^0-9]0[^0-9]*$~  nomonastery
-  COUNT_REGEXP_INSTANCES  ~Jesterblade.*=.*[^0-9]0[^0-9]*$~         nojesterblade
-
-
-
-//Install kits
-//Edits for classic BG2 are made in weidu_external folder
 
 //Kensaizerker (d2mk1)
 ACTION_IF (%nokensaizerker% = 0) BEGIN

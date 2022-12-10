@@ -46,6 +46,7 @@ LAF ADD_KIT_EX
     kit_name = ~D2JESTERBLADE~
     source_kit = ~BLADE~
     clab_path = ~%kitid%~
+    clsrcreq = ~1 1 1 1 1 1 1~    // Usable by all races, if base class is usable
   RET 
     kit_id
 END

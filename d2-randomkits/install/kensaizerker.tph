@@ -63,8 +63,9 @@ LAF ADD_KIT_EX
   STR_VAR
     kit_name = ~D2KENSAIZERKER~
     source_kit = ~KENSAI~
-    alignmnt = ~0 0 0 1 1 1 1 1 1~
     clab_path = ~%kitid%~
+    clsrcreq = ~1 1 1 1 1 1 1~        // Usable by all races, if base class is usable
+    alignmnt = ~0 0 0 1 1 1 1 1 1~    // no Lawful
   RET 
     kit_id
 END

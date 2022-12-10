@@ -2,20 +2,30 @@ GitHub: https://github.com/D2-mods/Misc-kits
 
 Notes:
 - Compatible avec les Enhanced Editions et sur BG2 original
-- mod made with Notepad++, WeiDU, and Near Infinity
+- Mod made with Notepad++, WeiDU, and Near Infinity
 - Utilise ADD_KIT_EX fonction par Argent77 (https://github.com/Argent77/A7-add_kit_ex)
 - LibIconv (http://gnuwin32.sourceforge.net/packages/libiconv.htm)
 
 
 //Kits
-Kensaizerker (Kit de guerrier)     - Enhanced Editions et BG2 original
-Adepte de l'épée (Kit de moine) - Enhanced Editions uniquement
-Bouffon cinglant (Kit de barde)         - Enhanced Editions et BG2 original
+Kensaizerker (Kit de guerrier)   - Enhanced Editions et BG2 original
+Adepte de l'épée (Kit de moine)  - Enhanced Editions uniquement
+Bouffon cinglant (Kit de barde)  - Enhanced Editions et BG2 original
 
 //Fichier "config.ini"
 - Mettez la valeur d'un kit à = 0 pour ne pas l'installer
 
 
+Traductions :
+- Français (par 11jo)
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+v2.1
+- Monastery Swordsman: 
+	- Installing this kit will now also re-enable the Monk class (if disabled by another mod).
+	- Install after any mods that disable the Monk class (i.e. Monastic Orders v0.42).
 
 v2.0
 - Kit abilities are now unaffected by casting speed penalties.
