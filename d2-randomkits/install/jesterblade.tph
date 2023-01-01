@@ -32,8 +32,6 @@ COPY_EXISTING ~CLABBA02.2DA~ ~override/%kitid%.2DA~
   REPLACE_TEXTUALLY ~AP_C0BLD01~  ~****~    // Bardic Wonders Blade
   REPLACE_TEXTUALLY ~AP_RR#BBL01~ ~****~    // rr Blade
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e1%~ END
-  PRETTY_PRINT_2DA
-BUT_ONLY
 
 
 //Kit function

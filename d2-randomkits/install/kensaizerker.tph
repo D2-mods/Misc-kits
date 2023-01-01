@@ -13,12 +13,14 @@ ACTION_IF (FILE_EXISTS_IN_GAME ~spcl321.SPL~) BEGIN
 END
   
 ACTION_IF (~%ragename%~ STRING_EQUAL_CASE ~Enrage~) BEGIN
-  COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~    // clone existing Enrage
-  COPY_EXISTING ~SPCL321D.SPL~ ~override/%s2%.SPL~
-END
-ELSE BEGIN
-  COPY ~%abilities%/enrage.SPL~ ~override/%s1%.SPL~    // or add new files
-  COPY ~%abilities%/winded.SPL~ ~override/%s2%.SPL~
+  ACTION_IF !(FILE_EXISTS ~override/C0BER#05.SPL~) BEGIN
+    COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~     // clone existing Enrage
+    COPY_EXISTING ~SPCL321D.SPL~ ~override/%s2%.SPL~
+  END
+  ELSE BEGIN
+    COPY ~%abilities%/enrage.SPL~ ~override/%s1%.SPL~    // or add new files
+    COPY ~%abilities%/winded.SPL~ ~override/%s2%.SPL~
+  END
 END
 
   
@@ -26,13 +28,17 @@ END
 COPY_EXISTING ~%s1%.SPL~ ~override~
   SAY NAME1 @100
   SAY UNIDENTIFIED_DESC @200
-  LPF ALTER_EFFECT INT_VAR match_opcode=146 STR_VAR match_resource=~SPCL321D~ resource=~%s2%~ END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@300) END
+  LPF ALTER_EFFECT STR_VAR match_resource=~SPCL321D~ resource=~%s2%~ END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@300) END    // 15 damage info
   
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
     LPF ADD_SPELL_EFFECT INT_VAR opcode=321 target=1 timing=1 resist_dispel=2 insert_point=0 STR_VAR resource=~%s2%~ END
     LPF ADD_SPELL_EFFECT INT_VAR opcode=321 target=1 timing=1 resist_dispel=2 insert_point=0 STR_VAR resource=~%s1%~ END
+    PATCH_IF (GAME_IS ~bgee iwdee~) BEGIN
+      LPF DELETE_EFFECT INT_VAR match_opcode=267 END    // fix string immunities (BGEE/IWDEE)
+      LPF d2_string_immunities END
+    END
   END
   ELSE BEGIN
     LPF ALTER_EFFECT INT_VAR match_opcode=206 parameter1=RESOLVE_STR_REF (@302) STR_VAR match_resource=~SPCL321~ resource=~%s1%~ END
@@ -40,7 +46,10 @@ COPY_EXISTING ~%s1%.SPL~ ~override~
 BUT_ONLY
 
 COPY_EXISTING ~%s2%.SPL~ ~override~
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@301) END  
+  PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
+  END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@301) END    // 15 damage info
 BUT_ONLY
 
 
@@ -51,7 +60,6 @@ COPY_EXISTING ~CLABFI01.2DA~ ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e3%~ END
-BUT_ONLY
 
 
 //Kit function

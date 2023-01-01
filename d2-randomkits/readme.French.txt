@@ -22,6 +22,11 @@ Traductions :
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v2.2
+- Kensaizerker: 
+	- EEs: Will use the vanilla Enrage if the Berserker rework from Artisan's kitpack is installed.
+	- BGEE/IWDEE: Added fixes for potential issues with string immunities.
+
 v2.1
 - Monastery Swordsman: 
 	- Installing this kit will now also re-enable the Monk class (if disabled by another mod).
