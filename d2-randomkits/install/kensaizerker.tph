@@ -7,20 +7,16 @@ COPY ~%passives%/acbonus2.SPL~          ~override/%e3%.SPL~
 
 
 //Check for Enrage file
-ACTION_IF (FILE_EXISTS_IN_GAME ~spcl321.SPL~) BEGIN
-  COPY_EXISTING - ~spcl321.SPL~ ~override~
-    READ_STRREF 0x8 ragename
-END
-  
-ACTION_IF (~%ragename%~ STRING_EQUAL_CASE ~Enrage~) BEGIN
-  ACTION_IF !(FILE_EXISTS ~override/C0BER#05.SPL~) BEGIN
-    COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~     // clone existing Enrage
+ACTION_IF (FILE_EXISTS_IN_GAME ~SPCL321D.SPL~) BEGIN
+  ACTION_IF !(FILE_EXISTS ~override/SPCL321.SPL~) BEGIN     // if Enrage not modified
+    COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~        // clone existing Enrage
     COPY_EXISTING ~SPCL321D.SPL~ ~override/%s2%.SPL~
   END
-  ELSE BEGIN
-    COPY ~%abilities%/enrage.SPL~ ~override/%s1%.SPL~    // or add new files
-    COPY ~%abilities%/winded.SPL~ ~override/%s2%.SPL~
-  END
+END
+
+ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN          // or add new files
+  COPY ~%abilities%/enrage.SPL~ ~override/%s1%.SPL~
+  COPY ~%abilities%/winded.SPL~ ~override/%s2%.SPL~
 END
 
   

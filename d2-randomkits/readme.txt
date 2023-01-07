@@ -22,6 +22,9 @@ Translations:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v2.3
+- Kensaizerker: Fixed an issue from the last update, which could cause this kit to fail to install.
+
 v2.2
 - Kensaizerker: 
 	- EEs: Will use the vanilla Enrage if the Berserker rework from Artisan's kitpack is installed.
