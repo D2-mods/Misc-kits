@@ -72,7 +72,7 @@ LAF ADD_KIT_EX
     lower = RESOLVE_STR_REF (@10202)
     help = RESOLVE_STR_REF (@10203)
   STR_VAR
-    kit_name = ~D2MONASTERY~
+    kit_name = ~D2%kitname%~
     clab_path = ~%kitid%~
     clsrcreq = ~1 1 1 1 1 1 1~    // Usable by all races, if base class is usable
     weapprof = ~0 4 0 0 4 0 0 4 0 4 4 0 0 4 4 4 0 4 0 0 0 0 0 0 0 0 0 0 0 0 2 3~

@@ -20,7 +20,7 @@ ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN          // or add new files
 END
 
   
-//Update some stuff on Enrage/winded files
+//Update stuff on Enrage
 COPY_EXISTING ~%s1%.SPL~ ~override~
   SAY NAME1 @100
   SAY UNIDENTIFIED_DESC @200
@@ -36,16 +36,26 @@ COPY_EXISTING ~%s1%.SPL~ ~override~
       LPF d2_string_immunities END
     END
   END
-  ELSE BEGIN
+  ELSE BEGIN  // if classic BG2 engine
+    WRITE_ASCII 0x3a ~SPIN117~ #8
+    WRITE_ASCII 0x76 ~SPIN117~ #8
+    LPF DELETE_EFFECT INT_VAR match_opcode=321 END
+    LPF DELETE_EFFECT INT_VAR match_opcode=328 END
     LPF ALTER_EFFECT INT_VAR match_opcode=206 parameter1=RESOLVE_STR_REF (@302) STR_VAR match_resource=~SPCL321~ resource=~%s1%~ END
   END
 BUT_ONLY
 
+
+//Update stuff on Winded effect
 COPY_EXISTING ~%s2%.SPL~ ~override~
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@301) END    // 15 damage info
+
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
   END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@301) END    // 15 damage info
+  ELSE BEGIN  // if classic BG2 engine
+    LPF DELETE_EFFECT INT_VAR match_opcode=328 END
+  END
 BUT_ONLY
 
 
@@ -65,7 +75,7 @@ LAF ADD_KIT_EX
     lower = RESOLVE_STR_REF (@10102)
     help = RESOLVE_STR_REF (@10103)
   STR_VAR
-    kit_name = ~D2KENSAIZERKER~
+    kit_name = ~D2%kitname%~
     source_kit = ~KENSAI~
     clab_path = ~%kitid%~
     clsrcreq = ~1 1 1 1 1 1 1~        // Usable by all races, if base class is usable

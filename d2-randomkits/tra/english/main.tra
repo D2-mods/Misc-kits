@@ -150,7 +150,7 @@ Disadvantages:
 -  Bard Song does not become better with levels.~
 
 
-//Alt ability text for classic BG2 (not used for special abilities)
+//Alt ability text for classic BG2 (can be seen with Improved GUI mod)
 @99200 = ~Enrage
 
 The character becomes enraged for 1 turn. While enraged, the character gains a +2 bonus to attack and damage rolls as well as to Armor Class, and becomes immune to charm, confusion, fear, feeblemind, hold, imprisonment, level drain, maze, stun, and sleep. The character also gains 15 temporary Hit Points, which are taken away at the end of the berserk spree (possibly killing the character).

@@ -22,6 +22,9 @@ Translations:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v2.4
+- Fixed potential crash issues in classic BG2 (both Kensaizerker and Jesterblade).
+
 v2.3
 - Kensaizerker: Fixed an issue from the last update, which could cause this kit to fail to install.
 

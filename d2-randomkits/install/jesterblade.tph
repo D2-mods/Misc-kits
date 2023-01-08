@@ -1,6 +1,7 @@
 //Jesterblade (d2mk3)
 
-//Clone and edit jester song
+
+//Clone jester song
 COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
   LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
   
@@ -12,15 +13,29 @@ ACTION_IF !(FILE_EXISTS ~override/c0jes02.SPL~) BEGIN    // skip if Bardic Wonde
 END
 
 ACTION_IF (FILE_EXISTS ~override/c0jes02.SPL~) BEGIN     // if Bardic Wonders revision
-  ACTION_IF (GAME_IS ~iwdee~) BEGIN COPY ~%abilities%/jestersongiwd.SPL~  ~override/%s1%.SPL~ END    // IWDEE
-                         ELSE BEGIN COPY ~%abilities%/jestersongbg2.SPL~  ~override/%s1%.SPL~ END    // BGEE games
+  ACTION_IF (GAME_IS ~iwdee~) BEGIN 
+    COPY ~%abilities%/jestersongiwd.SPL~  ~override/%s1%.SPL~    // IWDEE
+  END
+  ELSE BEGIN 
+    COPY ~%abilities%/jestersongbg2.SPL~  ~override/%s1%.SPL~    // BGEE games
+  END
 END
 
+
+//Edit jester song
 ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
   COPY_EXISTING ~%s1%.SPL~  ~override~
     LPF ALTER_EFFECT INT_VAR match_opcode=321 STR_VAR resource=~%s1%~ END
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=318 STR_VAR resource=~%s1%~ END    // BG games
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=324 STR_VAR resource=~%s1%~ END    // IWDEE
+  BUT_ONLY
+END
+ELSE BEGIN  // if classic BG2 engine
+  COPY_EXISTING ~%s1%.SPL~  ~override~
+    LPF DELETE_EFFECT INT_VAR match_opcode=136 END
+    LPF DELETE_EFFECT INT_VAR match_opcode=328 END
+    LPF DELETE_EFFECT INT_VAR match_opcode=318 END
+    LPF DELETE_EFFECT INT_VAR match_opcode=321 END
   BUT_ONLY
 END
 
@@ -41,7 +56,7 @@ LAF ADD_KIT_EX
     lower = RESOLVE_STR_REF (@10302)
     help = RESOLVE_STR_REF (@10303)
   STR_VAR
-    kit_name = ~D2JESTERBLADE~
+    kit_name = ~D2%kitname%~
     source_kit = ~BLADE~
     clab_path = ~%kitid%~
     clsrcreq = ~1 1 1 1 1 1 1~    // Usable by all races, if base class is usable

@@ -6,7 +6,7 @@ Install kits
 //Kensaizerker (d2mk1)
 ACTION_IF (%nokensaizerker% = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk1~
-  OUTER_TEXT_SPRINT kitname ~kensaizerker~
+  OUTER_TEXT_SPRINT kitname ~KENSAIZERKER~
   INCLUDE ~%install%/variables.tph~
 
   COPY ~%install%/%kitname%.tph~ ~%workspace%~
@@ -22,7 +22,7 @@ END
 ACTION_IF (%nomonastery% = 0) BEGIN
 ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk2~
-  OUTER_TEXT_SPRINT kitname ~monastery~
+  OUTER_TEXT_SPRINT kitname ~MONASTERY~
   INCLUDE ~%install%/variables.tph~
   INCLUDE ~%install%/%kitname%.tph~
 END
@@ -31,7 +31,7 @@ END
 //Jesterblade (d2mk3)
 ACTION_IF (%nojesterblade% = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk3~
-  OUTER_TEXT_SPRINT kitname ~jesterblade~
+  OUTER_TEXT_SPRINT kitname ~JESTERBLADE~
   INCLUDE ~%install%/variables.tph~
 
   COPY ~%install%/%kitname%.tph~ ~%workspace%~
