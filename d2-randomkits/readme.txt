@@ -22,6 +22,13 @@ Translations:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v2.5
+- Some kits will gain the bonus effects from certain Beamdog items:
+	- Bartleby's Wakizashi - Kensaizerker, Monastery Swordsman
+	- Belt of the Skillful Blade - Jesterblade
+	- Dragon Blade - Kensaizerker (while enraged)
+	- Screaming Bagpipes - Jesterblade
+
 v2.4
 - Fixed potential issues in classic BG2 (both Kensaizerker and Jesterblade).
 

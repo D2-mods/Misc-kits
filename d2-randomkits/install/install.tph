@@ -18,6 +18,7 @@ ACTION_IF (%nokensaizerker% = 0) BEGIN
   INCLUDE ~%workspace%/%kitname%.tph~
 END
 
+
 //Monastery Swordsman (d2mk2)
 ACTION_IF (%nomonastery% = 0) BEGIN
 ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
@@ -27,6 +28,7 @@ ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
   INCLUDE ~%install%/%kitname%.tph~
 END
 END
+
 
 //Jesterblade (d2mk3)
 ACTION_IF (%nojesterblade% = 0) BEGIN
@@ -40,7 +42,6 @@ ACTION_IF (%nojesterblade% = 0) BEGIN
     END
   INCLUDE ~%workspace%/%kitname%.tph~
 END
-
 
 
 /*
