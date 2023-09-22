@@ -50,6 +50,10 @@ COPY_EXISTING ~CLABMO01.2DA~ ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR level=2 multi=1 increment=4 STR_VAR resource=~%s1%~ END
   LPF d2_kit_ability_adder INT_VAR level=13 STR_VAR resource=~%s2%~ END
 
+  //for subtledoctor APR tweak (fixes this kit's APR)
+  LPF d2_kit_ability_adder INT_VAR level=7  passive=1 STR_VAR resource=~D5_NUMAT~ END
+  LPF d2_kit_ability_adder INT_VAR level=13 passive=1 STR_VAR resource=~D5_NUMA2~ END
+
 
 //Re-enable Monk class (if disabled by a mod)
 COPY_EXISTING ~clsrcreq.2DA~  ~override~

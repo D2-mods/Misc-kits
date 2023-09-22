@@ -1,17 +1,37 @@
 //misc stuff
 //
 
-//game variables
-ACTION_IF (GAME_IS ~bgee~)       BEGIN OUTER_TEXT_SPRINT ee_game ~bgee~ END
-ACTION_IF (GAME_IS ~bg2ee eet~)  BEGIN OUTER_TEXT_SPRINT ee_game ~bg2ee~ END
-ACTION_IF (GAME_IS ~iwdee~)      BEGIN OUTER_TEXT_SPRINT ee_game ~iwdee~ END
-
 
 //fix #BONECIR.SPL (wrong signature)
 ACTION_IF (FILE_EXISTS_IN_GAME ~#BONECIR.SPL~) BEGIN
   COPY_EXISTING ~#BONECIR.SPL~  ~override~
     WRITE_ASCII 0x0 ~SPL ~ #4
   BUT_ONLY
+END
+
+
+//number => id
+ACTION_DEFINE_ASSOCIATIVE_ARRAY array_for_import_fix BEGIN
+  1   => 1
+  2   => 2
+  3   => 3
+  4   => 4
+  5   => 5
+  6   => 6
+  7   => 7
+  8   => 8
+  9   => 9
+  10  => a
+  11  => b
+  12  => c
+  13  => d
+  14  => e
+  15  => f
+  16  => g
+  17  => h
+  18  => i
+  19  => j
+  20  => k
 END
 
 

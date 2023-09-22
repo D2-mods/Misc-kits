@@ -1,7 +1,7 @@
 # Misc kits
 
 Download: https://github.com/D2-mods/Misc-kits/releases  
-Languages: English, French (by 11jo)
+Languages: English, French (JohnBob)
 
 Some kits I made for practice, while planning a bigger kitpack -> [The Workshop Kitpack](https://github.com/D2-mods/The-Workshop-Kitpack).
 
