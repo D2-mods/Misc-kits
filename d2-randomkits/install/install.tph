@@ -14,14 +14,7 @@ ACTION_IF (nokensaizerker = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk1~
   OUTER_TEXT_SPRINT kitname ~KENSAIZERKER~
   INCLUDE ~%install%/variables.tph~
-
-  COPY ~%install%/%kitname%.tph~ ~%workspace%~
-    PATCH_IF !(GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
-      REPLACE_TEXTUALLY ~@200~ ~@99200~
-      REPLACE_TEXTUALLY ~@301~ ~@99301~
-      REPLACE_TEXTUALLY ~@10103~ ~@9910103~
-    END
-  INCLUDE ~%workspace%/%kitname%.tph~
+  INCLUDE ~%install%/%kitname%.tph~
 END
 
 
@@ -41,12 +34,7 @@ ACTION_IF (nojesterblade = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk3~
   OUTER_TEXT_SPRINT kitname ~JESTERBLADE~
   INCLUDE ~%install%/variables.tph~
-
-  COPY ~%install%/%kitname%.tph~ ~%workspace%~
-    PATCH_IF !(GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
-      REPLACE_TEXTUALLY ~@10303~ ~@9910303~
-    END
-  INCLUDE ~%workspace%/%kitname%.tph~
+  INCLUDE ~%install%/%kitname%.tph~
 END
 
 

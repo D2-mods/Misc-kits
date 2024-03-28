@@ -1,6 +1,18 @@
 //Kensaizerker (d2mk1)
 
 
+//prep
+ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
+  OUTER_SET enrage_desc = RESOLVE_STR_REF (@200)
+  OUTER_SET enrage_warn = RESOLVE_STR_REF (@301)
+  OUTER_SET kensaizerker_desc = RESOLVE_STR_REF (@10103)
+END ELSE BEGIN
+  OUTER_SET enrage_desc = RESOLVE_STR_REF (@99200)
+  OUTER_SET enrage_warn = RESOLVE_STR_REF (@99301)
+  OUTER_SET kensaizerker_desc = RESOLVE_STR_REF (@9910103)
+END
+
+
 //Copy passive effects
 COPY ~%passives%/hitdamage1.SPL~        ~override/%e1%.SPL~
 COPY ~%passives%/speedfactorkensai.SPL~ ~override/%e2%.SPL~
@@ -24,14 +36,14 @@ END
 //Update stuff on Enrage
 COPY_EXISTING ~%s1%.SPL~ ~override~
   SAY NAME1 @100
-  SAY UNIDENTIFIED_DESC @200
+  WRITE_LONG 0x50 enrage_desc
   LPF ALTER_EFFECT STR_VAR match_resource=~SPCL321D~ resource=~%s2%~ END
   LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@300) END    // 15 damage info
   
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
-    LPF ADD_SPELL_EFFECT INT_VAR opcode=321 target=1 timing=1 resist_dispel=2 insert_point=0 STR_VAR resource=~%s2%~ END
-    LPF ADD_SPELL_EFFECT INT_VAR opcode=321 target=1 timing=1 resist_dispel=2 insert_point=0 STR_VAR resource=~%s1%~ END
+    LPF d2_remove_effects_on_cast STR_VAR resource=~%s1%~ END
+    LPF d2_remove_effects_on_cast STR_VAR resource=~%s2%~ END
     PATCH_IF (GAME_IS ~bgee iwdee~) BEGIN
       LPF DELETE_EFFECT INT_VAR match_opcode=267 END    // fix string immunities (BGEE/IWDEE)
       LPF d2_string_immunities END
@@ -42,14 +54,17 @@ COPY_EXISTING ~%s1%.SPL~ ~override~
     WRITE_ASCII 0x76 ~SPIN117~ #8
     LPF DELETE_EFFECT INT_VAR match_opcode=321 END
     LPF DELETE_EFFECT INT_VAR match_opcode=328 END
-    LPF ALTER_EFFECT INT_VAR match_opcode=206 parameter1=RESOLVE_STR_REF (@302) STR_VAR match_resource=~SPCL321~ resource=~%s1%~ END
+    LPF ALTER_EFFECT
+      INT_VAR silent=1 match_opcode=206 parameter1=RESOLVE_STR_REF (@302)
+      STR_VAR match_resource=~SPCL321~ resource=~%s1%~
+    END
   END
 BUT_ONLY
 
 
 //Update stuff on Winded effect
 COPY_EXISTING ~%s2%.SPL~ ~override~
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@301) END    // 15 damage info
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=enrage_warn END    // 15 damage info
 
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
@@ -67,6 +82,7 @@ COPY ~inlined/d2clab_fighter~  ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e3%~ END
+  LPF d2_kit_ability_adder END
 
 
 //Kit function
@@ -74,7 +90,7 @@ LAF ADD_KIT_EX
   INT_VAR
     mixed = RESOLVE_STR_REF (@10101)
     lower = RESOLVE_STR_REF (@10102)
-    help = RESOLVE_STR_REF (@10103)
+    help = kensaizerker_desc
   STR_VAR
     kit_name = ~D2%kitname%~
     source_kit = ~KENSAI~

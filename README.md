@@ -46,11 +46,11 @@ Monastery Swordsman (Monk)
 >- +1 to attack and damage rolls every 4 levels.  
 >- 2nd level: May use the Blazing Weapon ability once per day. Gains additional uses every 4 levels thereafter.
 >
->BLAZING WEAPON: The monk channels inner light, shrouding weapons in an intense, but short-lived, flame. Melee attacks inflict an extra 2d6 fire damage per hit for the next round. The duration increases to 2 rounds at level 9, 3 rounds at level 12, 4 rounds at level 15, and 5 rounds at level 25.
+>BLAZING WEAPON: Shrouds weapons in an intense, but short-lived, flame. Melee attacks deal an extra 2d6 fire damage per hit for the next round. The duration increases to 2 rounds at level 9, 3 rounds at level 12, 4 rounds at level 15, and 5 rounds at level 25.
 >
 >- 13th level: May use the Sever ability once per day. Gains an additional use at level 17.
 >
->SEVER: A single deadly strike. The next successful melee attack within 2 rounds forces the target to save vs. Death or die. An opponent that survives the attack still suffers 9d6 slashing damage.
+>SEVER: A single deadly strike. On the next successful melee attack within 2 rounds, the target takes an extra 9d6 slashing damage and must save vs. Death or die.
 >
 >Disadvantages:  
 >- Unarmed attacks do not gain extra Attacks Per Round bonuses.  
@@ -67,7 +67,7 @@ Jesterblade (Bard)
 >JESTERBLADE: The Jesterblade is well versed in the arts of ridicule and hilarity, and uses <PRO_HISHER> abilities to confuse enemies, cavorting madly during combat. Do not mistake <PRO_HIMHER> for a true fool, however. This bard is an expert fighter and adventurer, whose fighting style is lethally dangerous.
 >
 >Advantages:  
->- The Jesterblade's song does not help allies. Instead, once each round, every enemy within 30 feet must save vs. Spell with a +2 bonus or be confused for 1 round.  
+>- The Jesterblade's song confuses enemies within 30 feet unless they save vs. Spell at a +2 bonus. The bonus lowers to +1 at level 5, +0 at level 10, -1 at level 15, and -2 at level 20.
 >- May place 3 slots in Two-Weapon Style.  
 >- May use the Offensive Spin and Defensive Spin abilities once per day. Gains one use each at level 1 and an additional use each every 4 levels thereafter.
 >

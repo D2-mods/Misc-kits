@@ -22,9 +22,9 @@ COPY ~%abilities%/blazingweapon.SPL~      ~override/%s1%.SPL~
 //Add Sever
 COPY ~%icons%/sever.BAM~ ~override/%s2%.BAM~
 LAF d2_portrait_icon INT_VAR name=RESOLVE_STR_REF (@102) STR_VAR bam=~%s2%~ RET icon END
-COPY ~%abilities%/severvisual.EFF~    ~override/%s2%a.EFF~
+COPY ~%abilities%/severslashing.EFF~  ~override/%s2%a.EFF~
 COPY ~%abilities%/severdeath.EFF~     ~override/%s2%b.EFF~
-COPY ~%abilities%/severslashing.EFF~  ~override/%s2%c.EFF~
+COPY ~%abilities%/severvisual.EFF~    ~override/%s2%c.EFF~
 COPY ~%abilities%/severremove.EFF~    ~override/%s2%d.EFF~
   WRITE_ASCII 0x30 ~%s2%e~ #8
 COPY ~%abilities%/severremove.SPL~  ~override/%s2%e.SPL~
@@ -51,6 +51,7 @@ COPY ~inlined/d2clab_monk_noquivstun~  ~override/%kitid%.2DA~
   //for subtledoctor APR tweak (fixes this kit's APR)
   LPF d2_kit_ability_adder INT_VAR level=7  passive=1 STR_VAR resource=~D5_NUMAT~ END
   LPF d2_kit_ability_adder INT_VAR level=13 passive=1 STR_VAR resource=~D5_NUMA2~ END
+  LPF d2_kit_ability_adder END
 
 
 //Kit function

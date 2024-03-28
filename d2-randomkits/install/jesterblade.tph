@@ -1,16 +1,36 @@
 //Jesterblade (d2mk3)
 
 
+//prep
+ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
+  OUTER_SET jesterblade_desc = RESOLVE_STR_REF (@10303)
+END ELSE BEGIN
+  OUTER_SET jesterblade_desc = RESOLVE_STR_REF (@9910303)
+END
+
+DEFINE_PATCH_FUNCTION jestersaves BEGIN
+  LPF CD_EXTEND-O-MATIC INT_VAR step_dur=0 step_size=4 level_cap=5 dur_special=1 END
+  LPF CD_EXTEND-O-MATIC INT_VAR step_dur=0 step_size=5 level_cap=20 dur_special=1 min_lev_alt=5 END
+  LPF ALTER_EFFECT INT_VAR header=1 match_savingthrow=1 savebonus=1 END
+  LPF ALTER_EFFECT INT_VAR header=2 match_savingthrow=1 savebonus=0 END
+  LPF ALTER_EFFECT INT_VAR header=3 match_savingthrow=1 savebonus=~-1~ END
+  LPF ALTER_EFFECT INT_VAR header=4 match_savingthrow=1 savebonus=~-2~ END
+END
+
+DEFINE_PATCH_FUNCTION jesterdur BEGIN
+  LPF ALTER_EFFECT INT_VAR match_opcode=128 duration=10 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 duration=10 END
+END
+
+
+//projectile
+COPY - ~%abilities%/invisible30enemy.PRO~ ~%workspace%/%s1%.PRO~
+ADD_PROJECTILE ~%workspace%/%s1%.PRO~
+
+
 //Clone jester song
 COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
   LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
-  
-ACTION_IF !(FILE_EXISTS ~override/c0jes02.SPL~) BEGIN    // skip if Bardic Wonders revisions
-  COPY_EXISTING ~SPCL751A.SPL~  ~override/%s1%.SPL~
-    FOR (x = 2; x <= 30; x += 1) BEGIN
-      LPF DELETE_SPELL_HEADER INT_VAR header_type=1 min_level=%x% END
-    END
-END
 
 ACTION_IF (FILE_EXISTS ~override/c0jes02.SPL~) BEGIN     // if Bardic Wonders revision
   ACTION_IF (GAME_IS ~iwdee~) BEGIN 
@@ -21,28 +41,42 @@ ACTION_IF (FILE_EXISTS ~override/c0jes02.SPL~) BEGIN     // if Bardic Wonders re
   END
 END
 
+ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
+  COPY_EXISTING ~SPCL751A.SPL~  ~override/%s1%.SPL~
+    FOR (x = 2; x <= 30; x += 1) BEGIN
+      LPF DELETE_SPELL_HEADER INT_VAR header_type=1 min_level=x END
+    END
+END
+
 
 //Edit jester song
 ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
   COPY_EXISTING ~%s1%.SPL~  ~override~
-    LPF ALTER_EFFECT INT_VAR match_opcode=321 STR_VAR resource=~%s1%~ END
+    LPF ALTER_SPELL_HEADER INT_VAR projectile=~%s1%~ END
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=318 STR_VAR resource=~%s1%~ END    // BG games
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=324 STR_VAR resource=~%s1%~ END    // IWDEE
+    LPF DELETE_EFFECT INT_VAR match_opcode=321 END
+    LPF jestersaves END
+    LPF jesterdur END
   BUT_ONLY
 END
 ELSE BEGIN  // if classic BG2 engine
   COPY_EXISTING ~%s1%.SPL~  ~override~
+    LPF ALTER_SPELL_HEADER INT_VAR projectile=~%s1%~ END
     LPF DELETE_EFFECT INT_VAR match_opcode=136 END
     LPF DELETE_EFFECT INT_VAR match_opcode=328 END
     LPF DELETE_EFFECT INT_VAR match_opcode=318 END
     LPF DELETE_EFFECT INT_VAR match_opcode=321 END
+    LPF jestersaves END
+    LPF jesterdur END
   BUT_ONLY
 END
 
 
-//Clone existing Blade 2da
+//Make clab table
 COPY ~inlined/d2clab_blade_nosongs~  ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e1%~ END
+  LPF d2_kit_ability_adder END
 
 
 //Kit function
@@ -50,7 +84,7 @@ LAF ADD_KIT_EX
   INT_VAR
     mixed = RESOLVE_STR_REF (@10301)
     lower = RESOLVE_STR_REF (@10302)
-    help = RESOLVE_STR_REF (@10303)
+    help = jesterblade_desc
   STR_VAR
     kit_name = ~D2%kitname%~
     source_kit = ~BLADE~
