@@ -42,15 +42,15 @@ Monastery Swordsman (Monk)
 >
 >Advantages:  
 >- May achieve High Mastery (four slots) in any weapon available to Monks.  
->- May allocate two slots in Single Weapon Style and three slots in Two-Weapon Style.  
+>- May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
 >- +1 to attack and damage rolls every 4 levels.  
 >- 2nd level: May use the Blazing Weapon ability once per day. Gains additional uses every 4 levels thereafter.
 >
 >BLAZING WEAPON: The monk channels inner light, shrouding weapons in an intense, but short-lived, flame. Melee attacks inflict an extra 2d6 fire damage per hit for the next round. The duration increases to 2 rounds at level 9, 3 rounds at level 12, 4 rounds at level 15, and 5 rounds at level 25.
 >
->- 13th level: May use the Sever ability once per day.
+>- 13th level: May use the Sever ability once per day. Gains an additional use at level 17.
 >
->SEVER: A single deadly strike. The next successful attack within 2 rounds forces the target to save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
+>SEVER: A single deadly strike. The next successful melee attack within 2 rounds forces the target to save vs. Death or die. An opponent that survives the attack still suffers 9d6 slashing damage.
 >
 >Disadvantages:  
 >- Unarmed attacks do not gain extra Attacks Per Round bonuses.  

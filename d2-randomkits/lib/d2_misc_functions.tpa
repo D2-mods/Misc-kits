@@ -3,12 +3,13 @@
 
 /*functions:
 d2_portrait_icon              ACTION
-d2_evasion_check              PATCH or ACTION
 d2_subspell_remove_effects    PATCH
 d2_remove_level_headers       PATCH
 d2_subspell_remove_visuals    PATCH
 d2_mc_import_fix              ACTION
 d2_recast_at_interval         ACTION
+d2_remove_effects_on_cast     PATCH
+d2_protect_on_castequip       PATCH
 */
 
 ////////////////////////////////////////////////////////////
@@ -63,73 +64,6 @@ END
 
 ////////////////////////////////////////////////////////////
 
-//Adds Evasion check to spells (mainly for IWDEE)
-//Can be added for BGEE games, but this stat isn't used without mods
-//Note: doesn't add saving throws to effect (add that manually if needed)
-
-DEFINE_PATCH_FUNCTION d2_evasion_check
-
-  INT_VAR insert = 0      // insert point (0 = top)
-          opcode = 324    // use 324 or 318 (other numbers default to 318)
-
-BEGIN
-
-    PATCH_IF ((opcode != 324) AND (opcode != 318)) BEGIN
-      SET opcode = 318
-    END
-
-    READ_LONG 0x34 spllevel    // use for "power" field in spell effect
-
-    LPF ADD_SPELL_EFFECT
-      INT_VAR
-        opcode        = %opcode%
-        target        = 2
-        power         = %spllevel%
-        parameter2    = 63    // Evasion check
-        resist_dispel = 2
-        insert_point  = %insert%
-      STR_VAR
-        resource      = ~%SOURCE_RES%~    // evasion is against current spell
-    END
-
-END
-
-////////////////////////////////////////////////////////////
-
-DEFINE_ACTION_FUNCTION d2_evasion_check
-
-  INT_VAR insert = 0      // insert point (0 = top)
-          opcode = 324    // use 324 or 318 (other numbers default to 318)
-  STR_VAR spell  = ~~     // resource of spl file
-
-BEGIN
-
-ACTION_IF (FILE_EXISTS_IN_GAME ~%spell%.SPL~) BEGIN
-  COPY_EXISTING ~%spell%.SPL~ ~override~
-    PATCH_IF ((opcode != 324) AND (opcode != 318)) BEGIN
-      SET opcode = 318
-    END
-
-    READ_LONG 0x34 spllevel    // use for "power" field in spell effect
-
-    LPF ADD_SPELL_EFFECT
-      INT_VAR
-        opcode        = %opcode%
-        target        = 2
-        power         = %spllevel%
-        parameter2    = 63    // Evasion check
-        resist_dispel = 2
-        insert_point  = %insert%
-      STR_VAR
-        resource      = ~%SOURCE_RES%~    // evasion is against current spell
-    END
-  BUT_ONLY
-END
-
-END
-
-////////////////////////////////////////////////////////////
-
 //Removes casting effects
 //Removes projectile
 
@@ -143,8 +77,9 @@ BEGIN
   WRITE_SHORT 0x22 0
   WRITE_BYTE  0x25 0
   WRITE_BYTE  0x27 0
-  WRITE_LONG  0x34 1
+  WRITE_LONG  0x34 0
   LPF ALTER_SPELL_HEADER INT_VAR target=1 speed=0 projectile=1 END
+  LPF ALTER_EFFECT INT_VAR power=0 END
 
 END
 
@@ -239,15 +174,14 @@ END
 
 
     // subspell
-    COPY_EXISTING ~archhit.EFF~  ~override/%new_spell%a.EFF~
+    CREATE EFF ~%new_spell%a~
       WRITE_LONG   0x10 146
       WRITE_LONG   0x14 1
-      WRITE_LONG   0x1c 0
       WRITE_LONG   0x20 1
       WRITE_LONG   0x24 1
-      WRITE_LONG   0x28 0
-      WRITE_LONG   0x60 0
+      WRITE_SHORT  0x2c 100
       WRITE_ASCII  0x30 ~%new_spell%a~ #8
+      WRITE_LONG   0xa4 ~-1~
 
     COPY_EXISTING ~SPCL142.SPL~  ~override/%new_spell%a.SPL~
       // add ability
@@ -320,15 +254,14 @@ END
 
 
     // subspell
-    COPY_EXISTING ~archhit.EFF~  ~override/%new_spell%a.EFF~
+    CREATE EFF ~%new_spell%a~
       WRITE_LONG   0x10 146
       WRITE_LONG   0x14 1
-      WRITE_LONG   0x1c 0
       WRITE_LONG   0x20 1
       WRITE_LONG   0x24 1
-      WRITE_LONG   0x28 0
-      WRITE_LONG   0x60 0
+      WRITE_SHORT  0x2c 100
       WRITE_ASCII  0x30 ~%new_spell%a~ #8
+      WRITE_LONG   0xa4 ~-1~
 
     COPY_EXISTING ~SPCL142.SPL~  ~override/%new_spell%a.SPL~
       // add ability
@@ -356,6 +289,138 @@ END
 
 
   END
+  END
+
+END
+
+////////////////////////////////////////////////////////////
+
+//simplifies adding op321 to spells/items
+//if no variables are set, will remove effects of current resource on cast/equip
+//can optionally set 'cre_type' variable to affect specific creature type
+
+/*defaults
+resource - file being patched
+spl files - skips globals
+itm files - skips headers
+check all header types (always for SPL, can set to specific for ITM)
+matches first effect in stack (can set opcode to match)
+adds as first effect in stack
+*/
+
+DEFINE_PATCH_FUNCTION d2_remove_effects_on_cast
+  INT_VAR globals=~-1~ headers=~-1~ header_type=~-1~ match_opcode=~-1~
+          cre_type=0
+  STR_VAR resource=~~ insert=first
+BEGIN
+
+  //prep
+  PATCH_IF (~%resource%~ STR_EQ ~~) BEGIN  TEXT_SPRINT  resource ~%DEST_RES%~ END
+  PATCH_IF (~%resource%~ STR_EQ ~%SOURCE_RES%~) BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=321 STR_VAR match_resource=EVAL ~%SOURCE_RES%~ END
+  END
+
+  PATCH_IF (globals < 0) BEGIN  PATCH_IF (~%DEST_EXT%~ STR_EQ ~spl~) BEGIN
+      SET globals = 0
+    END ELSE BEGIN
+      SET globals = 1
+    END 
+  END
+
+  PATCH_IF (headers < 0) BEGIN  PATCH_IF (~%DEST_EXT%~ STR_EQ ~itm~) BEGIN
+      SET headers = 0
+    END ELSE BEGIN
+      SET headers = 1
+    END
+  END
+
+  PATCH_IF (~%DEST_EXT%~ STR_EQ ~spl~) BEGIN  SET header_type = ~-1~ END
+
+  //add effect
+  LPF CLONE_EFFECT 
+    INT_VAR check_globals=globals check_headers=headers header_type=header_type match_opcode=match_opcode
+            silent=1 multi_match=1 opcode=321 parameter1=0 parameter2=cre_type timing=1 duration=0
+            probability1=100 probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
+    STR_VAR resource=EVAL ~%resource%~  insert=EVAL ~%insert%~
+  END
+
+END
+
+////////////////////////////////////////////////////////////
+
+//variation of above function (protect instead of remove effect)
+//more general version of d2_safe_spell (can protect from itself or other spells)
+//can optionally set 'cre_type' variable to affect specific creature type
+
+/*opcode and timing
+opcode must be 318 or 324 (defaults to 318 if not)
+Default for spells is duration 1 round
+ITM equipped effects are automatically set to timing=2 (equipped)
+CRE effects are automatically set to timing=9 (permanent)
+*/
+
+/*defaults
+resource - file being patched
+spl files - skips globals
+itm files - skips headers
+check all header types (always for SPL, can set to specific for ITM)
+matches first effect in stack (can set opcode to match)
+adds as LAST effect in stack
+*/
+
+DEFINE_PATCH_FUNCTION d2_protect_on_castequip
+  INT_VAR globals=~-1~ headers=~-1~ header_type=~-1~ match_opcode=~-1~
+          opcode=318 timing=0 duration=6 cre_type=0
+  STR_VAR resource=~~ insert=last
+BEGIN
+
+  //prep
+  PATCH_IF (~%resource%~ STR_EQ ~~) BEGIN  TEXT_SPRINT  resource ~%DEST_RES%~ END
+  PATCH_IF (~%resource%~ STR_EQ ~%SOURCE_RES%~) BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=318 STR_VAR match_resource=EVAL ~%SOURCE_RES%~ END
+    LPF DELETE_EFFECT INT_VAR match_opcode=324 STR_VAR match_resource=EVAL ~%SOURCE_RES%~ END
+  END
+  PATCH_IF (opcode != 318 AND opcode != 324) BEGIN  SET opcode = 318 END
+
+  PATCH_IF (globals < 0) BEGIN  PATCH_IF (~%DEST_EXT%~ STR_EQ ~spl~) BEGIN
+      SET globals = 0
+    END ELSE BEGIN
+      SET globals = 1
+    END 
+  END
+
+  PATCH_IF (headers < 0) BEGIN  PATCH_IF (~%DEST_EXT%~ STR_EQ ~itm~) BEGIN
+      SET headers = 0
+    END ELSE BEGIN
+      SET headers = 1
+    END
+  END
+
+  PATCH_IF (~%DEST_EXT%~ STR_EQ ~spl~) BEGIN  SET header_type = ~-1~ END
+
+  PATCH_IF (timing=1 OR timing=9) BEGIN  SET duration=0 END
+  SET htiming=timing SET hduration=duration
+  SET gtiming=timing SET gduration=duration
+  PATCH_IF (~%DEST_EXT%~ STR_EQ ~itm~) BEGIN  SET gtiming=2 SET gduration=0 END
+  PATCH_IF (~%DEST_EXT%~ STR_EQ ~cre~) BEGIN  SET gtiming=9 SET gduration=0 END
+
+  //add effect
+  PATCH_IF (globals = 1) BEGIN
+    LPF CLONE_EFFECT 
+      INT_VAR check_globals=1 check_headers=0 header_type=header_type match_opcode=match_opcode
+              silent=1 multi_match=1 opcode=opcode parameter1=0 parameter2=cre_type timing=gtiming duration=gduration
+              probability1=100 probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
+      STR_VAR resource=EVAL ~%resource%~  insert=EVAL ~%insert%~
+    END
+  END
+
+  PATCH_IF (headers = 1) BEGIN
+    LPF CLONE_EFFECT 
+      INT_VAR check_globals=0 check_headers=1 header_type=header_type match_opcode=match_opcode
+              silent=1 multi_match=1 opcode=opcode parameter1=0 parameter2=cre_type timing=htiming duration=hduration
+              probability1=100 probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
+      STR_VAR resource=EVAL ~%resource%~  insert=EVAL ~%insert%~
+    END
   END
 
 END

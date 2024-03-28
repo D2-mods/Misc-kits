@@ -1,4 +1,5 @@
-//Read config.ini
+//
+//
 
 COPY - ~%MOD_FOLDER%/config.ini~ ~%MOD_FOLDER%/temp~
   COUNT_REGEXP_INSTANCES  ~Kensaizerker.*=.*[^0-9]0[^0-9]*$~        nokensaizerker

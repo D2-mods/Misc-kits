@@ -1,9 +1,12 @@
 BACKUP ~weidu_external/backup/d2-randomkits~
 AUTHOR ~Dan_P~
-VERSION ~2.6~
+VERSION ~2.7~
 AUTO_EVAL_STRINGS
 
 ALWAYS
+
+  CLEAR_INLINED
+
   ACTION_BASH_FOR ~%MOD_FOLDER%/lib~ ~.*\.tpa~ BEGIN    // function list
     INCLUDE ~%BASH_FOR_FILESPEC%~
   END
@@ -32,6 +35,7 @@ ALWAYS
   OUTER_TEXT_SPRINT passives   ~%MOD_FOLDER%/passives~
   OUTER_TEXT_SPRINT icons      ~%MOD_FOLDER%/icons~
   OUTER_TEXT_SPRINT workspace  ~weidu_external/Workspace~
+
 END
 
 LANGUAGE ~English~
