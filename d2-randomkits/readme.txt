@@ -23,8 +23,8 @@ Translations:
 ----------------------------------------------------------------------------------------------------
 
 v2.7
-- Monastery Swordsman: Sever now adds 9d6 slashing damage (previously 5d6). It no longer has a save penalty for the vorpal effect. It will now always play a visual effect on hit. Reordered effects so that the extra slashing damage is applied before vorpal hit (i.e. will always be shown in combat log). Sever is now gained at levels 13 and 17.
-- Jesterblade: Song's save bonus now lowers by 1 every 5 levels, up to -2 at level 20. Confusion now lasts 10 seconds. Song effects are no longer dispelled each time song is played (EEs). Song now actually affects enemies within 30 feet (Jester song is only 15 feet, despite the description). Note that the song still does not gain the extra effects from the regular Jester song.
+- Monastery Swordsman: Sever damage increased from 5d6 to 9d6. It no longer has a save penalty for the vorpal effect. It will now always play a visual effect on hit. Reordered effects so that the extra slashing damage is applied before vorpal hit (i.e. will always be shown in combat log). Sever is now gained at levels 13 and 17.
+- Jesterblade: Song's save bonus now starts at +2 and lowers by 1 every 5 levels, up to -2 at level 20. Confusion now lasts 10 seconds. Song effects are no longer dispelled each time song is played (EEs). Song now affects all enemies in visual range (was previously fireball range). Note that the song still does not gain the extra effects from the regular Jester song.
 - Updated functions.
 - Various installer improvements, mostly copied over from the Workshop Kitpack.
 
