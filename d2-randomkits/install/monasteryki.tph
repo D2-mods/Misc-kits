@@ -1,0 +1,113 @@
+/*
+Adds ki pool for Monastery Swordsman
+uses semi_innate_casting function by subtledoctor
+*/
+
+
+//array for spell/abilities (for semi_innate_array variable)
+ACTION_DEFINE_ASSOCIATIVE_ARRAY semi_innate_monastery BEGIN
+  ~%kitid%1~ => ~%monastery1%~
+  ~%kitid%2~ => ~%monastery2%~
+  ~%kitid%3~ => ~%monastery3%~
+  ~%kitid%5~ => ~%sever%~
+END
+
+
+//
+//table for ki points (do not exceed 15 points)
+<<<<<<<< .../inlined/monastery
+2DA V1.0
+0
+        1
+1       1
+2       1
+3       1
+4       1
+5       1
+6       2
+7       2
+8       2
+9       3
+10      3
+11      3
+12      4
+13      4
+14      4
+15      5
+16      5
+17      5
+18      6
+19      6
+20      6
+21      7
+22      7
+23      7
+24      8
+25      8
+26      8
+27      9
+28      9
+29      9
+30      10
+31      10
+32      10
+33      10
+34      10
+35      10
+36      10
+37      10
+38      10
+39      10
+40      10
+>>>>>>>> 
+COPY ~.../inlined/monastery~ ~override/%kitid%ki.2da~
+
+
+//
+LAF semi_innate_casting
+  STR_VAR
+    semi_innate_prefix = ~d2mk~
+    semi_innate_array  = ~semi_innate_monastery~
+    points_table       = ~%kitid%ki~
+    table_spl          = ~%kitid%ki~
+END
+
+
+//
+//edit kit table
+COPY ~override/%kitid%.2DA~  ~override~
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e9%~ END    // block until required level (temp fix)
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~d2mk000~ END       // gain ki pool
+  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%1L~ END
+  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%2L~ END
+  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%3L~ END
+  LPF d2_kit_ability_adder INT_VAR level=13 passive=1 STR_VAR resource=~%kitid%5L~ END    // sever
+BUT_ONLY
+
+
+//remove spell name (from subspells)
+ACTION_FOR_EACH spell IN ~%monastery1%~ ~%monastery2%~ ~%monastery3%~ ~%sever%~ BEGIN
+  COPY_EXISTING ~%spell%.spl~  ~override~
+    WRITE_LONG 0x8 ~-1~
+  BUT_ONLY
+END
+
+
+// block until required level (temp fix)
+COPY ~%abilities%/applyeffects.SPL~  ~override/%e9%.SPL~
+  LPF ALTER_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%1b~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%2b~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%3b~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%5b~ END
+
+
+//
+//Set variables for external use
+OUTER_TEXT_SPRINT ki_weapon1  ~%kitid%1I~
+OUTER_TEXT_SPRINT ki_weapon2  ~%kitid%2I~
+OUTER_TEXT_SPRINT ki_weapon3  ~%kitid%3I~
+OUTER_TEXT_SPRINT ki_weapon5  ~%kitid%5I~
+
+
+/*
+*/

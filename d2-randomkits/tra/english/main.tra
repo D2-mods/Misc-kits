@@ -1,10 +1,13 @@
+//
+//
+
+
 //Dialogue messages
 @300 = ~When the berserk state ends, the character will take 15 damage.~
 @301 = ~The berserk state has ended. The character now loses the extra 15 Hit Points previously gained. If the character is below 15 Hit Points, he or she will be knocked unconscious.~
 @302 = ~You cannot cast this spell until the current casting has run out.~
 @303 = ~Cannot use item.~
 @304 = ~Confused~
-@305 = ~~
 
 
 
@@ -37,16 +40,17 @@ Disadvantages:
 @10203 = ~MONASTERY SWORDSMAN: Monks are warriors who pursue perfection through contemplation as well as action. Among them are a subset that have been specially trained to be one with their favored weapons. This Monk's best known feat is the ability to sever an opponent with a single strike.
 
 Advantages:
-– May achieve High Mastery (four slots) in any weapon available to Monks.
+– May achieve Grand Mastery (five slots) in any weapon available to Monks.
 – May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
-– +1 to attack and damage rolls every 4 levels.
-– 2nd level: May use the Blazing Weapon ability once per day. Gains additional uses every 4 levels thereafter.
+– +1 to attack and damage rolls at 3rd level and an additional +1 bonus every 5 levels thereafter.
+– Gains ki points, which are used to activate kit abilities. Gains 1 ki point every 3 levels, up to a maximum of 10 points at level 30.
+– 3rd level: May use the Element—Fire, Element—Wind, and Element—Moon abilities. Each requires 1 ki point.
 
-BLAZING WEAPON: Shrouds weapons in an intense, but short-lived, flame. Melee attacks deal an extra 2d6 fire damage per hit for the next round. The duration increases to 2 rounds at level 9, 3 rounds at level 12, 4 rounds at level 15, and 5 rounds at level 25.
+ELEMENT—FIRE/WIND/MOON: For 4 rounds, each successful melee attack deals an extra 2d6 fire, slashing, or magic damage. Only one element can be in effect at a time.
 
-– 13th level: May use the Sever ability once per day. Gains an additional use at level 17.
+– 13th level: May use the Sever ability. Requires 1 ki point.
 
-SEVER: A single deadly strike. On the next successful melee attack within 2 rounds, the target takes an extra 9d6 slashing damage and must save vs. Death or die.
+SEVER: A single deadly strike. The next successful attack within 2 rounds forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 
 Disadvantages:
 – Unarmed attacks do not gain extra Attacks Per Round bonuses.
@@ -67,7 +71,7 @@ Advantages:
 – May place 3 slots in Two-Weapon Style.
 – May use the Offensive Spin and Defensive Spin abilities once per day. Gains one use each at level 1 and an additional use each every 4 levels thereafter.
 
-OFFENSIVE SPIN: During the next 4 rounds, the character gains a +2 bonus to attack and damage rolls, an extra attack per round, and doubled movement speed. As well, all attacks do maximum damage for the duration. Offensive Spin may not be used in conjunction with the Haste or Improved Haste spells.
+OFFENSIVE SPIN: During the next 4 rounds, the character gains a +2 bonus to attack and damage rolls, an extra attack per round, doubled movement speed, and all attacks deal maximum damage for the duration. Offensive Spin may not be used in conjunction with the Haste or Improved Haste spells.
 
 DEFENSIVE SPIN: During the next 4 rounds, the character is rooted to the spot and gains a +1 bonus to Armor Class per level, up to a maximum of +10.
   
@@ -88,29 +92,41 @@ The character becomes enraged for 1 turn. While enraged, the character gains a +
 
 After the effects end, the character becomes winded, suffering a -2 penalty to Armor Class, to-hit rolls, and damage rolls.~
 
-@101 = ~Blazing Weapon~
-@201 = ~Blazing Weapon
+@101 = ~Element—Fire~
+@201 = ~Element—Fire
 
-Shrouds weapons in an intense, but short-lived, flame. Melee attacks deal an extra 2d6 fire damage per hit for the next round. The duration increases to 2 rounds at level 9, 3 rounds at level 12, 4 rounds at level 15, and 5 rounds at level 25.~
+Adds 2d6 fire damage to melee attacks for the next 4 rounds.
+
+Requires 1 ki point.
+Cannot be used together with Element—Wind or Element—Moon.~
 
 @102 = ~Sever~
 @202 = ~Sever
 
-A single deadly strike. On the next successful melee attack within 2 rounds, the target takes an extra 9d6 slashing damage and must save vs. Death or die.~
+A single deadly strike. The next successful attack within 2 rounds forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 
-@103 = ~~
-@203 = ~~
+Requires 1 ki point.~
 
-@104 = ~~
-@204 = ~~
+@103 = ~Element—Wind~
+@203 = ~Element—Wind
 
-@105 = ~~
-@205 = ~~
+Adds 2d6 slashing damage to melee attacks for the next 4 rounds.
+
+Requires 1 ki point.
+Cannot be used together with Element—Fire or Element—Moon.~
+
+@104 = ~Element—Moon~
+@204 = ~Element—Moon
+
+Adds 2d6 magic damage to melee attacks for the next 4 rounds.
+
+Requires 1 ki point.
+Cannot be used together with Element—Fire or Element—Wind.~
 
 
 
 
-//Alt dialogue for classic BG2
+//Alt text string for classic BG2
 @99301 = ~The berserk state has ended.  The character now loses the extra 15 hit points previously gained.  If the character is below 15 hit points, he or she will be killed.~
 
 
@@ -144,7 +160,7 @@ Advantages:
   
 Disadvantages:
 -  Only has one-half normal Lore value
--  Only has one-half Pick Pockets percentage
+-  Only has one-half Pick Pockets skill
 -  Bard Song does not gain additional effects at higher levels.~
 
 
@@ -154,3 +170,7 @@ Disadvantages:
 The character becomes enraged for 1 turn. While enraged, the character gains a +2 bonus to attack and damage rolls as well as to Armor Class, and becomes immune to charm, confusion, fear, feeblemind, hold, imprisonment, level drain, maze, stun, and sleep. The character also gains 15 temporary Hit Points, which are taken away at the end of the berserk spree (possibly killing the character).
 
 After the effects end, the character becomes winded, suffering a -2 penalty to Armor Class, to-hit rolls, and damage rolls.~
+
+
+/*
+*/

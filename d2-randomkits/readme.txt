@@ -2,9 +2,9 @@ GitHub: https://github.com/D2-mods/Misc-kits
 
 Notes:
 - Compatible with EEs and classic BG2 engine
-- Mod made with Notepad++, WeiDU, and Near Infinity
 - Uses ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
-- LibIconv (http://gnuwin32.sourceforge.net/packages/libiconv.htm)
+- Uses semi_innate_casting function by subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
+- Uses CD_EXTEND-O-MATIC function by CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
 
 
 //Kits
@@ -19,8 +19,19 @@ Set a kit to = 0 to prevent install
 Translations:
 - French (JohnBob)
 
+Tools:
+- Mod made with Notepad++, WeiDU, and Near Infinity
+- LibIconv (http://gnuwin32.sourceforge.net/packages/libiconv.htm)
+
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v2.8
+- Monastery Swordsman update:
+	- It now uses the ability pool system by subtledoctor (lore-wise called "ki points"). It now gains 3 elemental weapon abilities at level 3 (Fire, Wind, Moon). It still gains Sever at level 13, but now as part of the same points pool as other abilities.
+	- Sever is reverted back to the pre-v2.7 version (5d6 damage, save at -2 or die). Vorpal effect now uses the chunked death animation (does not destroy items). Changed the vorpal hit visual to the same one used in IWDEE for the Solemn Duty katana.
+	- Can now reach Grand mastery in weapons.
+	- Slightly nerfed bonus to hit/damage. It now starts at level 3, and every 5 levels after (3, 8, 13, 18, etc.).
 
 v2.7
 - Monastery Swordsman: Sever damage increased from 5d6 to 9d6. It no longer has a save penalty for the vorpal effect. It will now always play a visual effect on hit. Reordered effects so that the extra slashing damage is applied before vorpal hit (i.e. will always be shown in combat log). Sever is now gained at levels 13 and 17.
@@ -110,16 +121,17 @@ Monastery Swordsman (Monk)
 MONASTERY SWORDSMAN: Monks are warriors who pursue perfection through contemplation as well as action. Among them are a subset that have been specially trained to be one with their favored weapons. This Monk's best known feat is the ability to sever an opponent with a single strike.
 
 Advantages:
-– May achieve High Mastery (four slots) in any weapon available to Monks.
+– May achieve Grand Mastery (five slots) in any weapon available to Monks.
 – May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
-– +1 to attack and damage rolls every 4 levels.
-– 2nd level: May use the Blazing Weapon ability once per day. Gains additional uses every 4 levels thereafter.
+– +1 to attack and damage rolls at 3rd level and an additional +1 bonus every 5 levels thereafter.
+– Gains ki points, which are used to activate kit abilities. Gains 1 ki point every 3 levels, up to a maximum of 10 points at level 30.
+– 3rd level: May use the Element—Fire, Element—Wind, and Element—Moon abilities. Each requires 1 ki point.
 
-BLAZING WEAPON: Shrouds weapons in an intense, but short-lived, flame. Melee attacks deal an extra 2d6 fire damage per hit for the next round. The duration increases to 2 rounds at level 9, 3 rounds at level 12, 4 rounds at level 15, and 5 rounds at level 25.
+ELEMENT—FIRE/WIND/MOON: For 4 rounds, each successful melee attack deals an extra 2d6 fire, slashing, or magic damage. Only one element can be in effect at a time.
 
-– 13th level: May use the Sever ability once per day. Gains an additional use at level 17.
+– 13th level: May use the Sever ability. Requires 1 ki point.
 
-SEVER: A single deadly strike. On the next successful melee attack within 2 rounds, the target takes an extra 9d6 slashing damage and must save vs. Death or die.
+SEVER: A single deadly strike. The next successful attack within 2 rounds forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 
 Disadvantages:
 – Unarmed attacks do not gain extra Attacks Per Round bonuses.
@@ -138,7 +150,7 @@ Advantages:
 – May place 3 slots in Two-Weapon Style.
 – May use the Offensive Spin and Defensive Spin abilities once per day. Gains one use each at level 1 and an additional use each every 4 levels thereafter.
 
-OFFENSIVE SPIN: During the next 4 rounds, the character gains a +2 bonus to attack and damage rolls, an extra attack per round, and doubled movement speed. As well, all attacks do maximum damage for the duration. Offensive Spin may not be used in conjunction with the Haste or Improved Haste spells.
+OFFENSIVE SPIN: During the next 4 rounds, the character gains a +2 bonus to attack and damage rolls, an extra attack per round, doubled movement speed, and all attacks deal maximum damage for the duration. Offensive Spin may not be used in conjunction with the Haste or Improved Haste spells.
 
 DEFENSIVE SPIN: During the next 4 rounds, the character is rooted to the spot and gains a +1 bonus to Armor Class per level, up to a maximum of +10.
   

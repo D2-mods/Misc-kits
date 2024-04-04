@@ -4,10 +4,16 @@
 
 ACTION_FOR_EACH ability IN 
     ~%enrage%~
-    ~%blazingweapon%~
-    ~%sever%~
     ~%offensivespin%~
     ~%defensivespin%~
+    ~%monastery1%~
+    ~%monastery2%~
+    ~%monastery3%~
+    ~%sever%~
+    ~%ki_weapon1%~
+    ~%ki_weapon2%~
+    ~%ki_weapon3%~
+    ~%ki_weapon5%~
 BEGIN
 
   ACTION_IF (FILE_EXISTS_IN_GAME ~%ability%.SPL~) BEGIN

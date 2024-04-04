@@ -24,7 +24,9 @@ ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk2~
   OUTER_TEXT_SPRINT kitname ~MONASTERY~
   INCLUDE ~%install%/variables.tph~
+  INCLUDE ~%install%/resources.tph~
   INCLUDE ~%install%/%kitname%.tph~
+  INCLUDE ~%install%/%kitname%ki.tph~    // ki pool
 END
 END
 
