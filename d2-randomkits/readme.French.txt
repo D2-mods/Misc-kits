@@ -1,10 +1,10 @@
 GitHub: https://github.com/D2-mods/Misc-kits
 
 Notes:
-- Compatible avec les Enhanced Editions et sur BG2 original
-- Mod made with Notepad++, WeiDU, and Near Infinity
+- Compatible avec les Enhanced Editions et BG2 original
 - Utilise ADD_KIT_EX fonction par Argent77 (https://github.com/Argent77/A7-add_kit_ex)
-- LibIconv (http://gnuwin32.sourceforge.net/packages/libiconv.htm)
+- Utilise semi_innate_casting fonction par subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
+- Utilise CD_EXTEND-O-MATIC fonction par CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
 
 
 //Kits
@@ -19,8 +19,25 @@ Bouffon cinglant (Kit de barde)  - Enhanced Editions et BG2 original
 Traductions :
 - Français (par 11jo)
 
+Outils :
+- Notepad++, WeiDU et Near Infinity
+- LibIconv (http://gnuwin32.sourceforge.net/packages/libiconv.htm)
+
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v2.8
+- Monastery Swordsman update:
+	- It now uses the ability pool system by subtledoctor (lore-wise called "ki points"). It now gains 3 elemental weapon abilities at level 3 (Fire, Wind, Moon). It still gains Sever at level 13, but now as part of the same points pool as other abilities.
+	- Sever is reverted back to the pre-v2.7 version (5d6 damage, save at -2 or die). Vorpal effect now uses the chunked death animation (does not destroy items). Changed the vorpal hit visual to the same one used in IWDEE for the Solemn Duty katana.
+	- Can now reach Grand mastery in weapons.
+	- Slightly nerfed bonus to hit/damage. It now starts at level 3, and every 5 levels after (3, 8, 13, 18, etc.).
+
+v2.7
+- Monastery Swordsman: Sever damage increased from 5d6 to 9d6. It no longer has a save penalty for the vorpal effect. It will now always play a visual effect on hit. Reordered effects so that the extra slashing damage is applied before vorpal hit (i.e. will always be shown in combat log). Sever is now gained at levels 13 and 17.
+- Jesterblade: Song's save bonus now starts at +2 and lowers by 1 every 5 levels, up to -2 at level 20. Confusion now lasts 10 seconds. Song effects are no longer dispelled each time song is played (EEs). Song now affects all enemies in visual range (was previously fireball range). Note that the song still does not gain the extra effects from the regular Jester song.
+- Updated functions.
+- Various installer improvements, mostly copied over from the Workshop Kitpack.
 
 v2.6
 - Monastery Swordsman compatibility fix: 
