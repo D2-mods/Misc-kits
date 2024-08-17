@@ -10,12 +10,15 @@ d2_remove_effects_on_cast     PATCH
 d2_protect_on_castequip       PATCH
 d2_no_casting                 PATCH
 d2_no_fatigue                 PATCH
+block_death_gaze              PATCH
+update_op324_restrictions     PATCH
 */
 
 ////////////////////////////////////////////////////////////
 
 //Adds new portrait icon to statdesc.2da
-//Will use existing icon with same name (if added by my mods)
+//Will use existing icon with same name (checks specifically the "d2" prefix)
+//NOTE: no limit to number of icons that can be added
 
 /*Example usage:
 LAF d2_portrait_icon INT_VAR name = RESOLVE_STR_REF (@99) STR_VAR bam = ~icon99~ RET icon END
@@ -78,7 +81,7 @@ BEGIN
   WRITE_BYTE  0x25 0
   WRITE_BYTE  0x27 0
   WRITE_LONG  0x34 0
-  LPF ALTER_SPELL_HEADER INT_VAR target=1 speed=0 projectile=1 END
+  LPF ALTER_SPELL_HEADER INT_VAR target=1 range=1 speed=0 projectile=1 END
   LPF ALTER_EFFECT INT_VAR power=0 END
 
 END
@@ -96,7 +99,7 @@ BEGIN
   LPF DELETE_SPELL_HEADER INT_VAR header_type=1 END
   LPF DELETE_SPELL_HEADER INT_VAR header_type=2 END
   LPF DELETE_SPELL_HEADER INT_VAR header_type=3 END
-  LPF ALTER_SPELL_HEADER INT_VAR new_header_type=1 END
+  LPF ALTER_SPELL_HEADER INT_VAR new_header_type=1 min_level=1 END
 
 END
 
@@ -141,7 +144,12 @@ END
 
 //simplifies adding op321 to spells/items
 //if no variables are set, will remove effects of current resource on cast/equip
-//can optionally set 'cre_type' variable to affect specific creature type
+//can optionally set cre_type to check splprot stat (cre_special sets parameter1, if needed)
+
+/*326override
+replaces op321 with op326 (i.e. cast spell with list of op321's)
+This option is ignored if resource is set to current file
+*/
 
 /*defaults
 resource - file being patched
@@ -153,15 +161,31 @@ adds as first effect in stack
 */
 
 DEFINE_PATCH_FUNCTION d2_remove_effects_on_cast
-  INT_VAR globals=~-1~ headers=~-1~ header_type=~-1~ match_opcode=~-1~
-          cre_type=0
+  INT_VAR globals=~-1~ headers=~-1~ header_type=~-1~ match_opcode=~-1~ probability=~-1~
+          cre_type=0 cre_special=0 timing=1 duration=0 326override=0 overwrite=1
   STR_VAR resource=~~ insert=first
 BEGIN
 
   //prep
   PATCH_IF (~%resource%~ STR_EQ ~~) BEGIN  TEXT_SPRINT  resource ~%DEST_RES%~ END
-  PATCH_IF (~%resource%~ STR_EQ ~%SOURCE_RES%~) BEGIN
-    LPF DELETE_EFFECT INT_VAR match_opcode=321 STR_VAR match_resource=EVAL ~%SOURCE_RES%~ END
+
+  SET opcode = 321
+  PATCH_IF (326override > 0) BEGIN
+    PATCH_IF !(~%resource%~ STR_EQ ~%DEST_RES%~) BEGIN
+      PATCH_IF (overwrite > 0) BEGIN
+        LPF DELETE_EFFECT INT_VAR match_opcode=326 match_parameter2=cre_type STR_VAR match_resource=EVAL ~%resource%~ END
+      END
+      SET opcode = 326
+    END
+  END
+
+  PATCH_IF (opcode = 321) BEGIN
+    PATCH_IF (overwrite > 0) BEGIN
+      LPF DELETE_EFFECT INT_VAR match_opcode=321 STR_VAR match_resource=EVAL ~%resource%~ END
+    END
+    PATCH_IF ((cre_type < 0) OR (cre_type > 2)) BEGIN
+      SET cre_type = 0
+    END
   END
 
   PATCH_IF (globals < 0) BEGIN  PATCH_IF (~%DEST_EXT%~ STR_EQ ~spl~) BEGIN
@@ -183,8 +207,8 @@ BEGIN
   //add effect
   LPF CLONE_EFFECT 
     INT_VAR check_globals=globals check_headers=headers header_type=header_type match_opcode=match_opcode
-            silent=1 multi_match=1 opcode=321 parameter1=0 parameter2=cre_type timing=1 duration=0
-            probability1=100 probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
+            silent=1 multi_match=1 opcode=opcode parameter1=cre_special parameter2=cre_type timing=timing duration=duration
+            probability1=probability probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
     STR_VAR resource=EVAL ~%resource%~  insert=EVAL ~%insert%~
   END
 
@@ -213,16 +237,16 @@ adds as LAST effect in stack
 */
 
 DEFINE_PATCH_FUNCTION d2_protect_on_castequip
-  INT_VAR globals=~-1~ headers=~-1~ header_type=~-1~ match_opcode=~-1~
-          opcode=318 timing=0 duration=6 cre_type=0
+  INT_VAR globals=~-1~ headers=~-1~ header_type=~-1~ match_opcode=~-1~ probability=~-1~
+          opcode=318 timing=0 duration=6 cre_type=0 cre_special=0 overwrite=1
   STR_VAR resource=~~ insert=last
 BEGIN
 
   //prep
   PATCH_IF (~%resource%~ STR_EQ ~~) BEGIN  TEXT_SPRINT  resource ~%DEST_RES%~ END
-  PATCH_IF (~%resource%~ STR_EQ ~%SOURCE_RES%~) BEGIN
-    LPF DELETE_EFFECT INT_VAR match_opcode=318 STR_VAR match_resource=EVAL ~%SOURCE_RES%~ END
-    LPF DELETE_EFFECT INT_VAR match_opcode=324 STR_VAR match_resource=EVAL ~%SOURCE_RES%~ END
+  PATCH_IF (overwrite > 0) BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=318 match_parameter2=cre_type STR_VAR match_resource=EVAL ~%resource%~ END
+    LPF DELETE_EFFECT INT_VAR match_opcode=324 match_parameter2=cre_type STR_VAR match_resource=EVAL ~%resource%~ END
   END
   PATCH_IF (opcode != 318 AND opcode != 324) BEGIN  SET opcode = 318 END
 
@@ -249,20 +273,20 @@ BEGIN
   PATCH_IF (~%DEST_EXT%~ STR_EQ ~cre~) BEGIN  SET gtiming=9 SET gduration=0 END
 
   //add effect
-  PATCH_IF (globals = 1) BEGIN
+  PATCH_IF (globals > 0) BEGIN
     LPF CLONE_EFFECT 
       INT_VAR check_globals=1 check_headers=0 header_type=header_type match_opcode=match_opcode
-              silent=1 multi_match=1 opcode=opcode parameter1=0 parameter2=cre_type timing=gtiming duration=gduration
-              probability1=100 probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
+              silent=1 multi_match=1 opcode=opcode parameter1=cre_special parameter2=cre_type timing=gtiming duration=gduration
+              probability1=probability probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
       STR_VAR resource=EVAL ~%resource%~  insert=EVAL ~%insert%~
     END
   END
 
-  PATCH_IF (headers = 1) BEGIN
+  PATCH_IF (headers > 0) BEGIN
     LPF CLONE_EFFECT 
       INT_VAR check_globals=0 check_headers=1 header_type=header_type match_opcode=match_opcode
-              silent=1 multi_match=1 opcode=opcode parameter1=0 parameter2=cre_type timing=htiming duration=hduration
-              probability1=100 probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
+              silent=1 multi_match=1 opcode=opcode parameter1=cre_special parameter2=cre_type timing=htiming duration=hduration
+              probability1=probability probability2=0 dicenumber=0 dicesize=0 savingthrow=0 special=0
       STR_VAR resource=EVAL ~%resource%~  insert=EVAL ~%insert%~
     END
   END
@@ -275,7 +299,7 @@ END
 //ignore wild/dead magic and silence
 
 DEFINE_PATCH_FUNCTION d2_no_casting
-  INT_VAR no_schools=1 no_castsound=0
+  INT_VAR no_schools=1 no_castsound=0 see_invis=0
           range=~-1~ speed=0 power=~-1~    // -1 = no change
 BEGIN
 
@@ -292,6 +316,10 @@ BEGIN
     WRITE_ASCII 0x10 ~None~ #8
   END
 
+  PATCH_IF (see_invis > 0) BEGIN  
+    WRITE_LONG 0x18 THIS | BIT24
+  END
+
   LPF ALTER_SPELL_HEADER INT_VAR range=range speed=speed END
   LPF ALTER_EFFECT INT_VAR power=power END
 
@@ -299,9 +327,68 @@ END
 
 ////////////////////////////////////////////////////////////
 
+//run this to remove fatigue from SPL/ITM (ex. from haste/restoration)
+
 DEFINE_PATCH_FUNCTION d2_no_fatigue BEGIN
   LPF DELETE_EFFECT INT_VAR match_opcode=93 END              // remove fatigue opcode
   LPF DELETE_EFFECT STR_VAR match_resource=~dvwinded~ END    // remove SR fatigue
+  LPF DELETE_EFFECT STR_VAR match_resource=~SPCL321D~ END    // remove Enrage fatigue
+END
+
+////////////////////////////////////////////////////////////
+
+//blocks Death Gaze in BGEE/EET
+//needs to match an opcode (default 101 = immunity opcode)
+//can optionally block gaze projectile (default on)
+
+DEFINE_PATCH_FUNCTION block_death_gaze
+  INT_VAR block_gaze=1 match_opcode=101
+BEGIN
+
+  TEXT_SPRINT death_gaze ~SPIN996~
+  PATCH_IF (GAME_IS ~eet~)  BEGIN TEXT_SPRINT death_gaze ~BGIN996~ END
+
+  PATCH_IF (block_gaze > 0) BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=83 match_parameter2=64 END
+    LPF CLONE_EFFECT INT_VAR silent=1 multi_match=1 match_opcode=match_opcode opcode=83 parameter2=64 END
+  END
+
+  PATCH_IF (GAME_IS ~bgee eet~) BEGIN
+    LPF DELETE_EFFECT STR_VAR match_resource=EVAL ~%death_gaze%~ END
+    LPF CLONE_EFFECT
+      INT_VAR silent=1 multi_match=1 match_opcode=match_opcode opcode=206 parameter1=~-1~
+      STR_VAR resource=EVAL ~%death_gaze%~
+    END
+  END
+
+END
+
+////////////////////////////////////////////////////////////
+
+//updates the resource field on op324 and op318
+//resource is set to the current file being patched
+
+DEFINE_PATCH_FUNCTION update_op324_restrictions
+  INT_VAR opcode = 324     // 318 or 324
+  STR_VAR mode = update    // "update" or "delete"
+BEGIN
+
+  PATCH_IF ((opcode != 318) AND (opcode != 324)) BEGIN  SET opcode=318 END
+
+  PATCH_IF (opcode=318) BEGIN
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=324 opcode=opcode END
+  END
+  PATCH_IF (opcode=324) BEGIN
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=318 opcode=opcode END
+  END
+
+  PATCH_IF (~%mode%~ STR_EQ ~update~) BEGIN
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=opcode STR_VAR resource=EVAL ~%DEST_RES%~ END
+  END
+  PATCH_IF ((~%mode%~ STR_EQ ~delete~) OR (~%mode%~ STR_EQ ~remove~)) BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=opcode END
+  END
+
 END
 
 ////////////////////////////////////////////////////////////

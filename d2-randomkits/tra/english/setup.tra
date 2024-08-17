@@ -4,3 +4,7 @@
 @3 = ~~
 @4 = ~~
 @5 = ~~
+
+@20 = ~Choose Enrage version (can re-run to change setting at any time)~
+	@21 = ~Use custom Enrage, vanilla effects, can be recast on EEs (default)~
+	@22 = ~Use base game Enrage (clones SPCL321.spl), including possible tweaks~

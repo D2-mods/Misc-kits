@@ -19,31 +19,32 @@ COPY ~%passives%/speedfactorkensai.SPL~ ~override/%e2%.SPL~
 COPY ~%passives%/acbonus2.SPL~          ~override/%e3%.SPL~ 
 
 
-//Check for Enrage file
+//clone existing Enrage if not modified
 ACTION_IF (FILE_EXISTS_IN_GAME ~SPCL321D.SPL~) BEGIN
-  ACTION_IF !(FILE_EXISTS ~override/SPCL321.SPL~) BEGIN     // if Enrage not modified
-    COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~        // clone existing Enrage
-    COPY_EXISTING ~SPCL321D.SPL~ ~override/%s2%.SPL~
+  ACTION_IF !(FILE_EXISTS ~override/SPCL321.SPL~) BEGIN
+    COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~
+    COPY_EXISTING ~SPCL321D.SPL~ ~override/%s1%a.SPL~
   END
 END
 
-ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN          // or add new files
+//or add new files
+ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
   COPY ~%abilities%/enrage.SPL~ ~override/%s1%.SPL~
-  COPY ~%abilities%/winded.SPL~ ~override/%s2%.SPL~
+  COPY ~%abilities%/winded.SPL~ ~override/%s1%a.SPL~
 END
 
-  
+
 //Update stuff on Enrage
 COPY_EXISTING ~%s1%.SPL~ ~override~
   SAY NAME1 @100
   WRITE_LONG 0x50 enrage_desc
-  LPF ALTER_EFFECT STR_VAR match_resource=~SPCL321D~ resource=~%s2%~ END
+  LPF ALTER_EFFECT STR_VAR match_resource=~SPCL321D~ resource=~%s1%a~ END
   LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@300) END    // 15 damage info
   
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
     LPF d2_remove_effects_on_cast STR_VAR resource=~%s1%~ END
-    LPF d2_remove_effects_on_cast STR_VAR resource=~%s2%~ END
+    LPF d2_remove_effects_on_cast STR_VAR resource=~%s1%a~ END
     PATCH_IF (GAME_IS ~bgee iwdee~) BEGIN
       LPF DELETE_EFFECT INT_VAR match_opcode=267 END    // fix string immunities (BGEE/IWDEE)
       LPF d2_string_immunities END
@@ -63,7 +64,7 @@ BUT_ONLY
 
 
 //Update stuff on Winded effect
-COPY_EXISTING ~%s2%.SPL~ ~override~
+COPY_EXISTING ~%s1%a.SPL~ ~override~
   LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=enrage_warn END    // 15 damage info
 
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
@@ -75,8 +76,13 @@ COPY_EXISTING ~%s2%.SPL~ ~override~
 BUT_ONLY
 
 
+//backup Enrage
+COPY ~override/%s1%.SPL~  ~override/%m1%.SPL~
+
+
 //Make clab table
 COPY ~inlined/d2clab_fighter~  ~override/%kitid%.2DA~
+  LPF clab_cleanup STR_VAR type=melee END
   LPF d2_kit_ability_adder INT_VAR multi=1 increment=4 STR_VAR resource=~%s1%~ END
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e1%~ END
   LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END
@@ -133,6 +139,8 @@ END
 //Set variables for external use
 OUTER_TEXT_SPRINT kensaizerker  ~%kitid%~
 OUTER_TEXT_SPRINT enrage        ~%s1%~
+OUTER_TEXT_SPRINT enrage_mod    ~%m1%~
+OUTER_TEXT_SPRINT enrage_base   ~SPCL321~
 
 
 /*

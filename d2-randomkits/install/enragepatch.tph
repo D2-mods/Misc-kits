@@ -1,0 +1,22 @@
+/*
+Choose Enrage version
+*/
+
+
+OUTER_TEXT_SPRINT kitid ~d2mk1~
+OUTER_TEXT_SPRINT kitname ~KENSAIZERKER~
+INCLUDE ~%install%/variables.tph~
+
+//custom Enrage (copy backup)
+ACTION_IF (enrage_mode = 1) BEGIN
+  COPY_EXISTING ~%m1%.SPL~  ~override/%s1%.SPL~
+END
+
+//base game Enrage (copy SPCL321.spl)
+ACTION_IF (enrage_mode = 2) BEGIN
+  COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~
+END
+
+
+//
+//

@@ -95,6 +95,7 @@ LAF ADD_KIT_EX
 END
 
 
+//
 //Gains blade/jester effects from items
 OUTER_TEXT_SPRINT kit_group ~blade jester~
 OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~

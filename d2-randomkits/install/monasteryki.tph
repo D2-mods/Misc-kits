@@ -76,8 +76,8 @@ END
 //
 //edit kit table
 COPY ~override/%kitid%.2DA~  ~override~
-  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e9%~ END    // block until required level (temp fix)
-  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~d2mk000~ END       // gain ki pool
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e9%~ END                  // block until required level
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~d2mk000~ END               // gain ki pool
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%1L~ END
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%2L~ END
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%3L~ END
@@ -85,6 +85,7 @@ COPY ~override/%kitid%.2DA~  ~override~
 BUT_ONLY
 
 
+//
 //remove spell name (from subspells)
 ACTION_FOR_EACH spell IN ~%monastery1%~ ~%monastery2%~ ~%monastery3%~ ~%sever%~ BEGIN
   COPY_EXISTING ~%spell%.spl~  ~override~
@@ -92,21 +93,27 @@ ACTION_FOR_EACH spell IN ~%monastery1%~ ~%monastery2%~ ~%monastery3%~ ~%sever%~ 
   BUT_ONLY
 END
 
-
-// block until required level (temp fix)
+// block until required level
 COPY ~%abilities%/applyeffects.SPL~  ~override/%e9%.SPL~
   LPF ALTER_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%1b~ END
   LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%2b~ END
   LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%3b~ END
   LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%5b~ END
 
+//
+ACTION_FOR_EACH spell IN ~%kitid%1i~ ~%kitid%2i~ ~%kitid%3i~ ~%kitid%5i~ ~%kitid%ki~ ~d2mkfsh~ BEGIN
+  COPY_EXISTING ~%spell%.spl~  ~override~
+    LPF CLONE_EFFECT INT_VAR silent=1 timing=4 duration=1 STR_VAR match_resource=d2mk172 insert=below END
+  IF_EXISTS BUT_ONLY
+END
+
 
 //
 //Set variables for external use
-OUTER_TEXT_SPRINT ki_weapon1  ~%kitid%1I~
-OUTER_TEXT_SPRINT ki_weapon2  ~%kitid%2I~
-OUTER_TEXT_SPRINT ki_weapon3  ~%kitid%3I~
-OUTER_TEXT_SPRINT ki_weapon5  ~%kitid%5I~
+OUTER_TEXT_SPRINT ki_weapon1  ~%kitid%1i~
+OUTER_TEXT_SPRINT ki_weapon2  ~%kitid%2i~
+OUTER_TEXT_SPRINT ki_weapon3  ~%kitid%3i~
+OUTER_TEXT_SPRINT ki_weapon5  ~%kitid%5i~
 
 
 /*

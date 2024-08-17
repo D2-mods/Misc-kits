@@ -8,7 +8,6 @@ INCLUDE ~%install%/clabprep.tph~
 INCLUDE ~%install%/monkprep.tph~
 
 
-
 //Kensaizerker (d2mk1)
 ACTION_IF (nokensaizerker = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk1~
@@ -37,8 +36,8 @@ ACTION_IF (nojesterblade = 0) BEGIN
   OUTER_TEXT_SPRINT kitname ~JESTERBLADE~
   INCLUDE ~%install%/variables.tph~
   INCLUDE ~%install%/%kitname%.tph~
+  INCLUDE ~%install%/%kitname%rr.tph~
 END
-
 
 
 //End stuff

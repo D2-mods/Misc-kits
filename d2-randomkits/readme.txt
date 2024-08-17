@@ -26,6 +26,25 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v2.10
+Jesterblade - Compat notes:
+- Rogue Rebalancing:
+	- Jesterblade will now gain the passive bonuses from both Blade and Jester. Must be installed after rr.
+	- HLA list uses the Blade list, with Jester HLA Song added. Must be installed after rr.
+- Shohy's bard song mod:
+	- Fixed an issue where Jesterblade was gaining regular bard songs if this mod was installed after Shohy's mod.
+	- Jesterblade will gain the passive bonuses from both Blade and Jester. Must be installed after Shohy's mod.
+	- HLA list uses the Blade list, with song replaced by Jester HLA Song. Must be installed after Shohy's mod. If selected, will also gain the "chorus" abilities. The chorus abilities are not gained naturally as they have no effect on the normal Jesterblade song.
+- Bardic Wonders:
+	- Jesterblade will gain all Blade revision stuff, except for the Blade song. Must be installed after Bardic Wonders.
+	- Jesterblade will now gain the Heckle ability if Jester revision is installed. Must be installed after Bardic Wonders.
+	- HLA list is identical to the Blade list (no song added, Jester HLA song is too different from the Jesterblade song).
+
+Kensaizerker - Compat notes:
+	- Artisan's kitpack: no longer gains Rapid Shot when installed after fighter revision. It will gain the melee abilities. It does not gain passives from Berserker or Kensai revisions (balanced too different from the unmodded kits).
+	- Added component "Choose Enrage version". Can set the kit's Enrage to a custom spell that always has vanilla effects (default), or set to the base game Enrage, including possible tweaks (ex. from ToF). This component can be re-run at any time to change setting, and works with existing save games (will update any Enrages already gained).
+
+
 v2.8
 - Monastery Swordsman update:
 	- It now uses the ability pool system by subtledoctor (lore-wise called "ki points"). It now gains 3 elemental weapon abilities at level 3 (Fire, Wind, Moon). It still gains Sever at level 13, but now as part of the same points pool as other abilities.
@@ -150,7 +169,7 @@ Advantages:
 – May place 3 slots in Two-Weapon Style.
 – May use the Offensive Spin and Defensive Spin abilities once per day. Gains one use each at level 1 and an additional use each every 4 levels thereafter.
 
-OFFENSIVE SPIN: During the next 4 rounds, the character gains a +2 bonus to attack and damage rolls, an extra attack per round, doubled movement speed, and all attacks deal maximum damage for the duration. Offensive Spin may not be used in conjunction with the Haste or Improved Haste spells.
+OFFENSIVE SPIN: During the next 4 rounds, the character gains a +2 bonus to attack and damage rolls, an extra attack per round, doubled movement rate, and all attacks deal maximum damage for the duration. Offensive Spin may not be used in conjunction with the Haste or Improved Haste spells.
 
 DEFENSIVE SPIN: During the next 4 rounds, the character is rooted to the spot and gains a +1 bonus to Armor Class per level, up to a maximum of +10.
   
