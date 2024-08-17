@@ -26,6 +26,11 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v2.11
+- Jesterblade:
+	- fixed compat with Bardic Wonders if installed song mechanics tweak without Jester revision before this mod.
+	- improved song install, which should avoid most compatibility issues (even with mods I haven't tested with).
+
 v2.10
 Jesterblade - Compat notes:
 - Rogue Rebalancing:

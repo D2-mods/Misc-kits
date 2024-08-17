@@ -23,54 +23,75 @@ DEFINE_PATCH_FUNCTION jesterdur BEGIN
 END
 
 
+//change song
+COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
+  LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
+
 //projectile
 COPY - ~%abilities%/invisible30enemy.PRO~ ~%workspace%/%s1%.PRO~
 ADD_PROJECTILE ~%workspace%/%s1%.PRO~
 
 
-//Clone jester song
-COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
-  LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
+//check for jester song (confusion effect)
+OUTER_TEXT_SPRINT jester_song ~~
 
-ACTION_IF (FILE_EXISTS ~override/c0jes02.SPL~) BEGIN     // if Bardic Wonders revision
+ACTION_FOR_EACH spell IN ~SPCL751A~ ~SPCL751B~ BEGIN
+  ACTION_IF !(~%jester_song%~ STR_EQ ~~) BEGIN
+    COPY_EXISTING - ~%spell%.spl~  ~~
+      SET confuseop = 0
+      SET visualop  = 0
+
+      GET_OFFSET_ARRAY spl_headers  SPL_V10_HEADERS
+      PHP_EACH spl_headers AS num => header_off BEGIN      // array of headers
+        GET_OFFSET_ARRAY2 spl_effects header_off SPL_V10_HEAD_EFFECTS
+        PHP_EACH spl_effects AS num => effect_off BEGIN    // array of effects on each header
+          READ_SHORT effect_off opcode
+          PATCH_IF (opcode = 128) BEGIN SET confuseop = 1 END
+          PATCH_IF (opcode = 215) BEGIN SET visualop  = 1 END
+        END
+      END
+
+      PATCH_IF (confuseop>0 AND visualop>0) BEGIN
+        TEXT_SPRINT jester_song ~%spell%~
+      END
+    IF_EXISTS
+  END
+END
+
+
+//clone jester song if found
+ACTION_IF !(~%jester_song%~ STR_EQ ~~) BEGIN
+  COPY_EXISTING ~%jester_song%.spl~  ~override/%s1%.SPL~
+END
+
+//or copy from mod folder
+ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
   ACTION_IF (GAME_IS ~iwdee~) BEGIN 
     COPY ~%abilities%/jestersongiwd.SPL~  ~override/%s1%.SPL~    // IWDEE
-  END
-  ELSE BEGIN 
+  END ELSE BEGIN 
     COPY ~%abilities%/jestersongbg2.SPL~  ~override/%s1%.SPL~    // BGEE games
   END
 END
 
-ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
-  COPY_EXISTING ~SPCL751A.SPL~  ~override/%s1%.SPL~
-    FOR (x = 2; x <= 30; x += 1) BEGIN
-      LPF DELETE_SPELL_HEADER INT_VAR header_type=1 min_level=x END
-    END
-END
 
+//edit song effects
+COPY_EXISTING ~%s1%.SPL~  ~override~
+  LPF d2_remove_level_headers END
+  LPF DELETE_EFFECT INT_VAR match_opcode=321 END
+  LPF ALTER_SPELL_HEADER INT_VAR projectile=~%s1%~ END
 
-//Edit jester song
-ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
-  COPY_EXISTING ~%s1%.SPL~  ~override~
-    LPF ALTER_SPELL_HEADER INT_VAR projectile=~%s1%~ END
+  PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=318 STR_VAR resource=~%s1%~ END    // BG games
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=324 STR_VAR resource=~%s1%~ END    // IWDEE
-    LPF DELETE_EFFECT INT_VAR match_opcode=321 END
-    LPF jestersaves END
-    LPF jesterdur END
-  BUT_ONLY
-END
-ELSE BEGIN  // if classic BG2 engine
-  COPY_EXISTING ~%s1%.SPL~  ~override~
-    LPF ALTER_SPELL_HEADER INT_VAR projectile=~%s1%~ END
+  END ELSE BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=136 END
     LPF DELETE_EFFECT INT_VAR match_opcode=328 END
     LPF DELETE_EFFECT INT_VAR match_opcode=318 END
-    LPF DELETE_EFFECT INT_VAR match_opcode=321 END
-    LPF jestersaves END
-    LPF jesterdur END
-  BUT_ONLY
-END
+  END
+
+  LPF jestersaves END
+  LPF jesterdur END
+BUT_ONLY
 
 
 //Make clab table
