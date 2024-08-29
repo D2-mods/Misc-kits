@@ -1,8 +1,9 @@
 //Jesterblade (d2mk3)
 
 
-//custom HLA table (for mod compat)
-COPY_EXISTING - ~luabbr.2da~  ~override~
+//check luabbr
+OUTER_SET jesterblade_hla = 0
+COPY_EXISTING - ~luabbr.2da~  ~~
   LPF 2da_find_row STR_VAR row_name=~BLADE~ RET row_number columns END
   READ_2DA_ENTRY row_number 1 columns ~blade_hla~
 
@@ -14,17 +15,26 @@ COPY_EXISTING - ~luabbr.2da~  ~override~
   END
 
 
-ACTION_IF (IS_AN_INT jesterblade_hla) BEGIN
+//variables
+OUTER_TEXT_SPRINT blade     ~lu%blade_hla%~
+OUTER_TEXT_SPRINT jester    ~lu%jester_hla%~
+OUTER_TEXT_SPRINT hlatable  ~lu%kitid%~
 
-  //variables
-  OUTER_TEXT_SPRINT blade  ~lu%blade_hla%~
-  OUTER_TEXT_SPRINT jester  ~lu%jester_hla%~
+ACTION_IF (RESOURCE_CONTAINS ~%jester%.2da~  ~SPCL920~) BEGIN  OUTER_SET jesterblade_hla = 0 END    // not if jester has vanilla HLA song
+ACTION_IF (RESOURCE_CONTAINS ~%blade%.2da~  ~DW~)       BEGIN  OUTER_SET jesterblade_hla = 1 END    // enable if ToF
+ACTION_IF (RESOURCE_CONTAINS ~%blade%.2da~  ~#BARD6~)   BEGIN  OUTER_SET jesterblade_hla = 1 END    // enable if IWD songs
+
+//defaults to using same table as blade if NOT making custom table (unmodded Blade uses same table as Bard)
+
+
+//make HLA table if revision detected
+ACTION_IF (jesterblade_hla > 0) BEGIN
 
   //set 2da
   ACTION_IF (FILE_EXISTS_IN_GAME ~%blade%.2DA~) BEGIN
-    COPY_EXISTING ~%blade%.2DA~  ~override/lu%kitid%.2DA~
+    COPY_EXISTING ~%blade%.2DA~  ~override/%hlatable%.2DA~
   END ELSE BEGIN
-    COPY_EXISTING ~LUBA0.2DA~  ~override/lu%kitid%.2DA~
+    COPY_EXISTING ~LUBA0.2DA~    ~override/%hlatable%.2DA~
   END
   
   COPY_EXISTING ~luabbr.2da~  ~override~
@@ -35,99 +45,32 @@ END
 
 
 //
-//rr
+//rr - add jester passives
 ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~RR#BJSIT~) BEGIN
-
-  // add jester passives to kit table (already has blade stuff)
-  COPY_EXISTING ~%kitid%.2DA~  ~override~
-    LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~RR#BJSIT~ END
-  BUT_ONLY
-
-ACTION_IF (IS_AN_INT jesterblade_hla) BEGIN
-
-  //variables
-  OUTER_TEXT_SPRINT enhanced  ~~
-  OUTER_TEXT_SPRINT lingering  ~~
-  OUTER_SET r_enhanced = ~-1~
-  OUTER_SET r_lingering = ~-1~
-
-  COPY_EXISTING - ~%blade%.2da~  ~~
-    COUNT_2DA_COLS ~%blade%_cols~
-    COUNT_2DA_ROWS ~%blade%_cols~ ~%blade%_rows~
-    READ_2DA_ENTRIES_NOW ~%blade%_table~ ~%blade%_cols~
-    FOR (r = 1; r < ~%blade%_rows~; ++r) BEGIN
-      READ_2DA_ENTRY_FORMER ~%blade%_table~ r 1 spell
-      PATCH_IF (~%spell%~ STR_EQ ~*~) BEGIN
-        PATCH_IF (r_enhanced < 0) BEGIN
-          SET r_enhanced = r
-          READ_2DA_ENTRY_FORMER ~%blade%_table~ r 0 n_enhanced
-        END ELSE BEGIN
-          PATCH_IF (r_lingering < 0) BEGIN
-            SET r_lingering = r
-            READ_2DA_ENTRY_FORMER ~%blade%_table~ r 0 n_lingering
-          END
-        END
-      END
-    END
-
-    // new line if all are taken
-    PATCH_IF (r_enhanced < 0) BEGIN
-      SET r_enhanced = ~%blade%_rows~
-      SET n_enhanced = r_enhanced - 1
-      SET r_lingering = (~%blade%_rows~ + 1)
-      SET n_lingering = r_lingering - 1
-    END
-  // end inlined COPY
-
-
-  //get lines from jester table
-  COPY_EXISTING - ~%jester%.2da~  ~~
-    COUNT_2DA_COLS ~%jester%_cols~
-    COUNT_2DA_ROWS ~%jester%_cols~ ~%jester%_rows~
-    READ_2DA_ENTRIES_NOW ~%jester%_table~ ~%jester%_cols~
-    FOR (r = 1; r < ~%jester%_rows~; ++r) BEGIN
-      READ_2DA_ENTRY_FORMER ~%jester%_table~ r 1 spell
-      PATCH_IF (~%spell%~ STR_EQ ~AP_RR#BJS01~) BEGIN    // if rr enhanced song
-        FOR (col = 1; col < ~%jester%_cols~; ++col) BEGIN
-          PATCH_IF (col < ~%blade%_cols~) BEGIN
-            READ_2DA_ENTRY_FORMER ~%jester%_table~ r col entry
-            PATCH_IF (~%enhanced%~ STR_EQ ~~) BEGIN
-              TEXT_SPRINT enhanced ~%n_enhanced%%TAB%%entry%~
-            END ELSE BEGIN
-              TEXT_SPRINT enhanced ~%enhanced%%TAB%%entry%~    // string for enhanced song
-            END
-          END
-        END
-      END
-
-      PATCH_IF (~%spell%~ STR_EQ ~AP_RR#BJS03~) BEGIN    // if rr lingering song
-        FOR (col = 1; col < ~%jester%_cols~; ++col) BEGIN
-          PATCH_IF (col < ~%blade%_cols~) BEGIN
-            READ_2DA_ENTRY_FORMER ~%jester%_table~ r col entry
-            PATCH_IF (~%lingering%~ STR_EQ ~~) BEGIN
-              TEXT_SPRINT lingering ~%n_lingering%%TAB%%entry%~
-            END ELSE BEGIN
-              TEXT_SPRINT lingering ~%lingering%%TAB%%entry%~    // string for enhanced song
-            END
-          END
-        END
-      END
-    END
-  // end inlined COPY
-
+  ACTION_IF !(RESOURCE_CONTAINS ~%kitid%.2da~ ~RR#BJSIT~) BEGIN
+    COPY_EXISTING ~%kitid%.2DA~  ~override~
+      LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~RR#BJSIT~ END
+    BUT_ONLY
+  END
 END
 
-  // add jester song to hla table
-  COPY_EXISTING ~lu%kitid%.2DA~  ~override~
-    LPF 2da_find_row_delete STR_VAR row_name = ~%n_enhanced%~ RET row_number columns END
-    INSERT_2DA_ROW row_number columns ~%enhanced%~
+//rr - hlas
+ACTION_IF (jesterblade_hla > 0) BEGIN
+  ACTION_IF (RESOURCE_CONTAINS ~%jester%.2da~ ~RR#BJS01~) BEGIN
 
-    LPF 2da_find_row_delete STR_VAR row_name = ~%n_lingering%~ RET row_number columns END
-    INSERT_2DA_ROW row_number columns ~%lingering%~
+    // get lines from jester table
+    COPY_EXISTING - ~%jester%.2da~  ~~
+      LPF d2_get_hla_string STR_VAR clone_res=~AP_RR#BJS01~ RET hlastring END
+      TEXT_SPRINT rr_enhanced  ~%hlastring%~
+      LPF d2_get_hla_string STR_VAR clone_res=~AP_RR#BJS03~ RET hlastring END
+      TEXT_SPRINT rr_lingering  ~%hlastring%~
 
-    PRETTY_PRINT_2DA
-  IF_EXISTS BUT_ONLY
-
+    // add to hla table
+    COPY_EXISTING ~%hlatable%.2DA~  ~override~
+      LPF d2_add_hla_string STR_VAR hlastring=~%rr_enhanced%~ END
+      LPF d2_add_hla_string STR_VAR hlastring=~%rr_lingering%~ END
+    BUT_ONLY
+  END
 END
 
 
@@ -142,12 +85,14 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA02.2da~ ~BI#B20A~) BEGIN
   IF_EXISTS
 
   // add jester passives to kit table (already has blade stuff)
-  COPY_EXISTING ~%kitid%.2DA~  ~override~
-    LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~d2BIjst~ END
-  BUT_ONLY
+  ACTION_IF !(RESOURCE_CONTAINS ~%kitid%.2da~ ~d2BIjst~) BEGIN
+    COPY_EXISTING ~%kitid%.2DA~  ~override~
+      LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~d2BIjst~ END
+    BUT_ONLY
+  END
 
   // change hla song to jester song
-  COPY_EXISTING ~lu%kitid%.2DA~  ~override~
+  COPY_EXISTING ~%hlatable%.2DA~  ~override~
     REPLACE_TEXTUALLY EXACT_MATCH ~AP_BI#B2SS~  ~AP_BI#B3SS~
     PRETTY_PRINT_2DA
   IF_EXISTS BUT_ONLY
@@ -162,77 +107,169 @@ END
 
 
 //
-//Bardic Wonders
+//Bardic Wonders - add Heckle ability
 ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~C0JES01~) BEGIN
+  ACTION_IF !(RESOURCE_CONTAINS ~%kitid%.2da~ ~C0JES01~) BEGIN
+    COPY_EXISTING ~%kitid%.2DA~  ~override~
+      LPF d2_kit_ability_adder INT_VAR multi=1 increment=1 STR_VAR resource=~C0JES01~ END
+    BUT_ONLY
+  END
+END
 
-  // add Heckle ability (not Mad Ramble, too similar to Jesterblade song)
-  COPY_EXISTING ~%kitid%.2DA~  ~override~
-    LPF d2_kit_ability_adder INT_VAR multi=1 increment=1 STR_VAR resource=~C0JES01~ END
+//add magic flute HLA if missing
+ACTION_IF (RESOURCE_CONTAINS ~%jester%.2da~ ~GA_SPCL921~) BEGIN
+  ACTION_IF !(RESOURCE_CONTAINS ~%hlatable%.2da~ ~GA_SPCL921~) BEGIN
+    LAF d2_get_hla_string STR_VAR clone_res=GA_SPCL921 clone_2da=~%jester%~ RET hlastring END
+    LAF d2_add_hla_string STR_VAR hlatable=~%hlatable%~ hlastring=~%hlastring%~ END
+  END
+END
+
+
+//bardic wonders - song tweaks
+OUTER_TEXT_SPRINT bardsong  ~%s1%~
+
+ACTION_IF ((FILE_EXISTS ~override/c0bsngef.vvc~) AND
+           (FILE_EXISTS ~override/c0bsngef.bam~)
+) BEGIN
+  COPY ~override/%bardsong%.spl~  ~override~
+    LPF CLONE_EFFECT
+      INT_VAR match_opcode=215 target=1 parameter2=1 timing=10 duration=7 savingthrow=0 savebonus=0
+      STR_VAR resource=c0bsngef insert=first
+    END
   BUT_ONLY
+END
 
-ACTION_IF (IS_AN_INT jesterblade_hla) BEGIN
+ACTION_IF ((FILE_EXISTS ~override/c0bardsx.spl~) AND
+           (FILE_EXISTS ~override/c0singi2.spl~) AND
+           (FILE_EXISTS ~override/SPCL751A.eff~) AND
+           (FILE_EXISTS ~override/SPCL751A.spl~)
+) BEGIN
 
-  //variables
-  OUTER_TEXT_SPRINT magicflute  ~~
-  OUTER_SET r_magicflute = ~-1~
-  
-  COPY_EXISTING - ~%blade%.2da~  ~~
-    COUNT_2DA_COLS ~%blade%_cols~
-    COUNT_2DA_ROWS ~%blade%_cols~ ~%blade%_rows~
-    READ_2DA_ENTRIES_NOW ~%blade%_table~ ~%blade%_cols~
-    FOR (r = 1; r < ~%blade%_rows~; ++r) BEGIN
-      READ_2DA_ENTRY_FORMER ~%blade%_table~ r 1 spell
-      PATCH_IF (~%spell%~ STR_EQ ~*~) BEGIN
-        PATCH_IF (r_magicflute < 0) BEGIN
-          SET r_magicflute = r
-          READ_2DA_ENTRY_FORMER ~%blade%_table~ r 0 n_magicflute
-        END
-      END
-    END
+  // adjust file structure
+  COPY ~override/%bardsong%.spl~  ~override/%bardsong%s.SPL~
+    LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=~%SOURCE_RES%~ resource=~%DEST_RES%~ END
+  COPY ~override/SPCL751A.spl~    ~override/%bardsong%.SPL~
+    LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=~%SOURCE_RES%~ resource=~%DEST_RES%~ END
+  COPY ~override/SPCL751A.eff~    ~override/%bardsong%.eff~
+    WRITE_ASCII 0x30 ~%bardsong%s~ #8
 
-    // new line if all are taken
-    PATCH_IF (r_magicflute < 0) BEGIN
-      SET r_magicflute = ~%blade%_rows~
-      SET n_magicflute = r_magicflute - 1
-    END
-  // end inlined COPY
-
-  //get lines from jester table
-  COPY_EXISTING - ~%jester%.2da~  ~~
-    COUNT_2DA_COLS ~%jester%_cols~
-    COUNT_2DA_ROWS ~%jester%_cols~ ~%jester%_rows~
-    READ_2DA_ENTRIES_NOW ~%jester%_table~ ~%jester%_cols~
-    FOR (r = 1; r < ~%jester%_rows~; ++r) BEGIN
-      READ_2DA_ENTRY_FORMER ~%jester%_table~ r 1 spell
-      PATCH_IF (~%spell%~ STR_EQ ~GA_SPCL921~) BEGIN    // if magic flute
-        FOR (col = 1; col < ~%jester%_cols~; ++col) BEGIN
-          PATCH_IF (col < ~%blade%_cols~) BEGIN
-            READ_2DA_ENTRY_FORMER ~%jester%_table~ r col entry
-            PATCH_IF (~%magicflute%~ STR_EQ ~~) BEGIN
-              TEXT_SPRINT magicflute ~%n_magicflute%%TAB%%entry%~
-            END ELSE BEGIN
-              TEXT_SPRINT magicflute ~%magicflute%%TAB%%entry%~    // string for enhanced song
-            END
-          END
-        END
-      END
-    END
-  // end inlined COPY
+  // update kit desc
+  OUTER_SPRINT bardic_tweak @650
+  ACTION_GET_STRREF jesterblade_desc jesterblade_text
+  OUTER_TEXT_SPRINT jesterblade_text ~%jesterblade_text%%WNL%%WNL%%bardic_tweak%~
+  STRING_SET_EVALUATE jesterblade_desc ~%jesterblade_text%~
 
 END
 
-  // add magic flute to hla table (not jester HLA song, no confusion effect)
-  COPY_EXISTING ~lu%kitid%.2DA~  ~override~
-    LPF 2da_find_row_delete STR_VAR row_name = ~%n_magicflute%~ RET row_number columns END
-    INSERT_2DA_ROW row_number columns ~%magicflute%~
-    PRETTY_PRINT_2DA
-  IF_EXISTS BUT_ONLY
 
+//
+//IWDification (jester/skald song tweak)
+ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~cdcl751~) BEGIN
+  COPY ~override/cdcl751.spl~  ~override/%m1%.SPL~
+    SAY NAME1 @105
+    SAY UNIDENTIFIED_DESC @205
+    LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
+    LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
+    LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
+
+    // tweak casting
+    LPF ALTER_SPELL_HEADER INT_VAR target=7 END
+    LPF DELETE_EFFECT INT_VAR match_opcode=174 END
+    LPF CLONE_EFFECT INT_VAR match_opcode=251 opcode=174 timing=1 STR_VAR resource=EFF_M02 END
+  IF_EXISTS
+
+  // add to kit clab
+  ACTION_IF (FILE_EXISTS ~override/%m1%.SPL~) BEGIN
+    ACTION_IF !(RESOURCE_CONTAINS ~%kitid%.2da~ ~%m1%~) BEGIN
+      COPY_EXISTING ~%kitid%.2DA~  ~override~
+        LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%m1%~ END
+      BUT_ONLY
+    END
+  END
+END
+
+
+//
+//if ToF selectable Jester song detected
+ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~dw-sng2~) BEGIN
+  COPY ~override/dw-sng2.spl~  ~override/%m1%.SPL~
+    SAY NAME1 @105
+    SAY UNIDENTIFIED_DESC @205
+    LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
+    LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
+    LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
+
+    // tweak casting
+    LPF ALTER_SPELL_HEADER INT_VAR target=7 END
+    LPF DELETE_EFFECT INT_VAR match_opcode=174 END
+    LPF CLONE_EFFECT INT_VAR match_opcode=251 opcode=174 timing=1 STR_VAR resource=EFF_M02 END
+  IF_EXISTS
+
+  // add to kit clab
+  ACTION_IF (FILE_EXISTS ~override/%m1%.SPL~) BEGIN
+    ACTION_IF !(RESOURCE_CONTAINS ~%kitid%.2da~ ~%m1%~) BEGIN
+      COPY_EXISTING ~%kitid%.2DA~  ~override~
+        LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%m1%~ END
+      BUT_ONLY
+    END
+  END
+END
+
+
+//
+//if ToF HLAs detected (experimental, some HLAs not selectable)
+ACTION_IF (jesterblade_hla > 0) BEGIN
+  ACTION_IF ((RESOURCE_CONTAINS ~%blade%.2da~ ~#BARD6~) OR
+             (RESOURCE_CONTAINS ~%jester%.2da~ ~HLJES~)
+  ) BEGIN
+
+    // get info
+    ACTION_IF (FILE_EXISTS ~override/DW-HLJES.spl~) BEGIN
+      ACTION_IF (RESOURCE_CONTAINS ~%jester%.2da~ ~DW-HLJES~) BEGIN
+        LAF d2_get_hla_string STR_VAR clone_res=~AP_DW-HLJES~ clone_2da=~%jester%~ RET hlastring END
+        OUTER_SET tof_jesterhla = 1
+      END
+    END
+
+    // patch hla table
+    COPY ~override/%hlatable%.2da~  ~override~
+      PATCH_IF (IS_AN_INT tof_jesterhla AND tof_jesterhla > 0) BEGIN
+        LPF d2_add_hla_string INT_VAR overwrite=1 STR_VAR hlastring=~%hlastring%~ match=~AP_SPCL920~ END
+      END
+
+//    PATCH_IF !(RESOURCE_CONTAINS ~%kitid%.2da~ ~%m1%~) BEGIN
+        PATCH_IF (RESOURCE_CONTAINS ~%blade%.2da~  ~#BARD6~) BEGIN
+          PATCH_FOR_EACH song IN ~#BARD2~ ~#BARD3~ ~#BARD4~ ~#BARD5~ ~#BARD6~ BEGIN
+            PATCH_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~%song%~) BEGIN
+              LPF 2da_find_row_delete INT_VAR col_read=1 col_count=3 STR_VAR row_name=~GA_%song%~ END
+            END
+          END
+          LPF d2_add_hla_string INT_VAR renumber=1 END
+        END
+//    END
+    BUT_ONLY
+  END
+END
+
+
+//
+//give ToF ambidexterity (not selectable)
+ACTION_IF (RESOURCE_CONTAINS ~%blade%.2da~  ~dw-ftamb~) BEGIN
+  COPY ~%abilities%/applyeffects.spl~  ~override/%m5%.spl~
+    LPF ALTER_EFFECT STR_VAR resource=~dw-ftamb~ END
+    LPF CLONE_EFFECT INT_VAR opcode=313 timing=9 END
+END
+
+ACTION_IF (FILE_EXISTS ~override/%m5%.spl~) BEGIN
+  COPY ~override/%kitid%.2DA~  ~override~
+    REPLACE_TEXTUALLY ~AP_%m5%~  ~****~
+    LPF d2_kit_ability_adder INT_VAR level=20 passive=1 STR_VAR resource=~%m5%~ END
+  BUT_ONLY
 END
 
 
 //variables
-OUTER_TEXT_SPRINT heckle  ~C0JES01~
+OUTER_TEXT_SPRINT heckle      ~C0JES01~
 
 
 //

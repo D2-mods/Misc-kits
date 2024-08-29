@@ -15,6 +15,7 @@ END
 //base game Enrage (copy SPCL321.spl)
 ACTION_IF (enrage_mode = 2) BEGIN
   COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~
+    LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=SPCL321 resource=~%s1%~ END
 END
 
 

@@ -6,15 +6,23 @@ Notes:
 - Uses semi_innate_casting function by subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
 - Uses CD_EXTEND-O-MATIC function by CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
 
+--
 
-//Kits
-Kensaizerker (fighter)     - EE and classic
-Monastery Swordsman (monk) - EE only
-Jesterblade (bard)         - EE and classic
+Kits
+- Kensaizerker (fighter)     - EE and classic
+- Monastery Swordsman (monk) - EE only
+- Jesterblade (bard)         - EE and classic
 
-//config.ini
-Set a kit to = 0 to prevent install
+Components
+1. Install kits
+2. Choose Enrage version (options in installer)
+3. Update HLAs (only relevant if HLAs were revised)
 
+--
+
+Notes:
+- config.ini: Set a kit to = 0 to prevent install
+- Update HLAs: safe to install after Talents of Faerun. ToF "minor abilities" that require a level check for Blade are not selectable by Jesterblade. One of these, Ambidexterity, will be given to the Jesterblade for free at level 20.
 
 Translations:
 - French (JohnBob)
@@ -25,6 +33,14 @@ Tools:
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v2.12
+- Kensaizerker: fixed Enrage being stackable with Option 2 of Enrage component.
+- Kensaizerker: now uses the Berserker HLA table as base if modded (previously using Kensai table).
+- Jesterblade: now compatible with Bardic Wonders song mechanics tweak. Must be installed after Bardic Wonders. A note is added to bottom of kit description with tweak info.
+- Jesterblade: now compatible with IWDification "Selectable Bard Songs" tweak (both EE and classic). Must be installed after IWDification. The Jesterblade song change ability is made by cloning the Jester one from IWDification.
+- Added component: Update HLAs for Kensaizerker and Jesterblade. Use if HLA lists were changed after this mod was installed. It might do nothing, or it might do something (depends on what mod HLAs are detected). This is safe to run after ToF.
+- various other mod compat work. Note that Kensaizerker and Jesterblade internally are considered Kensai and Blade for item restrictions (if a mod adds kit-specific items).
 
 v2.11
 - Jesterblade:

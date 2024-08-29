@@ -11,7 +11,7 @@ Some kits I made for practice, while planning a bigger kitpack -> [The Workshop 
 
 --
 
-#### Kits
+### Kits
 <details>
   <summary>Kensaizerker (fighter)     - EE and classic</summary>
   
@@ -95,8 +95,16 @@ Disadvantages:
 
 --
 
-#### config.ini
-- Set a kit to = 0 to prevent install
+### Components:
+1. Install kits
+2. Choose Enrage version (options in installer)
+3. Update HLAs (only relevant if HLAs were revised)
+
+--
+
+**Notes:**
+- config.ini: Set a kit to = 0 to prevent install
+- Update HLAs: safe to install after Talents of Faerun. ToF "minor abilities" that require a level check for Blade are not selectable by Jesterblade. One of these, Ambidexterity, will be given to the Jesterblade for free at level 20.
 
 
 #

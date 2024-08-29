@@ -108,6 +108,13 @@ LAF ADD_KIT_EX
 END
 
 
+//use berserker HLA table (same as base fighter in unmodded game)
+COPY_EXISTING ~luabbr.2da~  ~override~
+  LPF d2_get_2da_entry STR_VAR row_name=berserker col_name=abbrev RET entry END
+  LPF d2_edit_2da_entry STR_VAR row_name=~D2%kitname%~ col_name=abbrev entry=~%entry%~ END
+BUT_ONLY
+
+
 //Gains kensai/berserker effects from items
 OUTER_TEXT_SPRINT kit_group ~kensai berserker~
 OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~

@@ -9,6 +9,9 @@
 @303 = ~Cannot use item.~
 @304 = ~Confused~
 
+//additional text (for mod compat)
+@650 = ~Note: The Bard's Song may be used an unlimited number of times, and lasts for 6 rounds + 1 round per 5 levels gained. The Bard Song has a cooldown of 1 turn before it may be used again.~    // for Bardic Wonders (song mechanics tweak)
+
 
 
 //Kensaizerker
@@ -122,6 +125,11 @@ Adds 2d6 magic damage to melee attacks for the next 4 rounds.
 
 Requires 1 ki point.
 Cannot be used together with Element—Fire or Element—Wind.~
+
+@105 = ~Jesterblade's Melody~    // for IWDification (song switch with HLA)
+@205 = ~"Jesterblade's Melody"
+
+The Jesterblade's song confuses enemies within 30 feet unless they save vs. Spell at a +2 bonus. The bonus lowers to +1 at level 5, +0 at level 10, -1 at level 15, and -2 at level 20.~
 
 
 

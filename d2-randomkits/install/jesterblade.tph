@@ -25,6 +25,7 @@ END
 
 //change song
 COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
+  WRITE_LONG 0x8 ~-1~
   LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
 
 //projectile
@@ -36,10 +37,11 @@ ADD_PROJECTILE ~%workspace%/%s1%.PRO~
 OUTER_TEXT_SPRINT jester_song ~~
 
 ACTION_FOR_EACH spell IN ~SPCL751A~ ~SPCL751B~ BEGIN
-  ACTION_IF !(~%jester_song%~ STR_EQ ~~) BEGIN
+  ACTION_IF (~%jester_song%~ STR_EQ ~~) BEGIN
     COPY_EXISTING - ~%spell%.spl~  ~~
       SET confuseop = 0
       SET visualop  = 0
+      SET basethac0 = 0
 
       GET_OFFSET_ARRAY spl_headers  SPL_V10_HEADERS
       PHP_EACH spl_headers AS num => header_off BEGIN      // array of headers
@@ -48,10 +50,11 @@ ACTION_FOR_EACH spell IN ~SPCL751A~ ~SPCL751B~ BEGIN
           READ_SHORT effect_off opcode
           PATCH_IF (opcode = 128) BEGIN SET confuseop = 1 END
           PATCH_IF (opcode = 215) BEGIN SET visualop  = 1 END
+          PATCH_IF (opcode = 54)  BEGIN SET basethac0 = 1 END
         END
       END
 
-      PATCH_IF (confuseop>0 AND visualop>0) BEGIN
+      PATCH_IF (confuseop>0 AND visualop>0 AND basethac0=0) BEGIN    // skip if effects modded
         TEXT_SPRINT jester_song ~%spell%~
       END
     IF_EXISTS
@@ -74,11 +77,19 @@ ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
 END
 
 
+//set correct string (get blocked by immunity)
+OUTER_SET confused  = 14782
+ACTION_IF (GAME_IS ~bgee~)  BEGIN  OUTER_SET confused  = 25807 END
+ACTION_IF (GAME_IS ~iwdee~) BEGIN  OUTER_SET confused  = 37604 END
+
+
 //edit song effects
 COPY_EXISTING ~%s1%.SPL~  ~override~
+  WRITE_LONG 0x8 ~-1~
   LPF d2_remove_level_headers END
   LPF DELETE_EFFECT INT_VAR match_opcode=321 END
   LPF ALTER_SPELL_HEADER INT_VAR projectile=~%s1%~ END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=confused END    // "Confused"
 
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=318 STR_VAR resource=~%s1%~ END    // BG games
@@ -113,6 +124,12 @@ LAF ADD_KIT_EX
     clsrcreq = ~1 1 1 1 1 1 1~    // Usable by all races, if base class is usable
   RET 
     kit_id
+END
+
+
+//change ToB starting armor (elven chain like regular bard)
+ACTION_IF (FILE_EXISTS_IN_GAME ~chan12.itm~) BEGIN
+  LAF d2_edit_2da_entry STR_VAR 2da=25STWEAP col_name=~D2%kitname%~ row_name=armor entry=chan12 END
 END
 
 

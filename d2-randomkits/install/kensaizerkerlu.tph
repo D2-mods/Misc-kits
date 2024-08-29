@@ -1,0 +1,91 @@
+//Kensaizerker (d2mk1)
+
+
+//check luabbr
+OUTER_SET kensaizerker_hla = 0
+COPY_EXISTING - ~luabbr.2da~  ~~
+  LPF 2da_find_row STR_VAR row_name=~BERSERKER~ RET row_number columns END
+  READ_2DA_ENTRY row_number 1 columns ~berserker_hla~
+
+  LPF 2da_find_row STR_VAR row_name=~KENSAI~ RET row_number columns END
+  READ_2DA_ENTRY row_number 1 columns ~kensai_hla~
+
+  PATCH_IF !(~%berserker_hla%~ STR_EQ ~Fi0~) BEGIN
+    SET kensaizerker_hla = 1
+  END
+
+
+//variables
+OUTER_TEXT_SPRINT berserker ~lu%berserker_hla%~
+OUTER_TEXT_SPRINT kensai    ~lu%kensai_hla%~
+OUTER_TEXT_SPRINT hlatable  ~lu%kitid%~
+
+ACTION_IF !(RESOURCE_CONTAINS ~%kensai%.2da~  ~SPCL144~) BEGIN  OUTER_SET kensaizerker_hla = 0 END    // no kai disables
+ACTION_IF  (RESOURCE_CONTAINS ~%berserker%.2da~  ~DW~)   BEGIN  OUTER_SET kensaizerker_hla = 1 END    // enable if ToF
+ACTION_IF  (RESOURCE_CONTAINS ~%kensai%.2da~  ~TG#GKAI~) BEGIN  OUTER_SET kensaizerker_hla = 1 END    // enable if Kai HLA
+
+//defaults to using same table as berserker if NOT making custom table (unmodded Berserker uses same table as Fighter)
+
+
+//make HLA table if revision detected
+ACTION_IF (kensaizerker_hla > 0) BEGIN
+
+  //set 2da
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%berserker%.2DA~) BEGIN
+    COPY_EXISTING ~%berserker%.2DA~  ~override/%hlatable%.2DA~
+  END ELSE BEGIN
+    COPY_EXISTING ~LUFI0.2DA~        ~override/%hlatable%.2DA~
+  END
+  
+  COPY_EXISTING ~luabbr.2da~  ~override~
+    LPF 2da_find_row_set STR_VAR row_name=~D2%kitname%~ entry=~%kitid%~ END
+  BUT_ONLY
+
+END
+
+
+//
+//if ToF HLAs detected (experimental)
+ACTION_IF (kensaizerker_hla > 0) BEGIN
+  ACTION_IF ((RESOURCE_CONTAINS ~%kensai%.2da~ ~SPCL144~) OR
+             (RESOURCE_CONTAINS ~%berserker%.2da~ ~FTDDL~) OR
+             (RESOURCE_CONTAINS ~%kensai%.2da~ ~TG#GKAI~)
+  ) BEGIN
+
+    // get info
+    ACTION_IF (FILE_EXISTS ~override/TG#GKAI.spl~) BEGIN
+      ACTION_IF (RESOURCE_CONTAINS ~%kensai%.2da~ ~TG#GKAI~) BEGIN
+        COPY - ~override/%kensai%.2da~  ~~
+          PATCH_IF (RESOURCE_CONTAINS ~%kensai%.2da~ ~SPCL144~) BEGIN
+            LPF d2_get_hla_string STR_VAR clone_res=~GA_SPCL144~ clone_2da=~%kensai%~ RET hlastring END
+            TEXT_SPRINT kai_string ~%hlastring%~
+            SET tof_kensaihla1 = 1
+          END
+          PATCH_IF (RESOURCE_CONTAINS ~%kensai%.2da~ ~TG#GKAI~) BEGIN
+            LPF d2_get_hla_string STR_VAR clone_res=~GA_TG#GKAI~ clone_2da=~%kensai%~ RET hlastring END
+            TEXT_SPRINT kai2_string ~%hlastring%~
+            SET tof_kensaihla2 = 1
+          END
+        // end inlined COPY
+      END
+    END
+
+    // patch hla table
+    COPY ~override/%hlatable%.2da~  ~override~
+      PATCH_IF (RESOURCE_CONTAINS ~%berserker%.2da~  ~FTDDL~) BEGIN
+        LPF 2da_find_row_delete INT_VAR col_read=1 col_count=3 STR_VAR row_name=~AP_DW-FTDDL~ END
+        LPF d2_add_hla_string INT_VAR renumber=1 END
+      END
+      PATCH_IF (IS_AN_INT tof_kensaihla1 AND tof_kensaihla1 > 0) BEGIN
+        LPF d2_add_hla_string STR_VAR hlastring=~%kai_string%~ END
+      END
+      PATCH_IF (IS_AN_INT tof_kensaihla2 AND tof_kensaihla2 > 0) BEGIN
+        LPF d2_add_hla_string STR_VAR hlastring=~%kai2_string%~ END
+      END
+    BUT_ONLY
+  END
+END
+
+
+//
+//

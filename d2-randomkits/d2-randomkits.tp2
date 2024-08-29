@@ -1,6 +1,6 @@
 BACKUP ~weidu_external/backup/d2-randomkits~
 AUTHOR ~Dan_P~
-VERSION ~2.11~
+VERSION ~2.12~
 AUTO_EVAL_STRINGS
 
 ALWAYS
@@ -51,9 +51,8 @@ LANGUAGE ~French~
          ~d2-randomkits/tra/french/main.tra~
 		 
 		 
-/*
-D2 Misc Kits
-*/
+//
+//D2 Misc Kits
 
 BEGIN @1
 DESIGNATED 9999
@@ -62,9 +61,8 @@ LABEL ~D2_MISC_KITS~
 INCLUDE ~%install%/install.tph~
 
 
-/*
-Choose Enrage version
-*/
+//
+//Choose Enrage version
 
 BEGIN @21
 DESIGNATED 20
@@ -82,6 +80,17 @@ NO_LOG_RECORD
 LABEL ~D2_MISC_KITS_ENRAGE2~
 OUTER_SET enrage_mode = 2
 INCLUDE ~%install%/enragepatch.tph~
+
+
+//
+//Update HLAs for Kensaizerker and Jesterblade
+
+BEGIN @30
+DESIGNATED 30
+REQUIRE_PREDICATE (MOD_IS_INSTALLED ~d2-randomkits.tp2~ 9999) ~~
+NO_LOG_RECORD
+LABEL ~D2_MISC_KITS_UPDATEHLA~
+INCLUDE ~%install%/updatehla.tph~
 
 
 ////////////////////////////////////////////////////////////
