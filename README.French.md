@@ -95,9 +95,17 @@ Inconvénients :
   
 </details>
 
+#### Composants
+1. Installation des kits
+2. Choisir la version de la capacité Enragé du Kensaizerker
+3. Mettre à jour les HLAs (ce composant n'est utile que si les capacités de haut niveau ont été modifiées après l'installation de ce mod)
 
-#### Fichier "config.ini"
-- Mettez la valeur d'un kit à = 0 pour ne pas l'installer
+#### Notes
+
+- Fichier "config.ini" :  
+	- Mettez la valeur d'un kit à = 0 pour ne pas l'installer
+- Composant Mettre à jour les HLAs :  
+	- Ce composant peut être installé sans problème après Talents of Faerun. (Les « capacités mineures » de ToF qui nécessitent de déterminer le niveau du Bouffon cinglant ne peuvent pas être sélectionnées par celui-ci. L'une d'entre elles, l'Ambidextérité, sera attribuée au Bouffon cinglant au niveau 20.)
 
 
 #
