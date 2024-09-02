@@ -3,19 +3,62 @@ Choose Enrage version
 */
 
 
+//
 OUTER_TEXT_SPRINT kitid ~d2mk1~
 OUTER_TEXT_SPRINT kitname ~KENSAIZERKER~
 INCLUDE ~%install%/variables.tph~
 
-//custom Enrage (copy backup)
+OUTER_TEXT_SPRINT enrage ~SPCL321~
+OUTER_TEXT_SPRINT winded ~SPCL321D~
+
+
+//custom Enrage (copy backup file)
 ACTION_IF (enrage_mode = 1) BEGIN
-  COPY_EXISTING ~%m1%.SPL~  ~override/%s1%.SPL~
+  COPY_EXISTING ~%m1%.SPL~  ~override/%s1%.SPL~    // copy from backup
+    PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
+      LPF DELETE_EFFECT INT_VAR match_duration=61 END
+      LPF CLONE_EFFECT INT_VAR match_opcode=12 opcode=321 timing=4 duration=61 parameter2=0 STR_VAR resource=~%s1%~ END
+      LPF DELETE_EFFECT INT_VAR match_opcode=338 END
+    END
+
+  COPY_EXISTING ~%winded%.SPL~  ~override~
+    LPF DELETE_EFFECT STR_VAR match_resource=~%s1%~ END    // remove effect from winded (if added by Option 2)
+  BUT_ONLY
 END
+
 
 //base game Enrage (copy SPCL321.spl)
 ACTION_IF (enrage_mode = 2) BEGIN
-  COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~
-    LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=SPCL321 resource=~%s1%~ END
+
+  // clone and edit Enrage
+  COPY_EXISTING ~%enrage%.SPL~  ~override/%s1%.SPL~
+
+/* don't move effects to bottom for now
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=12 STR_VAR insert=last END
+    LPF CLONE_EFFECT INT_VAR silent=1 STR_VAR match_resource=~%winded%~ insert=last END
+    LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=206 STR_VAR match_resource=~%enrage%~ insert=last END
+    LPF DELETE_EFFECT INT_VAR multi_match=1 match_opcode=12 END
+    LPF DELETE_EFFECT INT_VAR multi_match=1 STR_VAR match_resource=~%winded%~ END
+    LPF DELETE_EFFECT INT_VAR multi_match=1 match_opcode=206 STR_VAR match_resource=~%enrage%~ END
+*/
+
+    // update resource name
+    LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=~%enrage%~ resource=~%s1%~ END
+
+    // EEs: no damage/winded after rest
+    PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
+      LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=12 opcode=321 timing=4 duration=61 parameter2=0 STR_VAR resource=~%s1%~ END
+    END
+
+    // IWDEE: does not prevent resting
+    LPF DELETE_EFFECT INT_VAR match_opcode=338 END
+
+  // add effect to winded
+  COPY_EXISTING ~%winded%.SPL~  ~override~
+    LPF DELETE_EFFECT STR_VAR match_resource=~%s1%~ END
+    LPF CLONE_EFFECT INT_VAR silent=1 STR_VAR match_resource=~%enrage%~ resource=~%s1%~ END
+  BUT_ONLY
+
 END
 
 

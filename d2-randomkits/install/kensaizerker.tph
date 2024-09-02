@@ -14,64 +14,71 @@ END
 
 
 //Copy passive effects
-COPY ~%passives%/hitdamage1.SPL~        ~override/%e1%.SPL~
-COPY ~%passives%/speedfactorkensai.SPL~ ~override/%e2%.SPL~
-COPY ~%passives%/acbonus2.SPL~          ~override/%e3%.SPL~ 
+COPY ~%passives%/hitdamage1.SPL~         ~override/%e1%.SPL~
+COPY ~%passives%/speedfactorkensai.SPL~  ~override/%e2%.SPL~
+COPY ~%passives%/acbonus2.SPL~           ~override/%e3%.SPL~ 
 
 
 //clone existing Enrage if not modified
 ACTION_IF (FILE_EXISTS_IN_GAME ~SPCL321D.SPL~) BEGIN
   ACTION_IF !(FILE_EXISTS ~override/SPCL321.SPL~) BEGIN
-    COPY_EXISTING ~SPCL321.SPL~  ~override/%s1%.SPL~
-    COPY_EXISTING ~SPCL321D.SPL~ ~override/%s1%a.SPL~
+    COPY_EXISTING ~SPCL321.SPL~   ~override/%s1%.SPL~
+    COPY_EXISTING ~SPCL321D.SPL~  ~override/%s1%a.SPL~
   END
 END
 
 //or add new files
 ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
-  COPY ~%abilities%/enrage.SPL~ ~override/%s1%.SPL~
-  COPY ~%abilities%/winded.SPL~ ~override/%s1%a.SPL~
+  COPY ~%abilities%/enrage.SPL~  ~override/%s1%.SPL~
+  COPY ~%abilities%/winded.SPL~  ~override/%s1%a.SPL~
 END
 
 
 //Update stuff on Enrage
-COPY_EXISTING ~%s1%.SPL~ ~override~
+COPY_EXISTING ~%s1%.SPL~  ~override~
   SAY NAME1 @100
   WRITE_LONG 0x50 enrage_desc
-  LPF ALTER_EFFECT STR_VAR match_resource=~SPCL321D~ resource=~%s1%a~ END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=RESOLVE_STR_REF (@300) END    // 15 damage info
-  
+
+  LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=SPCL321 END
+  LPF DELETE_EFFECT INT_VAR match_opcode=139 END
+  LPF DELETE_EFFECT INT_VAR match_opcode=338 END
+  LPF ADD_SPELL_EFFECT INT_VAR opcode=139 target=1 parameter1=RESOLVE_STR_REF (@300) END    // 15 damage info
+
+  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=12 STR_VAR insert=last END
+  LPF CLONE_EFFECT STR_VAR match_resource=SPCL321D resource=~%s1%a~ insert=last END
+  LPF DELETE_EFFECT INT_VAR multi_match=1 match_opcode=12 END
+  LPF DELETE_EFFECT STR_VAR match_resource=SPCL321D END
+
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
-    LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
     LPF d2_remove_effects_on_cast STR_VAR resource=~%s1%~ END
     LPF d2_remove_effects_on_cast STR_VAR resource=~%s1%a~ END
-    PATCH_IF (GAME_IS ~bgee iwdee~) BEGIN
-      LPF DELETE_EFFECT INT_VAR match_opcode=267 END    // fix string immunities (BGEE/IWDEE)
-      LPF d2_string_immunities END
-    END
+    LPF CLONE_EFFECT INT_VAR match_opcode=12 opcode=321 timing=4 duration=61 parameter2=0 STR_VAR resource=~%s1%~ END
+    LPF d2_string_immunities END
+    LPF ee_fixpack_immunities STR_VAR status=~charm conf fear stun hold feeble sleep~ END
   END
-  ELSE BEGIN  // if classic BG2 engine
+  ELSE BEGIN    // if classic BG2 engine
     WRITE_ASCII 0x3a ~SPIN117~ #8
     WRITE_ASCII 0x76 ~SPIN117~ #8
     LPF DELETE_EFFECT INT_VAR match_opcode=321 END
     LPF DELETE_EFFECT INT_VAR match_opcode=328 END
-    LPF ALTER_EFFECT
-      INT_VAR silent=1 match_opcode=206 parameter1=RESOLVE_STR_REF (@302)
-      STR_VAR match_resource=~SPCL321~ resource=~%s1%~
-    END
+    LPF ADD_SPELL_EFFECT INT_VAR opcode=206 target=1 parameter1=RESOLVE_STR_REF (@302) duration=60 STR_VAR resource=~%s1%~ END
   END
 BUT_ONLY
 
 
 //Update stuff on Winded effect
-COPY_EXISTING ~%s1%a.SPL~ ~override~
+COPY_EXISTING ~%s1%a.SPL~  ~override~
   LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=enrage_warn END    // 15 damage info
+  LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=SPCL321 END
 
   PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
-    LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~SPCL321~ END
-  END
-  ELSE BEGIN  // if classic BG2 engine
+    LPF d2_remove_effects_on_cast END
+    LPF d2_remove_effects_on_cast STR_VAR resource=~SPCL321D~ END
+    LPF d2_remove_effects_on_cast STR_VAR resource=~d2ham01c~ END
+//    LPF CLONE_EFFECT INT_VAR match_opcode=321 opcode=318 timing=0 duration=30 STR_VAR insert=last END
+  END ELSE BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=328 END
+    LPF ADD_SPELL_EFFECT INT_VAR opcode=206 target=1 parameter1=RESOLVE_STR_REF (@302) duration=30 STR_VAR resource=~%s1%~ END
   END
 BUT_ONLY
 

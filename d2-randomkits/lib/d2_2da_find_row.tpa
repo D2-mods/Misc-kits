@@ -25,7 +25,7 @@ d2_clone_hla_table      ACTION
 ////////////////////////////////////////////////////////////
 
 //adds entry to spot that matches row_name and col_name (exact match)
-//col_read is the column check for row_name (0 = first row)
+//col_read is the column to check for row_name (0 = first column)
 //col_name should be the column header
 
 DEFINE_ACTION_FUNCTION d2_edit_2da_entry
@@ -57,7 +57,7 @@ END
 ////////////////////////////////////////////////////////////
 
 //reads entry at spot that matches row_name and col_name (exact match)
-//col_read is the column check for row_name (0 = first row)
+//col_read is the column to check for row_name (0 = first column)
 //col_name should be the column header
 
 DEFINE_ACTION_FUNCTION d2_get_2da_entry

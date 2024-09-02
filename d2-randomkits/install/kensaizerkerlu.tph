@@ -87,5 +87,11 @@ ACTION_IF (kensaizerker_hla > 0) BEGIN
 END
 
 
+//dummy file
+ACTION_IF !(FILE_EXISTS ~override/%hlatable%.2DA~) BEGIN
+  COPY_EXISTING ~LUFI0.2DA~  ~override/%hlatable%.2DA~
+END
+
+
 //
 //

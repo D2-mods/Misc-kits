@@ -34,6 +34,13 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v2.13
+- updated French translation from JohnBob.
+- made installer options for Enrage component more descriptive.
+- EEs: fixed bug where character is winded if party Rests while Enrage is still active (both Enrage options).
+- IWDEE: kensaizerker Enrage no longer prevents resting in IWDEE (both Enrage options). This was probably meant to be a fix for being winded after Rest (only Berserkers are prevented from resting, not Barbarians). Since I fixed the real issue, it isn't necessary for this kit.
+- added support for EE fixpack status immunity spellstates.
+
 v2.12
 - Kensaizerker: fixed Enrage being stackable with Option 2 of Enrage component.
 - Kensaizerker: now uses the Berserker HLA table as base if modded (previously using Kensai table).

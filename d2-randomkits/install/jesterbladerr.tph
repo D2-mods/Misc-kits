@@ -272,5 +272,28 @@ END
 OUTER_TEXT_SPRINT heckle      ~C0JES01~
 
 
+//dummy files
+COPY_EXISTING - ~SPCL751.spl~  ~inlined/%temp%.SPL~
+  WRITE_LONG 0x8 ~-1~
+
+ACTION_FOR_EACH spell IN
+  ~d2BIjst~
+  ~%bardsong%s~
+  ~%m1%~
+  ~%m5%~
+BEGIN
+  ACTION_IF !(FILE_EXISTS ~override/%file%~) BEGIN
+    COPY ~inlined/%temp%.SPL~  ~override/%spell%.SPL~
+  END
+END
+
+ACTION_IF !(FILE_EXISTS ~override/%hlatable%.2DA~) BEGIN
+  COPY_EXISTING ~LUBA0.2DA~  ~override/%hlatable%.2DA~
+END
+ACTION_IF !(FILE_EXISTS ~override/%bardsong%.eff~) BEGIN
+  COPY_EXISTING ~archhit.eff~  ~override/%bardsong%.EFF~
+END
+
+
 //
 //
