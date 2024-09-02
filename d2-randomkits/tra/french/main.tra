@@ -9,6 +9,8 @@
 @303 = ~Impossible d'utiliser cet objet.~
 @304 = ~Confus~
 
+//additional text (for mod compat)
+@650 = ~Remarque : Le chant du barde peut être utilisé à volonté et dure 6 rounds + 1 round par tranche de 5 niveaux. Néanmoins un temps de récupération de 1 tour est nécessaire avant de pouvoir chanter à nouveau.~    // for Bardic Wonders (song mechanics tweak)
 
 
 //Kensaizerker
@@ -126,6 +128,11 @@ Les attaques de mêlée infligent 2d6 points de dégâts magiques à chaque coup
 Nécessite : une unité de ki
 
 (Un seul souffle élémentaire peut être activé à la fois)~
+
+@105 = ~Mortifiante Melodie~    // for IWDification (song switch with HLA)
+@205 = ~« Mortifiante Melodie »
+
+Le chant du Bouffon cinglant désoriente les ennemis dans un rayon de 9 mètres, à moins de réussir un jet de sauvegarde contre les sorts avec un bonus de 2. Au niveau 5 le bonus s'abaisse à 1, puis à 0 au niveau 10, au niveau 15 les ennemies subiront un malus de 1 à leurs jets de sauvegarde, et enfin un malus de 2 au niveau 20.~
 
 
 

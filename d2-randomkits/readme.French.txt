@@ -12,8 +12,19 @@ Kensaizerker (Kit de guerrier)   - Enhanced Editions et BG2 original
 Adepte de l'épée (Kit de moine)  - Enhanced Editions uniquement
 Bouffon cinglant (Kit de barde)  - Enhanced Editions et BG2 original
 
-//Fichier "config.ini"
-- Mettez la valeur d'un kit à = 0 pour ne pas l'installer
+Composants
+1. Installation des kits
+2. Choisir la version de la capacité Enragé du Kensaizerker
+3. Mettre à jour les HLA (ce composant n'est utile que si les capacités de haut niveau ont été modifiées après l'installation de ce mod)
+
+--
+
+//Notes
+
+- Fichier "config.ini" :  
+	. Mettez la valeur d'un kit à = 0 pour ne pas l'installer
+- Composant Mettre à jour les HLAs :  
+	. Ce composant peut être installé sans problème après Talents of Faerun. (Les « capacités mineures » de ToF qui nécessitent de déterminer le niveau du Bouffon cinglant ne peuvent pas être sélectionnées par celui-ci. L'une d'entre elles, l'Ambidextérité, sera attribuée au Bouffon cinglant au niveau 20.)
 
 
 Traductions :
@@ -25,6 +36,37 @@ Outils :
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v2.12
+- Kensaizerker: fixed Enrage being stackable with Option 2 of Enrage component.
+- Kensaizerker: now uses the Berserker HLA table as base if modded (previously using Kensai table).
+- Jesterblade: now compatible with Bardic Wonders song mechanics tweak. Must be installed after Bardic Wonders. A note is added to bottom of kit description with tweak info.
+- Jesterblade: now compatible with IWDification "Selectable Bard Songs" tweak (both EE and classic). Must be installed after IWDification. The Jesterblade song change ability is made by cloning the Jester one from IWDification.
+- Added component: Update HLAs for Kensaizerker and Jesterblade. Use if HLA lists were changed after this mod was installed. It might do nothing, or it might do something (depends on what mod HLAs are detected). This is safe to run after ToF.
+- various other mod compat work. Note that Kensaizerker and Jesterblade internally are considered Kensai and Blade for item restrictions (if a mod adds kit-specific items).
+
+v2.11
+- Jesterblade:
+	- fixed compat with Bardic Wonders if installed song mechanics tweak without Jester revision before this mod.
+	- improved song install, which should avoid most compatibility issues (even with mods I haven't tested with).
+
+v2.10
+Jesterblade - Compat notes:
+- Rogue Rebalancing:
+	- Jesterblade will now gain the passive bonuses from both Blade and Jester. Must be installed after rr.
+	- HLA list uses the Blade list, with Jester HLA Song added. Must be installed after rr.
+- Shohy's bard song mod:
+	- Fixed an issue where Jesterblade was gaining regular bard songs if this mod was installed after Shohy's mod.
+	- Jesterblade will gain the passive bonuses from both Blade and Jester. Must be installed after Shohy's mod.
+	- HLA list uses the Blade list, with song replaced by Jester HLA Song. Must be installed after Shohy's mod. If selected, will also gain the "chorus" abilities. The chorus abilities are not gained naturally as they have no effect on the normal Jesterblade song.
+- Bardic Wonders:
+	- Jesterblade will gain all Blade revision stuff, except for the Blade song. Must be installed after Bardic Wonders.
+	- Jesterblade will now gain the Heckle ability if Jester revision is installed. Must be installed after Bardic Wonders.
+	- HLA list is identical to the Blade list (no song added, Jester HLA song is too different from the Jesterblade song).
+
+Kensaizerker - Compat notes:
+	- Artisan's kitpack: no longer gains Rapid Shot when installed after fighter revision. It will gain the melee abilities. It does not gain passives from Berserker or Kensai revisions (balanced too different from the unmodded kits).
+	- Added component "Choose Enrage version". Can set the kit's Enrage to a custom spell that always has vanilla effects (default), or set to the base game Enrage, including possible tweaks (ex. from ToF). This component can be re-run at any time to change setting, and works with existing save games (will update any Enrages already gained).
 
 v2.8
 - Monastery Swordsman update:
