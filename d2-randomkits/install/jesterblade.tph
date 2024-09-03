@@ -127,6 +127,11 @@ LAF ADD_KIT_EX
 END
 
 
+//backup 2da and song files
+COPY ~override/%kitid%.2DA~  ~override/%kitid%k.2DA~
+COPY ~override/%s1%.SPL~     ~override/%s1%k.SPL~
+
+
 //change ToB starting armor (elven chain like regular bard)
 ACTION_IF (FILE_EXISTS_IN_GAME ~chan12.itm~) BEGIN
   LAF d2_edit_2da_entry STR_VAR 2da=25STWEAP col_name=~D2%kitname%~ row_name=armor entry=chan12 END

@@ -40,6 +40,9 @@ v2.13
 - EEs: fixed bug where character is winded if party Rests while Enrage is still active (both Enrage options).
 - IWDEE: kensaizerker Enrage no longer prevents resting in IWDEE (both Enrage options). This was probably meant to be a fix for being winded after Rest (only Berserkers are prevented from resting, not Barbarians). Since I fixed the real issue, it isn't necessary for this kit.
 - added support for EE fixpack status immunity spellstates.
+- re-up of v2.13: fixed v2.13 mistake that made Jesterblade learn regular Jester song at level 20.
+- fixed oversight that could cause installer to leave leftover files in the override after uninstall.
+- fixed possible issue of duplicated text, if running the "update HLAs" component multiple times in a row.
 
 v2.12
 - Kensaizerker: fixed Enrage being stackable with Option 2 of Enrage component.

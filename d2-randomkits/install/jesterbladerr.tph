@@ -14,6 +14,9 @@ COPY_EXISTING - ~luabbr.2da~  ~~
     SET jesterblade_hla = 1
   END
 
+COPY ~override/%kitid%k.2DA~  ~override/%kitid%.2DA~  IF_EXISTS
+COPY ~override/%s1%k.SPL~     ~override/%s1%.SPL~     IF_EXISTS
+
 
 //variables
 OUTER_TEXT_SPRINT blade     ~lu%blade_hla%~
@@ -155,10 +158,24 @@ ACTION_IF ((FILE_EXISTS ~override/c0bardsx.spl~) AND
 
   // update kit desc
   OUTER_SPRINT bardic_tweak @650
-  ACTION_GET_STRREF jesterblade_desc jesterblade_text
+  OUTER_SPRINT jesterblade_text @10303
   OUTER_TEXT_SPRINT jesterblade_text ~%jesterblade_text%%WNL%%WNL%%bardic_tweak%~
-  STRING_SET_EVALUATE jesterblade_desc ~%jesterblade_text%~
+  LAF GET_KIT_STRREF STR_VAR kit_name=~D2%kitname%~ RET kit_strref END
+  STRING_SET_EVALUATE kit_strref  ~%jesterblade_text%~
 
+END
+
+
+/*
+The OUTER_SPRINT stuff below was just experimenting (combines text from IWDification and Bardic Wonders tweaks). It's unlikely anyone's going to use these mods together, unless just testing mod setups.
+NOTE: Bardic Wonders Jester/Skald revisions are not fully compatible with IWDification (you can make it work, but there will be weirdness). The tweaks section should be fine.
+*/
+
+OUTER_SPRINT songchange @205
+ACTION_IF (VARIABLE_IS_SET jesterblade_text) BEGIN
+  OUTER_SPRINT desc @205
+  OUTER_SPRINT note @650
+  OUTER_SPRINT songchange ~%desc%%WNL%%WNL%%note%~
 END
 
 
@@ -167,7 +184,7 @@ END
 ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~cdcl751~) BEGIN
   COPY ~override/cdcl751.spl~  ~override/%m1%.SPL~
     SAY NAME1 @105
-    SAY UNIDENTIFIED_DESC @205
+    SAY UNIDENTIFIED_DESC ~%songchange%~
     LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
     LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
     LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
@@ -194,7 +211,7 @@ END
 ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~dw-sng2~) BEGIN
   COPY ~override/dw-sng2.spl~  ~override/%m1%.SPL~
     SAY NAME1 @105
-    SAY UNIDENTIFIED_DESC @205
+    SAY UNIDENTIFIED_DESC ~%songchange%~
     LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
     LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
     LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
@@ -258,9 +275,7 @@ ACTION_IF (RESOURCE_CONTAINS ~%blade%.2da~  ~dw-ftamb~) BEGIN
   COPY ~%abilities%/applyeffects.spl~  ~override/%m5%.spl~
     LPF ALTER_EFFECT STR_VAR resource=~dw-ftamb~ END
     LPF CLONE_EFFECT INT_VAR opcode=313 timing=9 END
-END
 
-ACTION_IF (FILE_EXISTS ~override/%m5%.spl~) BEGIN
   COPY ~override/%kitid%.2DA~  ~override~
     REPLACE_TEXTUALLY ~AP_%m5%~  ~****~
     LPF d2_kit_ability_adder INT_VAR level=20 passive=1 STR_VAR resource=~%m5%~ END
@@ -273,7 +288,7 @@ OUTER_TEXT_SPRINT heckle      ~C0JES01~
 
 
 //dummy files
-COPY_EXISTING - ~SPCL751.spl~  ~inlined/%temp%.SPL~
+COPY_EXISTING - ~%e1%.spl~  ~inlined/%temp%.SPL~
   WRITE_LONG 0x8 ~-1~
 
 ACTION_FOR_EACH spell IN
@@ -282,7 +297,7 @@ ACTION_FOR_EACH spell IN
   ~%m1%~
   ~%m5%~
 BEGIN
-  ACTION_IF !(FILE_EXISTS ~override/%file%~) BEGIN
+  ACTION_IF !(FILE_EXISTS ~override/%spell%.SPL~) BEGIN
     COPY ~inlined/%temp%.SPL~  ~override/%spell%.SPL~
   END
 END
@@ -291,7 +306,7 @@ ACTION_IF !(FILE_EXISTS ~override/%hlatable%.2DA~) BEGIN
   COPY_EXISTING ~LUBA0.2DA~  ~override/%hlatable%.2DA~
 END
 ACTION_IF !(FILE_EXISTS ~override/%bardsong%.eff~) BEGIN
-  COPY_EXISTING ~archhit.eff~  ~override/%bardsong%.EFF~
+  CREATE EFF ~%bardsong%~
 END
 
 
