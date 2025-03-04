@@ -1,10 +1,14 @@
 GitHub: https://github.com/D2-mods/Misc-kits
 
-Notes:
-- Compatible with EEs and classic BG2 engine
-- Uses ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
-- Uses semi_innate_casting function by subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
-- Uses CD_EXTEND-O-MATIC function by CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
+Overview:
+- Compatible with EEs and classic BG2 engine.
+- Originally made as a practice mod to learn kit creation.
+- Ability tables are made by cloning the table of the base class/kit.
+
+v3.0 update:
+- Monastery Swordsman changed to use Ki Energy system (also used by Medic from Workshop Kitpack).
+- Added Kit Updater component. Run after all mods are installed (except possibly Dual to Kit).
+- Compat improvements with tweak/overhaul mods (especially ToF, HLA mods, and proficiency mods).
 
 --
 
@@ -16,16 +20,39 @@ Kits
 Components
 1. Install kits
 2. Choose Enrage version (options in installer)
-3. Update HLAs (only relevant if HLAs were revised)
+3. Kit Updater (see below)
 
 --
 
-Notes:
+Install notes:
 - config.ini: Set a kit to = 0 to prevent install
-- Update HLAs: safe to install after Talents of Faerun. ToF "minor abilities" that require a level check for Blade are not selectable by Jesterblade. One of these, Ambidexterity, will be given to the Jesterblade for free at level 20.
+- Updater and Enrage components can be re-run at any time.
+- Install after class revisions, except for Talents of Faerun. If another revision says to install after all kit mods, you can try it both ways.
+- Safe to install before or after most tweak mods, including proficiency revisions. It's still recommended to follow normal install order guidelines.
+
+Kit Updater:
+- Updates HLA tables, Proficiencies, misc fixes, mod compat, etc.
+- Monastery Swordsman: Can put max slots in any melee weapon usable by base Monk.
+- Run after all tweak and overhaul mods, including mods that say to install last.
+- Dual to Kit note: Run this once before Dual to Kit if using a proficiency tweak. It can be re-run after if you need to update other things later. (note: it's specifically component 3 of Dual to Kit that needs to be after any proficiency edits)
+
+Talents of Faerun notes:
+- Run the Updater after ToF. This is REQUIRED for compatibility.
+- Jesterblade can select Blade-only abilities at same level as Blade. If ToF selectable songs are detected, the Jesterblade song will also have a song switching ability.
+- Monastery Swordsman can learn some fighter abilities at same level as fighter. It has access to all fighter HLAs, in addition to most monk ones.
+
+--
 
 Translations:
 - French (JohnBob)
+
+Functions (not including my own):
+- ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
+- CD_EXTEND-O-MATIC function by CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
+- GET_KIT_STRREF (source unknown)
+
+Older (v2.x) ki system:
+- semi_innate_casting function by subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
 
 Tools:
 - Mod made with Notepad++, WeiDU, and Near Infinity
@@ -33,6 +60,32 @@ Tools:
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v3.0
+- Changed Monastery Swordsman to use the Ki Energy system (also used by Medic from Workshop Kitpack). This is a regenerating ability points system. It works seamlessly with Bubb's Spell Menu (one of the main reasons I wrote my own system). See kit description.
+
+v2.16
+- Kit Updater: Fixed issue where the updater was removing tweaks to the Jesterblade's clab/abilities table. Now, anything not accounted for is left untouched by the updater.
+- Jesterblade: Jesterblade can now take Whirlwind HLA with or without bard revisions. It will now always have access to HLA traps, even if a revision removed them (ex. ToF or Rogue Rebalancing).
+- Monastery Swordsman: Installer now checks for some fist-only HLAs added by mods (ex. Artisan's Kitpack). These will be removed for this kit. Instead, it will gain equivalent fighter hlas.
+- Fixed Monastery Swordsman not being able to use Big Metal Rod (every class/kit can use this).
+- Compat fixes with Shohy's bard mod (hide 2 weapon prof, fixed Lingering Song HLA being unselectable).
+
+v2.15
+- Talents of Faerun notes:
+	- Kit Updater now does some specific ToF patching. Updates HLA lists, mod compat for Jesterblade, and proficiencies for Monastery Swordsman. Run the Kit Updater any time after ToF to update.
+	- Jesterblade can now select Blade-only abilities at same level as Blade. It can also now select IWD songs (similar to Blade and Jester kits).
+	- if ToF selectable songs are detected, the Jesterblade's song will also give an ability to switch to it. Selectable songs are added if you install IWD songs + minor/high level abilities.
+	- Monastery Swordsman can now learn Improved Criticals and Dirty Fighting at same level as fighter.
+
+v2.14
+- Changed "Update HLAs" component to "Kit Updater". It now also updates the Monastery Swordsman's HLAs and proficiencies if relevant tweaks were installed after this mod. This component can be re-run at any time.
+- Monastery Swordsman can now be installed before or after Monk usability tweaks and proficiency overhauls (except for Talents of Faerun overhaul). Any melee weapon or fighting style that the base monk has access to will be set to max ("max" being whatever the base fighter class is set to).
+- ToF note: Monastery Swordsman can gain grandmastery in all melee weapons with the ToF overhaul. The overhaul does this part by itself (the updater isn't needed specifically for this).
+- Fix ids warning when installing on original BG2 engine (this was harmless, but annoying to see).
+- EEs: Monastery Swordsman is now listed in the "Not Usably By:" part of the item description for slings and darts.
+- Kensizerker: Improved effects structure for Enrage ability.
+- Enrage component is now skipped if kensaizerker is not installed.
 
 v2.13
 - updated French translation from JohnBob.
@@ -171,15 +224,24 @@ Monastery Swordsman (Monk)
 MONASTERY SWORDSMAN: Monks are warriors who pursue perfection through contemplation as well as action. Among them are a subset that have been specially trained to be one with their favored weapons. This Monk's best known feat is the ability to sever an opponent with a single strike.
 
 Advantages:
-– May achieve Grand Mastery (five slots) in any weapon available to Monks.
+– May achieve Grand Mastery (five slots) in any melee weapon available to Monks.
 – May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
 – +1 to attack and damage rolls at 3rd level and an additional +1 bonus every 5 levels thereafter.
-– Gains ki points, which are used to activate kit abilities. Gains 1 ki point every 3 levels, up to a maximum of 10 points at level 30.
-– 3rd level: May use the Element—Fire, Element—Wind, and Element—Moon abilities. Each requires 1 ki point.
+– Gains Ki Energy, which is used to activate kit abilities. Gains +1 per level to maximum Ki Energy, up to level 20.
+– Ki Regen: The character passively regains +1 Ki Energy every 5 rounds.
+– 3rd level: May use the Element—Fire ability. Requires 3 Ki Energy.
 
-ELEMENT—FIRE/WIND/MOON: For 4 rounds, each successful melee attack deals an extra 2d6 fire, slashing, or magic damage. Only one element can be in effect at a time.
+ELEMENT—FIRE: For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
 
-– 13th level: May use the Sever ability. Requires 1 ki point.
+– 5th level: May use the Element—Wind ability. Requires 3 Ki Energy.
+
+ELEMENT—WIND: For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
+
+– 7th level: May use the Element—Moon ability. Requires 3 Ki Energy.
+
+ELEMENT—MOON: For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
+
+– 13th level: May use the Sever ability. Requires 6 Ki Energy.
 
 SEVER: A single deadly strike. The next successful attack within 2 rounds forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 

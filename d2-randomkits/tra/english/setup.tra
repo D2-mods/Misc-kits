@@ -1,4 +1,7 @@
-//Setup
+//Installer text
+//
+
+
 @1 = ~Misc kits: Kensaizerker, Monastery Swordsman, Jesterblade~
 @2 = ~~
 @3 = ~~
@@ -9,6 +12,8 @@
 	@21 = ~Use default. This option ensures that Enrage always has vanilla/unmodded bonuses and penalties. On EEs, it will also be recastable, overwriting previous effects.~
 	@22 = ~Clone base game Enrage. This option makes a copy of the current Enrage file (SPCL321.spl). Any modifications to the file will be included (ex. ToF revision).~
 
-@30 = ~Update HLAs for Kensaizerker and Jesterblade (use if HLA lists were changed after this mod was installed)~
+@30 = ~Kit Updater (HLAs, profs, mod compat). Safe to install at end of order. Can be re-run at any time.~
 
-//
+
+/*
+*/

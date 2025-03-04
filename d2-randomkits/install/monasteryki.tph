@@ -1,119 +1,263 @@
 /*
-Adds ki pool for Monastery Swordsman
-uses semi_innate_casting function by subtledoctor
+convert abilities to Ki Energy system
+This is a regenerating ability points system.
 */
 
 
-//array for spell/abilities (for semi_innate_array variable)
-ACTION_DEFINE_ASSOCIATIVE_ARRAY semi_innate_monastery BEGIN
-  ~%kitid%1~ => ~%monastery1%~
-  ~%kitid%2~ => ~%monastery2%~
-  ~%kitid%3~ => ~%monastery3%~
-  ~%kitid%5~ => ~%sever%~
-END
+//initialize abilities
+COPY ~%abilities%/applyeffects.SPL~  ~override/%e9%.SPL~
+  LPF ALTER_EFFECT INT_VAR timing=9 STR_VAR resource=~%s9%s~ END      // cast main subspell
+  LPF CLONE_EFFECT INT_VAR opcode=318 STR_VAR resource=~%s9%z~ END    // unlock main subspell
+  LPF d2_remove_effects_on_cast END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 opcode=326 STR_VAR resource=~%e3%t~ insert=last END    // block ki reset for 8 hours
+
+
+//feedback
+OUTER_SET kiregen = RESOLVE_STR_REF (@543601)
+OUTER_SET kicheck = RESOLVE_STR_REF (@543602)
 
 
 //
-//table for ki points (do not exceed 15 points)
-<<<<<<<< .../inlined/monastery
-2DA V1.0
-0
-        1
-1       1
-2       1
-3       1
-4       1
-5       1
-6       2
-7       2
-8       2
-9       3
-10      3
-11      3
-12      4
-13      4
-14      4
-15      5
-16      5
-17      5
-18      6
-19      6
-20      6
-21      7
-22      7
-23      7
-24      8
-25      8
-26      8
-27      9
-28      9
-29      9
-30      10
-31      10
-32      10
-33      10
-34      10
-35      10
-36      10
-37      10
-38      10
-39      10
-40      10
->>>>>>>> 
-COPY ~.../inlined/monastery~ ~override/%kitid%ki.2da~
+//splprot.2da
+OUTER_TEXT_SPRINT d2turningcheck  ~d2turningcheck 55 -1 4~     // stat >= value
+OUTER_TEXT_SPRINT d2turningunder  ~d2turningunder 55 -1 2~     // stat < value
 
+COPY_EXISTING ~splprot.2da~  ~override~
+  LPF d2_splprot_adder STR_VAR match=d2turningcheck string=~%d2turningcheck%~ RET stat END
+  SET d2turningcheck = stat
 
-//
-LAF semi_innate_casting
-  STR_VAR
-    semi_innate_prefix = ~d2mk~
-    semi_innate_array  = ~semi_innate_monastery~
-    points_table       = ~%kitid%ki~
-    table_spl          = ~%kitid%ki~
-END
-
-
-//
-//edit kit table
-COPY ~override/%kitid%.2DA~  ~override~
-  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e9%~ END                  // block until required level
-  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~d2mk000~ END               // gain ki pool
-  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%1L~ END
-  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%2L~ END
-  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%kitid%3L~ END
-  LPF d2_kit_ability_adder INT_VAR level=13 passive=1 STR_VAR resource=~%kitid%5L~ END    // sever
+  LPF d2_splprot_adder STR_VAR match=d2turningunder string=~%d2turningunder%~ RET stat END
+  SET d2turningunder = stat
 BUT_ONLY
 
 
+// cap ki regen at max ki
+DEFINE_PATCH_FUNCTION kiregencap BEGIN
+  LPF d2_protect_on_castequip INT_VAR cre_type=d2turningcheck cre_special=1 duration=1 STR_VAR insert=first END
+  LPF CD_EXTEND-O-MATIC INT_VAR step_size=1 level_cap=2 END
+  LPF CD_EXTEND-O-MATIC INT_VAR step_size=1 level_cap=20 min_lev_alt=2 END
+  FOR (n = 1; n <= 20; ++n) BEGIN
+    SET header = n - 1
+    LPF ALTER_EFFECT INT_VAR header=header match_opcode=318 parameter1=n END
+  END
+END
+
+
+//regen + reset ki power
+COPY ~%abilities%/applyeffects.SPL~  ~override/%e3%.SPL~
+  LPF ALTER_EFFECT STR_VAR resource=~%e3%b~ END
+  LPF CLONE_EFFECT STR_VAR resource=~%e3%a~ END
+
+COPY ~%abilities%/applyeffects.SPL~  ~override/%e3%a.SPL~    // reset ki to max (8 hours)
+  LPF ALTER_EFFECT STR_VAR resource=~%s9%s~ END
+  LPF CLONE_EFFECT STR_VAR resource=~%e3%t~ insert=last END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 opcode=321 STR_VAR resource=~%e1%#~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 opcode=321 STR_VAR resource=~%e1%!~ END
+  LPF d2_protect_on_castequip INT_VAR duration=1 STR_VAR resource=~%e3%b~ insert=first END
+
+COPY ~%abilities%/opcode318.SPL~  ~override/%e3%t.SPL~
+  LPF ALTER_EFFECT INT_VAR duration=2400 STR_VAR resource=~%e3%a~ END    // block ki reset for 8 hours
+  LPF d2_remove_effects_on_cast END
+
+COPY ~%abilities%/applyeffects.SPL~  ~override/%e3%b.SPL~    // +1 ki power
+  LPF ALTER_EFFECT STR_VAR resource=~%s9%1~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%e1%t~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%e1%#~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%e3%c~ END
+  LPF kiregencap END
+
+COPY ~%abilities%/spellfailed.SPL~  ~override/%e3%c.SPL~
+  LPF d2_color_string INT_VAR stringref=kiregen STR_VAR color=mana RET newstring END    // "+1 Ki Energy restored"
+  LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1=newstring END
+  LPF DELETE_EFFECT INT_VAR match_opcode=141 END
+  LPF DELETE_EFFECT INT_VAR match_opcode=174 END
+
+LAF d2_recast_at_interval INT_VAR interval=30 STR_VAR spell=~%e3%~ new_spell=~%@3%~ END    // recast every 5 rounds
+
+
 //
-//remove spell name (from subspells)
-ACTION_FOR_EACH spell IN ~%monastery1%~ ~%monastery2%~ ~%monastery3%~ ~%sever%~ BEGIN
-  COPY_EXISTING ~%spell%.spl~  ~override~
-    WRITE_LONG 0x8 ~-1~
+//turn undead stat (op323)
+COPY - ~%passives%/tracking.SPL~  ~inlined/tracking.SPL~
+  LPF ALTER_EFFECT INT_VAR opcode=323 timing=1 END
+  LPF d2_remove_effects_on_cast STR_VAR resource=~%e1%t~ END
+
+//increment stat
+COPY ~inlined/tracking.SPL~  ~override/%e1%#.SPL~    // +1 turning
+  LPF ALTER_EFFECT INT_VAR match_opcode=323 parameter1=1 END
+COPY ~inlined/tracking.SPL~  ~override/%e1%!.SPL~    // -1 turning
+
+//block op323
+COPY ~%passives%/opcode101.SPL~  ~override/%e1%t.SPL~
+  LPF ALTER_EFFECT INT_VAR parameter2=323 END
+
+//set stat based on level
+COPY ~inlined/tracking.SPL~  ~override/%e1%s.SPL~
+  LPF ALTER_EFFECT INT_VAR match_opcode=323 parameter1=1 parameter2=1 timing=9 END
+  LPF d2_remove_effects_on_cast END
+
+  LPF CD_EXTEND-O-MATIC INT_VAR step_size=1 level_cap=2 END
+  LPF CD_EXTEND-O-MATIC INT_VAR step_size=1 level_cap=20 min_lev_alt=2 END
+  FOR (n = 1; n <= 20; ++n) BEGIN
+    SET header = n - 1
+    LPF ALTER_EFFECT INT_VAR header=header match_opcode=323 parameter1=n END
+  END
+
+//remove all stat effects
+COPY ~%abilities%/removespelleffects.SPL~  ~override/%e1%x.SPL~
+  LPF ALTER_EFFECT STR_VAR resource=~%e1%s~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%e1%#~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%e1%!~ END
+
+//add to clab
+COPY ~%abilities%/applyeffects.SPL~  ~override/%e1%.SPL~
+  LPF ALTER_EFFECT STR_VAR resource=~%e1%t~ END
+  LPF CLONE_EFFECT STR_VAR resource=~%e1%s~ END
+  LPF d2_remove_effects_on_cast INT_VAR 326override=1 STR_VAR resource=~%e1%x~ END
+
+
+
+//main subspells below
+
+//
+//remove and re-add abilities (cast from each ability)
+COPY ~%abilities%/applyeffects.SPL~  ~override/%s9%s.SPL~
+  LPF ALTER_EFFECT INT_VAR multi_match=1 timing=4 duration=1 STR_VAR resource=~%s9%i~ END    // give abilities
+  LPF CLONE_EFFECT INT_VAR multi_match=1 timing=4 duration=1 STR_VAR resource=~%s9%x~ END    // removes abilities
+  FOR (n = 1; n <= 40; ++n) BEGIN
+    LPF CLONE_EFFECT INT_VAR multi_match=1 timing=1 duration=0 STR_VAR resource=~%s9%x~ END    // fix for bubb menu overlay (brute force menu update)
+  END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 timing=1 duration=0 STR_VAR resource=~%s9%z~ END    // spell lock
+  LPF d2_remove_effects_on_cast END
+
+COPY ~%passives%/removespell.SPL~  ~override/%s9%x.SPL~
+  LPF ALTER_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s1%~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s2%~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s3%~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s4%~ END
+  LPF ALTER_SPELL_HEADER INT_VAR projectile=1 END
+
+COPY ~%abilities%/opcode318.SPL~  ~override/%s9%z.SPL~
+  LPF ALTER_EFFECT INT_VAR multi_match=1 duration=5 STR_VAR resource=~%s9%s~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 duration=5 STR_VAR resource=~%s9%i~ END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 duration=5 STR_VAR resource=~%s9%x~ END
+
+//add abilities up to current ki power
+COPY ~%abilities%/opcode318.SPL~  ~override/%s9%i.SPL~
+  LPF ALTER_EFFECT INT_VAR timing=0 duration=1 STR_VAR resource=~%s9%i~ END
+  FOR (n = 1; n <= 40; ++n) BEGIN
+    LPF CLONE_EFFECT INT_VAR match_opcode=318 opcode=326 parameter1=n parameter2=d2turningcheck duration=0 STR_VAR resource=~%s9%1~ END
+  END
+  LPF CLONE_EFFECT INT_VAR match_opcode=318 STR_VAR resource=~%s9%x~ insert=first END
+
+//
+//give 1 of each ability (up to max ki power)
+COPY ~%abilities%/applyeffects.SPL~  ~override/%s9%1.SPL~
+  LPF ALTER_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s1%#~ insert=last END    // fire
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s3%#~ insert=last END    // wind
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s4%#~ insert=last END    // moon
+  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s2%#~ insert=last END    // sever
+//  LPF kiregencap END
+
+
+//
+//required ki power
+ACTION_DEFINE_ASSOCIATIVE_ARRAY monastery_ki BEGIN
+  ~%s1%~ => 3
+  ~%s3%~ => 3
+  ~%s4%~ => 3
+  ~%s2%~ => 6
+END
+
+//decrement stat by "power"
+DEFINE_PATCH_FUNCTION decrement_ki BEGIN
+  LPF ADD_SPELL_CFEFFECT INT_VAR opcode=326 target=1 parameter1=power parameter2=d2turningcheck STR_VAR resource=~%spell%k~ END
+END
+
+//block if ki too low (won't decrement stat)
+DEFINE_PATCH_FUNCTION required_ki BEGIN
+  READ_SHORT 0x84 duration
+  LPF ADD_SPELL_CFEFFECT INT_VAR opcode=318 target=1 parameter1=power parameter2=d2turningunder duration=duration STR_VAR resource=~%SOURCE_RES%~ END
+  LPF ADD_SPELL_CFEFFECT INT_VAR opcode=326 target=1 parameter1=power parameter2=d2turningunder STR_VAR resource=~%s9%t~ END
+END
+
+COPY ~%abilities%/spellfailed.SPL~  ~override/%s9%t.SPL~
+  LPF d2_color_string INT_VAR stringref=kicheck STR_VAR color=blue RET newstring END    // "Not enough Ki Energy!"
+  LPF ALTER_EFFECT INT_VAR match_opcode=139 opcode=330 parameter1=newstring timing=4 duration=1 END
+  LPF DELETE_EFFECT INT_VAR match_opcode=141 END
+  LPF DELETE_EFFECT INT_VAR match_opcode=174 END
+
+//
+ACTION_PHP_EACH monastery_ki AS spell => power BEGIN
+
+  // 
+  COPY_EXISTING ~%spell%.SPL~  ~override~
+    WRITE_LONG 0x34 monastery_row    // "level" offset (row for Bubb's Spell Menu)
+    LPF decrement_ki END
+    LPF required_ki END
+    LPF ADD_SPELL_CFEFFECT INT_VAR opcode=326 target=1 STR_VAR resource=~%s9%s~ END    // cast main subspell
+    LPF d2_remove_effects_on_cast INT_VAR 326override=1 STR_VAR resource=~%e3%t~ END
   BUT_ONLY
-END
 
-// block until required level
-COPY ~%abilities%/applyeffects.SPL~  ~override/%e9%.SPL~
-  LPF ALTER_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%1b~ END
-  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%2b~ END
-  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%3b~ END
-  LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%kitid%5b~ END
+  // decrement stat by "power"
+  COPY ~%abilities%/applyeffects.SPL~  ~override/%spell%k.SPL~
+    LPF ALTER_EFFECT STR_VAR resource=~%e1%t~ END
+    FOR (n = 1; n <= power; ++n) BEGIN
+      LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%e1%!~ END
+    END
 
-//
-ACTION_FOR_EACH spell IN ~%kitid%1i~ ~%kitid%2i~ ~%kitid%3i~ ~%kitid%5i~ ~%kitid%ki~ ~d2mkfsh~ BEGIN
-  COPY_EXISTING ~%spell%.spl~  ~override~
-    LPF CLONE_EFFECT INT_VAR silent=1 timing=4 duration=1 STR_VAR match_resource=d2mk172 insert=below END
-  IF_EXISTS BUT_ONLY
 END
 
 
 //
-//Set variables for external use
-OUTER_TEXT_SPRINT ki_weapon1  ~%kitid%1i~
-OUTER_TEXT_SPRINT ki_weapon2  ~%kitid%2i~
-OUTER_TEXT_SPRINT ki_weapon3  ~%kitid%3i~
-OUTER_TEXT_SPRINT ki_weapon5  ~%kitid%5i~
+//key spell (unlock abilities)
+ACTION_DEFINE_ASSOCIATIVE_ARRAY monastery BEGIN
+  ~%s1%~ => ~%m1%~
+  ~%s2%~ => ~%m2%~
+  ~%s3%~ => ~%m3%~
+  ~%s4%~ => ~%m4%~
+END
+
+ACTION_PHP_EACH monastery AS spell => key BEGIN
+
+  // # spells (give abilities)
+  COPY ~%abilities%/applyeffects.SPL~  ~override/%spell%#.SPL~
+    LPF ALTER_EFFECT STR_VAR resource=~%key%g~ END
+    LPF CLONE_EFFECT STR_VAR resource=~%key%x~ END
+
+  // give ability (1 use)
+  COPY ~%passives%/giveability.SPL~  ~override/%key%g.SPL~
+    LPF ALTER_EFFECT STR_VAR resource=~%spell%~ END
+    LPF ALTER_SPELL_HEADER INT_VAR projectile=1 END
+
+  // block above (1 second)
+  COPY ~%abilities%/opcode318.SPL~  ~override/%key%x.SPL~
+    LPF ALTER_EFFECT STR_VAR resource=~%key%g~ END
+
+  // key spell (add to clab)
+  COPY ~%abilities%/opcode318.SPL~  ~override/%key%.SPL~
+    LPF ALTER_EFFECT INT_VAR timing=9 duration=0 STR_VAR resource=~%key%x~ END
+
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY monastery_level BEGIN
+  ~%m1%~ => 3     // fire
+  ~%m2%~ => 13    // sever
+  ~%m3%~ => 5     // wind
+  ~%m4%~ => 7     // moon
+END
+
+
+//Make clab table
+COPY_EXISTING ~%kitid%.2DA~  ~override~
+  LPF d2_kit_ability_adder INT_VAR passive=1 multi=1 increment=1 STR_VAR resource=~%e1%~ END
+  LPF d2_kit_ability_adder INT_VAR passive=1 multi=1 increment=1 STR_VAR resource=~%e9%~ END
+  LPF d2_kit_ability_adder INT_VAR passive=1 multi=1 increment=1 STR_VAR resource=~%@3%~ END
+
+  // unlock abilities
+  PHP_EACH monastery_level AS file => level BEGIN
+    LPF d2_kit_ability_adder INT_VAR level=level passive=1 STR_VAR resource=~%file%~ END
+  END
+BUT_ONLY
 
 
 /*

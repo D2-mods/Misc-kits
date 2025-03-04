@@ -5,13 +5,24 @@
 //Dialogue messages
 @300 = ~When the berserk state ends, the character will take 15 damage.~
 @301 = ~The berserk state has ended. The character now loses the extra 15 Hit Points previously gained. If the character is below 15 Hit Points, he or she will be knocked unconscious.~
-@302 = ~You cannot cast this spell until the current casting has run out.~
+@302 = ~You cannot use Enrage again until the current casting has run out.~
 @303 = ~Cannot use item.~
 @304 = ~Confused~
+
 
 //additional text (for mod compat)
 @650 = ~Note: The Bard's Song may be used an unlimited number of times, and lasts for 6 rounds + 1 round per 5 levels gained. The Bard Song has a cooldown of 1 turn before it may be used again.~    // for Bardic Wonders (song mechanics tweak)
 
+
+//Ki Energy feedback
+@543601 = ~+1 Ki Energy restored~
+@543602 = ~Not enough Ki Energy!~
+@543610 = ~Ki Energy Config~
+@543611 = ~Use this ability to select one of the following options:~
+@543612 = ~Hide Feedback~
+@543613 = ~Show Feedback~
+@543614 = ~Remove Config (permanent)~
+@543615 = ~– ~    // en dash (Config description)
 
 
 //Kensaizerker
@@ -43,15 +54,24 @@ Disadvantages:
 @10203 = ~MONASTERY SWORDSMAN: Monks are warriors who pursue perfection through contemplation as well as action. Among them are a subset that have been specially trained to be one with their favored weapons. This Monk's best known feat is the ability to sever an opponent with a single strike.
 
 Advantages:
-– May achieve Grand Mastery (five slots) in any weapon available to Monks.
+– May achieve Grand Mastery (five slots) in any melee weapon available to Monks.
 – May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
 – +1 to attack and damage rolls at 3rd level and an additional +1 bonus every 5 levels thereafter.
-– Gains ki points, which are used to activate kit abilities. Gains 1 ki point every 3 levels, up to a maximum of 10 points at level 30.
-– 3rd level: May use the Element—Fire, Element—Wind, and Element—Moon abilities. Each requires 1 ki point.
+– Gains Ki Energy, which is used to activate kit abilities. Gains +1 per level to maximum Ki Energy, up to level 20.
+– Ki Regen: The character passively regains +1 Ki Energy every 5 rounds.
+– 3rd level: May use the Element—Fire ability. Requires 3 Ki Energy.
 
-ELEMENT—FIRE/WIND/MOON: For 4 rounds, each successful melee attack deals an extra 2d6 fire, slashing, or magic damage. Only one element can be in effect at a time.
+ELEMENT—FIRE: For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
 
-– 13th level: May use the Sever ability. Requires 1 ki point.
+– 5th level: May use the Element—Wind ability. Requires 3 Ki Energy.
+
+ELEMENT—WIND: For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
+
+– 7th level: May use the Element—Moon ability. Requires 3 Ki Energy.
+
+ELEMENT—MOON: For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
+
+– 13th level: May use the Sever ability. Requires 6 Ki Energy.
 
 SEVER: A single deadly strike. The next successful attack within 2 rounds forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 
@@ -100,7 +120,7 @@ After the effects end, the character becomes winded, suffering a -2 penalty to A
 
 Adds 2d6 fire damage to melee attacks for the next 4 rounds.
 
-Requires 1 ki point.
+Requires 3 Ki Energy.
 Cannot be used together with Element—Wind or Element—Moon.~
 
 @102 = ~Sever~
@@ -108,14 +128,14 @@ Cannot be used together with Element—Wind or Element—Moon.~
 
 A single deadly strike. The next successful attack within 2 rounds forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 
-Requires 1 ki point.~
+Requires 6 Ki Energy.~
 
 @103 = ~Element—Wind~
 @203 = ~Element—Wind
 
 Adds 2d6 slashing damage to melee attacks for the next 4 rounds.
 
-Requires 1 ki point.
+Requires 3 Ki Energy.
 Cannot be used together with Element—Fire or Element—Moon.~
 
 @104 = ~Element—Moon~
@@ -123,7 +143,7 @@ Cannot be used together with Element—Fire or Element—Moon.~
 
 Adds 2d6 magic damage to melee attacks for the next 4 rounds.
 
-Requires 1 ki point.
+Requires 3 Ki Energy.
 Cannot be used together with Element—Fire or Element—Wind.~
 
 @105 = ~Jesterblade's Melody~    // for IWDification (song switch with HLA)

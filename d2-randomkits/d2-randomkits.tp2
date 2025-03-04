@@ -1,6 +1,6 @@
 BACKUP ~weidu_external/backup/d2-randomkits~
 AUTHOR ~Dan_P~
-VERSION ~2.13~
+VERSION ~3.0~
 AUTO_EVAL_STRINGS
 
 ALWAYS
@@ -52,11 +52,12 @@ LANGUAGE ~French~
 		 
 		 
 //
-//D2 Misc Kits
+//Install kits
 
 BEGIN @1
 DESIGNATED 9999
-REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee iwdee eet bg2 tob tutu tutu_totsc iwd_in_bg2 ca~) ~Game not supported~
+REQUIRE_PREDICATE !(GAME_IS ~iwd2~) ~Game not supported~
+REQUIRE_PREDICATE (RESOURCE_CONTAINS ~kitlist.2da~ ~BERSERKER~) ~Game not supported~
 LABEL ~D2_MISC_KITS~
 INCLUDE ~%install%/install.tph~
 
@@ -67,6 +68,7 @@ INCLUDE ~%install%/install.tph~
 BEGIN @21
 DESIGNATED 20
 REQUIRE_PREDICATE (MOD_IS_INSTALLED ~d2-randomkits.tp2~ 9999) ~~
+REQUIRE_PREDICATE (RESOURCE_CONTAINS ~kit.ids~ ~D2KENSAIZERKER~) ~~
 SUBCOMPONENT @20
 NO_LOG_RECORD
 LABEL ~D2_MISC_KITS_ENRAGE1~
@@ -74,7 +76,6 @@ OUTER_SET enrage_mode = 1
 INCLUDE ~%install%/enragepatch.tph~
 
 BEGIN @22
-REQUIRE_PREDICATE (MOD_IS_INSTALLED ~d2-randomkits.tp2~ 9999) ~~
 SUBCOMPONENT @20
 NO_LOG_RECORD
 LABEL ~D2_MISC_KITS_ENRAGE2~
@@ -83,14 +84,14 @@ INCLUDE ~%install%/enragepatch.tph~
 
 
 //
-//Update HLAs for Kensaizerker and Jesterblade
+//Update abilities (HLAs, profs, mod compat)
 
 BEGIN @30
 DESIGNATED 30
 REQUIRE_PREDICATE (MOD_IS_INSTALLED ~d2-randomkits.tp2~ 9999) ~~
 NO_LOG_RECORD
 LABEL ~D2_MISC_KITS_UPDATEHLA~
-INCLUDE ~%install%/updatehla.tph~
+INCLUDE ~%install%/install30.tph~
 
 
 ////////////////////////////////////////////////////////////

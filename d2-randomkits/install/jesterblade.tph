@@ -27,6 +27,7 @@ END
 COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
   WRITE_LONG 0x8 ~-1~
   LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
+  LPF d2_protect_on_castequip INT_VAR timing=9 STR_VAR resource=~#bard7a~ END
 
 //projectile
 COPY - ~%abilities%/invisible30enemy.PRO~ ~%workspace%/%s1%.PRO~
@@ -77,7 +78,7 @@ ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
 END
 
 
-//set correct string (get blocked by immunity)
+//set correct string (blocked by immunities)
 OUTER_SET confused  = 14782
 ACTION_IF (GAME_IS ~bgee~)  BEGIN  OUTER_SET confused  = 25807 END
 ACTION_IF (GAME_IS ~iwdee~) BEGIN  OUTER_SET confused  = 37604 END
@@ -107,6 +108,7 @@ BUT_ONLY
 
 //Make clab table
 COPY ~inlined/d2clab_blade_nosongs~  ~override/%kitid%.2DA~
+  LPF tnb_innate_familiars END
   LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e1%~ END
   LPF d2_kit_ability_adder END
 
@@ -127,9 +129,15 @@ LAF ADD_KIT_EX
 END
 
 
-//backup 2da and song files
-COPY ~override/%kitid%.2DA~  ~override/%kitid%k.2DA~
-COPY ~override/%s1%.SPL~     ~override/%s1%k.SPL~
+//backup song file
+COPY ~override/%s1%.SPL~  ~override/%@1%.SPL~
+
+
+//hla table
+OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+LAF d2_hla_baseclass STR_VAR kit=~%ids_name%~ class=blade END
+LAF d2_hla_tableres STR_VAR kit=~%ids_name%~ abbrev=~%kitid%~ END
+//LAF d2_clone_hla_table STR_VAR kitids=~%ids_name%~ copy=blade abbrev=~%kitid%~ RET hlatable END
 
 
 //change ToB starting armor (elven chain like regular bard)
@@ -138,33 +146,10 @@ ACTION_IF (FILE_EXISTS_IN_GAME ~chan12.itm~) BEGIN
 END
 
 
-//
 //Gains blade/jester effects from items
 OUTER_TEXT_SPRINT kit_group ~blade jester~
 OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
-
-ACTION_PHP_EACH item_kit_effects AS item => class BEGIN
-  ACTION_IF !(~%kit_group%~ STRING_CONTAINS_REGEXP ~%class%~) BEGIN
-    ACTION_FOR_EACH res IN ~SPL~ ~ITM~ BEGIN
-      ACTION_IF (FILE_EXISTS_IN_GAME ~%item%.%res%~) BEGIN
-        COPY_EXISTING ~%item%.%res%~  ~override~
-          PHP_EACH kit_ids_array AS class2 => eff_to_copy BEGIN
-            PATCH_IF (~%class%~ STR_EQ ~%class2%~) BEGIN
-              LPF CLONE_EFFECT 
-                INT_VAR 
-                  silent            = 1
-                  match_opcode      = 177 
-                  match_parameter1  = %eff_to_copy%
-                  match_parameter2  = 9 
-                  parameter1        = IDS_OF_SYMBOL (kit ~%ids_name%~)
-              END
-            END
-          END
-        BUT_ONLY
-      END
-    END
-  END
-END
+INCLUDE ~%install%/beamdogitems.tph~
 
 
 //Set variables for external use

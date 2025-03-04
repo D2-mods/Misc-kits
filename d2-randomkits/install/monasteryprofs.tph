@@ -1,0 +1,64 @@
+/*
+all profs are only set if base class can learn it
+anything set higher than fighter class is automatically lowered to match it
+*/
+
+
+ACTION_CLEAR_ARRAY ~d2_weapontype_usable~
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2_weapontype_usable BEGIN    // type => slots
+  axe            => 7
+  bastardsword   => 7
+  club           => 7
+  compositebow   => 0
+  dagger         => 7
+  dart           => 0
+  flail          => 7    // if usable and unusable items share a prof, usable has priority
+  greataxe       => 7    // can leave items off array (no prof, but no op319 if restrictitems > 0)
+  greatsword     => 7
+  halberd        => 7
+  hammer         => 7
+  heavycrossbow  => 0
+  katana         => 7
+  lightcrossbow  => 0
+  longbow        => 0
+  longsword      => 7
+  mace           => 7
+  morningstar    => 7
+  ninjato        => 7
+  scimitar       => 7
+  shortbow       => 0
+  shortsword     => 7
+  sling          => 0
+  spear          => 7
+  staff          => 7
+  throwingdagger => 7
+  throwingaxe    => 0
+  throwinghammer => 0
+  wakizashi      => 7
+END
+
+OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+OUTER_TEXT_SPRINT baseclass  ~monk~
+OUTER_SET stringref = RESOLVE_STR_REF (@10201)    // kit name (used if restrictitems > 0)
+OUTER_SET restrictitems = 1
+OUTER_SET stylemode = 5
+OUTER_SET clearprofs = 1
+OUTER_SET force2weapon = 1
+INCLUDE ~%install%/usableweapons.tph~
+
+
+//
+//mod stuff
+
+//for Combat Skills mod (melee bonus)
+OUTER_TEXT_SPRINT ids_name ~D2%kitname%~
+OUTER_TEXT_SPRINT type ~MELEETHAC0~
+LAF d2_edit_2da_entry STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%type%~ entry=4 END
+
+//for Skills & Abilities (no Archery)
+OUTER_TEXT_SPRINT type ~ARCHERY~
+LAF d2_edit_2da_entry STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%type%~ entry=0 END
+
+
+//
+//

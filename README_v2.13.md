@@ -3,29 +3,17 @@
 Download: https://github.com/D2-mods/Misc-kits/releases  
 Languages: English, French (JohnBob)
 
-**Note: This page is based on the current repo files (near-finished v3.0).**
+Some kits I made for practice, while planning a bigger kitpack -> [The Workshop Kitpack](https://github.com/D2-mods/The-Workshop-Kitpack).
 
-Some kits I made for practice while planning a bigger kitpack -> [The Workshop Kitpack](https://github.com/D2-mods/The-Workshop-Kitpack).
-
-Overview:
--
-- Compatible with EEs and classic BG2 engine.
-- Originally made as a practice mod to learn kit creation.
-- Ability tables are made by cloning the table of the base class/kit.
+#### Notes:
+- compatible with EEs and classic BG2 engine
+- uses ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
 
 --
 
-**v3.0 update:**
-- Monastery Swordsman changed to use Ki Energy system (also used by Medic from Workshop Kitpack).
-- Added Kit Updater component. Run after all mods are installed (except possibly Dual to Kit).
-- Compat improvements with tweak/overhaul mods (especially ToF, HLA mods, and proficiency mods).
-
---
-
-Kits
--
+### Kits
 <details>
-  <summary>Kensaizerker (fighter) - EE and classic</summary>
+  <summary>Kensaizerker (fighter)     - EE and classic</summary>
   
 ---
 
@@ -58,24 +46,15 @@ Disadvantages:
 MONASTERY SWORDSMAN: Monks are warriors who pursue perfection through contemplation as well as action. Among them are a subset that have been specially trained to be one with their favored weapons. This Monk's best known feat is the ability to sever an opponent with a single strike.
 
 Advantages:
-- May achieve Grand Mastery (five slots) in any melee weapon available to Monks.
+- May achieve Grand Mastery (five slots) in any weapon available to Monks.
 - May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
 - +1 to attack and damage rolls at 3rd level and an additional +1 bonus every 5 levels thereafter.
-- Gains Ki Energy, which is used to activate kit abilities. Gains +1 per level to maximum Ki Energy, up to level 20.
-- Ki Regen: The character passively regains +1 Ki Energy every 5 rounds.
-- 3rd level: May use the Element—Fire ability. Requires 3 Ki Energy.
+- Gains ki points, which are used to activate kit abilities. Gains 1 ki point every 3 levels, up to a maximum of 10 points at level 30.
+- 3rd level: May use the Element—Fire, Element—Wind, and Element—Moon abilities. Each requires 1 ki point.
 
-ELEMENT—FIRE: For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
+ELEMENT—FIRE/WIND/MOON: For 4 rounds, each successful melee attack deals an extra 2d6 fire, slashing, or magic damage. Only one element can be in effect at a time.
 
-- 5th level: May use the Element—Wind ability. Requires 3 Ki Energy.
-
-ELEMENT—WIND: For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
-
-- 7th level: May use the Element—Moon ability. Requires 3 Ki Energy.
-
-ELEMENT—MOON: For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
-
-- 13th level: May use the Sever ability. Requires 6 Ki Energy.
+- 13th level: May use the Sever ability. Requires 1 ki point.
 
 SEVER: A single deadly strike. The next successful attack within 2 rounds forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 
@@ -90,7 +69,7 @@ Disadvantages:
 </details>
 
 <details>
-  <summary>Jesterblade (bard) - EE and classic</summary>
+  <summary>Jesterblade (bard)         - EE and classic</summary>
   
 ---
 
@@ -116,27 +95,21 @@ Disadvantages:
 
 --
 
-Components:
--
+### Components:
 1. Install kits
 2. Choose Enrage version (options in installer)
-3. Kit Updater (see below)
+3. Update HLAs (only relevant if HLAs were revised)
 
 --
 
-**Install notes:**
+**Notes:**
 - config.ini: Set a kit to = 0 to prevent install
-- Updater and Enrage components can be re-run at any time.
-- Install after class revisions, except for Talents of Faerun. If another revision says to install after all kit mods, you can try it both ways.
-- Safe to install before or after most tweak mods, including proficiency revisions. It's still recommended to follow normal install order guidelines.
+- Update HLAs: safe to install after Talents of Faerun. ToF "minor abilities" that require a level check for Blade are not selectable by Jesterblade. One of these, Ambidexterity, will be given to the Jesterblade for free at level 20.
 
-**Kit Updater:**
-- Updates HLA tables, Proficiencies, misc fixes, mod compat, etc.
-- Monastery Swordsman: Can put max slots in any melee weapon usable by base Monk.
-- Run after all tweak and overhaul mods, including mods that say to install last.
-- Dual to Kit note: Run this once before Dual to Kit if using a proficiency tweak. It can be re-run after if you need to update other things later. (note: it's specifically component 3 of Dual to Kit that needs to be after any proficiency edits)
 
-**Talents of Faerun notes:**
-- Run the Updater after ToF. This is **REQUIRED** for compatibility.
-- Jesterblade can select Blade-only abilities at same level as Blade. If ToF selectable songs are detected, the Jesterblade song will also have a song switching ability.
-- Monastery Swordsman can learn some fighter abilities at same level as fighter. It has access to all fighter HLAs, in addition to most monk ones.
+#
+
+#### a few notes on the ki system (Monastery Swordsman):
+- Abilities are sometimes removed and re-added (i.e. after resting or loading a save file). This is why sometimes the abilities will be missing temporarily from the menu.
+- If abilities are given in the wrong amounts, using any ability should correct the number. The amount given is based on an internal proficiency value that changes each time using an ability (and resets on Rest).
+- Any other glitchiness can usually be fixed by opening/closing inventory, or waiting a few extra seconds. Resting will also reset the internal values.

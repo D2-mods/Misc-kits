@@ -1,0 +1,254 @@
+/*
+build HLA tables
+requires hlatables.tph, hlatables2.tph, hlacopyclass.tph
+functions: d2_2da_find_row.tpa, d2_add_hla_string.tpa
+*/
+
+
+//abbrev is entry in luabbr
+//copyclass is class to copy hlas from (as listed in luabbr)
+//restrict is ABILITY entry to ignore when copying (can be list, include the GA_ or AP_)
+
+DEFINE_ACTION_FUNCTION d2_updatehlas STR_VAR abbrev=~~ copyclass=~~ restrict=~~ BEGIN
+  OUTER_TEXT_SPRINT hlatable  ~lu%abbrev%~
+  INCLUDE ~%install%/hlacopyclass.tph~
+END
+
+
+//clone hla tables
+OUTER_TEXT_SPRINT prefix ~d2mk~
+INCLUDE ~%install%/hlatables2.tph~
+
+
+
+//
+//jesterblade - remove shohy lingering song (added back later)
+OUTER_TEXT_SPRINT spell  ~AP_BI#B1ST~
+ACTION_FOR_EACH kit IN ~d2jesterblade~ BEGIN
+  ACTION_PHP_EACH d2_hla_tableres_array AS kit2 => abbrev BEGIN
+    ACTION_IF (~%kit%~ STR_EQ ~%kit2%~) BEGIN
+
+  OUTER_TEXT_SPRINT hlatable ~lu%abbrev%~
+  ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~%spell%~) BEGIN
+    LAF 2da_find_row_delete INT_VAR col_read=1 STR_VAR 2da=~%hlatable%~ row_name=~%spell%~ END
+  END
+
+    END
+  END
+END
+
+
+//
+//check abilities
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_checkhlas BEGIN    // kit => class (can be a list)
+  d2kensaizerker => kensai
+  d2monastery    => fighter
+  d2jesterblade  => jester
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_restricthlas BEGIN    // abilities to skip (can be a list)
+  d2kensaizerker => GA_SPCL144
+  d2monastery    => ~GA_SPCL904 AP_DW-FTMTY AP_DW-FTDDL AP_DW-GCRY~
+  d2jesterblade  => none
+END
+
+ACTION_PHP_EACH d2mk_checkhlas AS kit => class BEGIN
+  ACTION_PHP_EACH d2_hla_tableres_array AS kit2 => abbrev BEGIN
+    ACTION_IF (~%kit%~ STR_EQ ~%kit2%~) BEGIN
+      ACTION_PHP_EACH d2mk_restricthlas AS kit3 => restrict BEGIN
+        ACTION_IF (~%kit%~ STR_EQ ~%kit3%~) BEGIN
+
+  ACTION_PHP_EACH d2_luabbr_classes AS copy => table BEGIN
+    ACTION_IF !(~%class%~ STRING_CONTAINS_REGEXP ~%copy%~) BEGIN
+      LAF d2_updatehlas STR_VAR abbrev=~%abbrev%~ copyclass=~%copy%~ restrict=~%restrict%~ END
+    END
+  END
+
+        END
+      END
+    END
+  END
+END
+
+
+//
+//remove if detected
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_kit BEGIN    // kit => res (can be a list)
+  d2kensaizerker => ~AP_DW-FTDDL~
+  d2monastery    => ~GA_c0mn#h05 GA_c0mn#h06 GA_c0mn#h07 AP_c0mn#h14 GA_TG#TIGS~
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_res BEGIN    // ability => mod (right side not used)
+  AP_DW-FTDDL  => delete    // ToF Deadly Aim
+  GA_#BARD1    => delete    // IWD songs (not deleted, using ToF edit below)
+  GA_#BARD2    => delete
+  GA_#BARD3    => delete
+  GA_#BARD4    => delete
+  GA_#BARD5    => delete
+  GA_#BARD6    => delete
+  GA_c0mn#h05  => delete    // artisan fist HLAs
+  GA_c0mn#h06  => delete
+  GA_c0mn#h07  => delete
+  AP_c0mn#h14  => delete
+  GA_TG#TIGS   => delete    // tof tiger strike (keep smite instead)
+END
+
+ACTION_PHP_EACH d2mk_removehlas_kit AS kit => res BEGIN
+  ACTION_PHP_EACH d2_hla_tableres_array AS kit2 => abbrev BEGIN
+    ACTION_IF (~%kit%~ STR_EQ ~%kit2%~) BEGIN
+
+  OUTER_TEXT_SPRINT hlatable ~lu%abbrev%~
+  COPY_EXISTING ~%hlatable%.2da~ ~override~
+    PHP_EACH d2mk_removehlas_res AS ability => delete BEGIN
+      PATCH_IF !(~%res%~ STRING_CONTAINS_REGEXP ~%ability%~) BEGIN
+        PATCH_IF (RESOURCE_CONTAINS ~%hlatable%.2da~  ~[^0-9^a-z]%ability%[^0-9^a-z]~) BEGIN
+          LPF 2da_find_row_delete INT_VAR col_read=1 STR_VAR row_name=~%ability%~ END
+        END
+      END
+    END
+    LPF d2_add_hla_string INT_VAR renumber=1 END
+  BUT_ONLY
+
+    END
+  END
+END
+
+
+//
+//remove if a mod equivalent is detected
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_replacehlas_kit BEGIN    // kit => res
+  d2jesterblade => ~AP_BI#B2SS~
+  d2monastery   => ~GA_SPCL907~
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_replacehlas_res BEGIN    // res => mod
+  AP_BI#B2SS => ~AP_BI#B3SS~    // shohy hla songs
+  GA_SPCL907 => ~GA_TG#CHNT~    // hardiness
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_replacehlas_mod BEGIN    // mod => list
+  AP_BI#B3SS => replace
+  GA_TG#CHNT => replace
+END
+
+ACTION_PHP_EACH d2mk_replacehlas_kit AS kit => res BEGIN
+  ACTION_PHP_EACH d2_hla_tableres_array AS kit2 => abbrev BEGIN
+    ACTION_IF (~%kit%~ STR_EQ ~%kit2%~) BEGIN
+
+  OUTER_TEXT_SPRINT hlatable ~lu%abbrev%~
+  COPY_EXISTING ~%hlatable%.2da~ ~override~
+    PHP_EACH d2mk_replacehlas_res AS oldspell => list BEGIN
+      PATCH_IF !(~%res%~ STRING_CONTAINS_REGEXP ~%oldspell%~) BEGIN
+    PHP_EACH d2mk_replacehlas_mod AS newspell => replace BEGIN
+      PATCH_IF !(~%list%~ STRING_CONTAINS_REGEXP ~%newspell%~) BEGIN
+
+        PATCH_IF (RESOURCE_CONTAINS ~%hlatable%.2da~  ~[^0-9^a-z]%newspell%[^0-9^a-z]~) BEGIN
+        PATCH_IF (RESOURCE_CONTAINS ~%hlatable%.2da~  ~[^0-9^a-z]%oldspell%[^0-9^a-z]~) BEGIN
+          LPF 2da_find_row_delete INT_VAR col_read=1 STR_VAR row_name=~%oldspell%~ END
+        END
+        END
+
+          END
+        END
+      END
+    END
+    LPF d2_add_hla_string INT_VAR renumber=1 END
+  BUT_ONLY
+
+    END
+  END
+END
+
+
+//
+//add extra or missing abilities
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_bonushlas_res BEGIN
+  d2jesterblade => ~GA_SPCL900 GA_SPCL910 GA_SPCL911 GA_RR#THL04 GA_SPCL912~
+  d2monastery   => ~GA_TG#GKAI~
+END
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_bonushlas_class BEGIN
+  GA_SPCL900  => fighter       // whirlwind
+  GA_SPCL910  => thief         // spike trap
+  GA_SPCL911  => thief         // exploding trap (if removed by a tweak)
+  GA_RR#THL04 => thief         // rr acid trap
+  GA_SPCL912  => mage_thief    // time trap
+  GA_TG#GKAI  => kensai        // tg true kai
+END
+
+ACTION_PHP_EACH d2mk_bonushlas_res AS kit => res BEGIN
+  ACTION_PHP_EACH d2_hla_tableres_array AS kit2 => abbrev BEGIN
+    ACTION_IF (~%kit%~ STR_EQ ~%kit2%~) BEGIN
+      ACTION_PHP_EACH d2mk_bonushlas_class AS ability => class BEGIN
+        ACTION_IF !(~%res%~ STRING_CONTAINS_REGEXP ~%ability%~) BEGIN
+
+  ACTION_PHP_EACH d2_luabbr_classes AS class2 => table BEGIN
+    ACTION_IF (~%class%~ STR_EQ ~%class2%~) BEGIN
+      OUTER_TEXT_SPRINT hlatable ~lu%abbrev%~
+      OUTER_TEXT_SPRINT copytable ~lu%table%~
+      ACTION_IF (RESOURCE_CONTAINS ~%copytable%.2da~ ~[^0-9^a-z]%ability%[^0-9^a-z]~) BEGIN
+        ACTION_IF !(RESOURCE_CONTAINS ~%hlatable%.2da~ ~[^0-9^a-z]%ability%[^0-9^a-z]~) BEGIN
+          LAF d2_get_hla_string STR_VAR clone_res=~%ability%~ clone_2da=~%copytable%~ RET hlastring END
+          LAF d2_add_hla_string STR_VAR hlatable=~%hlatable%~ hlastring=~%hlastring%~ END
+        END
+      END
+    END
+  END 
+
+        END
+      END
+    END
+  END
+END
+
+
+
+//
+//edits for ToF HLA file (m_dw_hld.lua)
+
+//backup lua file
+ACTION_IF (FILE_EXISTS_IN_GAME ~m_dw_hld.lua~) BEGIN
+  ACTION_IF !(FILE_EXISTS ~weidu_external/d2wk/m_dw_hld.lua~) BEGIN
+    COPY_EXISTING ~m_dw_hld.lua~  ~weidu_external/d2wk/m_dw_hld.lua~
+  END
+END
+
+
+//class changes
+COPY_EXISTING ~m_dw_hld.lua~  ~override~
+
+  // turn undead fix
+  PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_RES%.lua~  ~\[3\]=2~) BEGIN
+    LPF d2_tof_addhlaclass STR_VAR string=~[3]=2~ ability=~DW-FTIMT~ END    // using "=2" because string not in file
+  END
+
+  // monk edits (use fighter levels)
+  PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_RES%.lua~  ~\[20\]=8~) BEGIN
+    LPF d2_tof_addhlaclass STR_VAR string=~[20]=8~ ability=~DW-FTICM~ END    // melee crits
+    LPF d2_tof_addhlaclass STR_VAR string=~[20]=8~ ability=~DW-FTICR~ END    // ranged crits
+//    LPF d2_tof_addhlaclass STR_VAR string=~[20]=4~ ability=~DW-FTMTY~ END    // melee damage
+//    LPF d2_tof_addhlaclass STR_VAR string=~[20]=4~ ability=~DW-FTDDL~ END    // ranged damage
+    LPF d2_tof_addhlaclass STR_VAR string=~[20]=5~ ability=~DW-FTDIR~ END    // dirty fighting
+  END
+
+IF_EXISTS BUT_ONLY
+
+
+//kit changes
+COPY_EXISTING ~m_dw_hld.lua~  ~override~
+
+  // give jesterblade any blade abilities
+  PATCH_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2jesterblade~) BEGIN
+    LPF d2_get_kitnum STR_VAR kit=d2jesterblade RET kitnum END
+    PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_RES%.lua~  ~\[%kitnum%\]={\[5\]=3}~) BEGIN
+      FOR (level=1; level < 20; ++level) BEGIN
+        LPF d2_tof_addhlakit STR_VAR string=EVAL ~[%kitnum%]={[5]=%level%}~ match=EVAL ~[13]={[5]=%level%}~ END
+      END
+    END
+  END
+
+IF_EXISTS BUT_ONLY
+
+
+//
+//

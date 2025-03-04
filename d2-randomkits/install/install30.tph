@@ -1,0 +1,64 @@
+/*
+Update hlas for all
+Update profs for monastery swordsman
+Update mod compat for Jesterblade
+*/
+
+
+//
+INCLUDE ~%install%/weapontypes.tph~
+INCLUDE ~%install%/weapontypes2.tph~
+INCLUDE ~%install%/clabprep.tph~
+INCLUDE ~%install%/classchecks.tph~
+INCLUDE ~%install%/hlatables.tph~
+
+//
+INCLUDE ~%install%/hlaupdatermk1.tph~
+INCLUDE ~%install%/weapprofbasemk1.tph~
+
+
+//Kensaizerker (d2mk1)
+ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2kensaizerker~) BEGIN
+  OUTER_TEXT_SPRINT kitid ~d2mk1~
+  OUTER_TEXT_SPRINT kitname ~KENSAIZERKER~
+  INCLUDE ~%install%/variables.tph~
+  OUTER_TEXT_SPRINT enrage        ~%s1%~
+  OUTER_TEXT_SPRINT enrage_mod    ~%@1%~
+  OUTER_TEXT_SPRINT enrage_base   ~SPCL321~
+END
+
+//Monastery Swordsman (d2mk2)
+ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2monastery~) BEGIN
+  OUTER_TEXT_SPRINT kitid ~d2mk2~
+  OUTER_TEXT_SPRINT kitname ~MONASTERY~
+  INCLUDE ~%install%/variables.tph~
+  INCLUDE ~%install%/%kitname%profs.tph~
+
+  // set Bubb's Menu level
+  ACTION_FOR_EACH spell IN ~%s1%~ ~%s2%~ ~%s3%~ ~%s4%~ BEGIN
+    COPY_EXISTING ~%spell%.SPL~  ~override~
+      WRITE_LONG 0x34 monastery_row    // "level" offset (row for Bubb's Spell Menu)
+    IF_EXISTS BUT_ONLY
+  END
+END
+
+//Jesterblade (d2mk3)
+ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2jesterblade~) BEGIN
+  OUTER_TEXT_SPRINT kitid ~d2mk3~
+  OUTER_TEXT_SPRINT kitname ~JESTERBLADE~
+  INCLUDE ~%install%/variables.tph~
+  INCLUDE ~%install%/%kitname%rr.tph~
+
+  //check Blade passives
+  COPY_EXISTING ~%kitid%.2da~  ~override~
+    LPF blade_passives END    // from clabprep.tpa
+  BUT_ONLY
+END
+
+
+//
+INCLUDE ~%install%/castingspeed.tph~
+
+
+//
+//

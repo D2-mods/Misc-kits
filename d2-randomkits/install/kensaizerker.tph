@@ -4,11 +4,9 @@
 //prep
 ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
   OUTER_SET enrage_desc = RESOLVE_STR_REF (@200)
-  OUTER_SET enrage_warn = RESOLVE_STR_REF (@301)
   OUTER_SET kensaizerker_desc = RESOLVE_STR_REF (@10103)
 END ELSE BEGIN
   OUTER_SET enrage_desc = RESOLVE_STR_REF (@99200)
-  OUTER_SET enrage_warn = RESOLVE_STR_REF (@99301)
   OUTER_SET kensaizerker_desc = RESOLVE_STR_REF (@9910103)
 END
 
@@ -19,77 +17,20 @@ COPY ~%passives%/speedfactorkensai.SPL~  ~override/%e2%.SPL~
 COPY ~%passives%/acbonus2.SPL~           ~override/%e3%.SPL~ 
 
 
-//clone existing Enrage if not modified
-ACTION_IF (FILE_EXISTS_IN_GAME ~SPCL321D.SPL~) BEGIN
-  ACTION_IF !(FILE_EXISTS ~override/SPCL321.SPL~) BEGIN
-    COPY_EXISTING ~SPCL321.SPL~   ~override/%s1%.SPL~
-    COPY_EXISTING ~SPCL321D.SPL~  ~override/%s1%a.SPL~
-  END
-END
-
-//or add new files
-ACTION_IF !(FILE_EXISTS ~override/%s1%.SPL~) BEGIN
-  COPY ~%abilities%/enrage.SPL~  ~override/%s1%.SPL~
-  COPY ~%abilities%/winded.SPL~  ~override/%s1%a.SPL~
-END
-
-
-//Update stuff on Enrage
-COPY_EXISTING ~%s1%.SPL~  ~override~
+//add Enrage
+COPY ~%abilities%/applyeffects.SPL~  ~override/%s1%.SPL~
   SAY NAME1 @100
   WRITE_LONG 0x50 enrage_desc
-
-  LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=SPCL321 END
-  LPF DELETE_EFFECT INT_VAR match_opcode=139 END
-  LPF DELETE_EFFECT INT_VAR match_opcode=338 END
-  LPF ADD_SPELL_EFFECT INT_VAR opcode=139 target=1 parameter1=RESOLVE_STR_REF (@300) END    // 15 damage info
-
-  LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=12 STR_VAR insert=last END
-  LPF CLONE_EFFECT STR_VAR match_resource=SPCL321D resource=~%s1%a~ insert=last END
-  LPF DELETE_EFFECT INT_VAR multi_match=1 match_opcode=12 END
-  LPF DELETE_EFFECT STR_VAR match_resource=SPCL321D END
-
-  PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
-    LPF d2_remove_effects_on_cast STR_VAR resource=~%s1%~ END
-    LPF d2_remove_effects_on_cast STR_VAR resource=~%s1%a~ END
-    LPF CLONE_EFFECT INT_VAR match_opcode=12 opcode=321 timing=4 duration=61 parameter2=0 STR_VAR resource=~%s1%~ END
-    LPF d2_string_immunities END
-    LPF ee_fixpack_immunities STR_VAR status=~charm conf fear stun hold feeble sleep~ END
-  END
-  ELSE BEGIN    // if classic BG2 engine
-    WRITE_ASCII 0x3a ~SPIN117~ #8
-    WRITE_ASCII 0x76 ~SPIN117~ #8
-    LPF DELETE_EFFECT INT_VAR match_opcode=321 END
-    LPF DELETE_EFFECT INT_VAR match_opcode=328 END
-    LPF ADD_SPELL_EFFECT INT_VAR opcode=206 target=1 parameter1=RESOLVE_STR_REF (@302) duration=60 STR_VAR resource=~%s1%~ END
-  END
-BUT_ONLY
-
-
-//Update stuff on Winded effect
-COPY_EXISTING ~%s1%a.SPL~  ~override~
-  LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=139 parameter1=enrage_warn END    // 15 damage info
-  LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=SPCL321 END
-
-  PATCH_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
-    LPF d2_remove_effects_on_cast END
-    LPF d2_remove_effects_on_cast STR_VAR resource=~SPCL321D~ END
-    LPF d2_remove_effects_on_cast STR_VAR resource=~d2ham01c~ END
-//    LPF CLONE_EFFECT INT_VAR match_opcode=321 opcode=318 timing=0 duration=30 STR_VAR insert=last END
-  END ELSE BEGIN
-    LPF DELETE_EFFECT INT_VAR match_opcode=328 END
-    LPF ADD_SPELL_EFFECT INT_VAR opcode=206 target=1 parameter1=RESOLVE_STR_REF (@302) duration=30 STR_VAR resource=~%s1%~ END
-  END
-BUT_ONLY
-
-
-//backup Enrage
-COPY ~override/%s1%.SPL~  ~override/%m1%.SPL~
+  WRITE_ASCII 0x3a SPIN117B #8
+  LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=SPIN117B END
+  LPF ALTER_EFFECT STR_VAR resource=d2rageb END    // cast Enrage (enrageprep.tph)
+//  WRITE_LONG 0x18 THIS | BIT9    // break sanctuary (use IWD rules, keep invis)
+  WRITE_SHORT 0x1c 4
 
 
 //Make clab table
 COPY ~inlined/d2clab_fighter~  ~override/%kitid%.2DA~
-  LPF clab_cleanup STR_VAR type=melee END
+  LPF d2clab_artisancheck STR_VAR type=melee END
   LPF d2_kit_ability_adder INT_VAR multi=1 increment=4 STR_VAR resource=~%s1%~ END
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e1%~ END
   LPF d2_kit_ability_adder INT_VAR level=4 passive=1 multi=1 increment=4 STR_VAR resource=~%e2%~ END
@@ -115,45 +56,36 @@ LAF ADD_KIT_EX
 END
 
 
+//backup Enrage
+COPY ~override/%s1%.SPL~  ~override/%@1%.SPL~
+
+
+//hla table
+OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+LAF d2_hla_baseclass STR_VAR kit=~%ids_name%~ class=berserker END
+LAF d2_hla_tableres STR_VAR kit=~%ids_name%~ abbrev=~%kitid%~ END
+//LAF d2_clone_hla_table STR_VAR kitids=~%ids_name%~ copy=berserker abbrev=~%kitid%~ RET hlatable END
+
+
+/*old version
 //use berserker HLA table (same as base fighter in unmodded game)
 COPY_EXISTING ~luabbr.2da~  ~override~
   LPF d2_get_2da_entry STR_VAR row_name=berserker col_name=abbrev RET entry END
   LPF d2_edit_2da_entry STR_VAR row_name=~D2%kitname%~ col_name=abbrev entry=~%entry%~ END
 BUT_ONLY
+*/
 
 
 //Gains kensai/berserker effects from items
 OUTER_TEXT_SPRINT kit_group ~kensai berserker~
 OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
-
-ACTION_PHP_EACH item_kit_effects AS item => class BEGIN
-  ACTION_IF !(~%kit_group%~ STRING_CONTAINS_REGEXP ~%class%~) BEGIN
-    ACTION_FOR_EACH res IN ~SPL~ ~ITM~ BEGIN
-      ACTION_IF (FILE_EXISTS_IN_GAME ~%item%.%res%~) BEGIN
-        COPY_EXISTING ~%item%.%res%~  ~override~
-          PHP_EACH kit_ids_array AS class2 => eff_to_copy BEGIN
-            PATCH_IF (~%class%~ STR_EQ ~%class2%~) BEGIN
-              LPF CLONE_EFFECT 
-                INT_VAR 
-                  silent            = 1
-                  match_opcode      = 177 
-                  match_parameter1  = %eff_to_copy%
-                  match_parameter2  = 9 
-                  parameter1        = IDS_OF_SYMBOL (kit ~%ids_name%~)
-              END
-            END
-          END
-        BUT_ONLY
-      END
-    END
-  END
-END
+INCLUDE ~%install%/beamdogitems.tph~
 
 
 //Set variables for external use
 OUTER_TEXT_SPRINT kensaizerker  ~%kitid%~
 OUTER_TEXT_SPRINT enrage        ~%s1%~
-OUTER_TEXT_SPRINT enrage_mod    ~%m1%~
+OUTER_TEXT_SPRINT enrage_mod    ~%@1%~
 OUTER_TEXT_SPRINT enrage_base   ~SPCL321~
 
 

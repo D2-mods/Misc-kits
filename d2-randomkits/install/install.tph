@@ -4,8 +4,12 @@ Install kits
 
 
 //Prep
+INCLUDE ~%install%/weapontypes.tph~
+INCLUDE ~%install%/weapontypes2.tph~
 INCLUDE ~%install%/clabprep.tph~
-INCLUDE ~%install%/monkprep.tph~
+INCLUDE ~%install%/classchecks.tph~
+INCLUDE ~%install%/hlatables.tph~
+INCLUDE ~%install%/enrageprep.tph~
 
 
 //Kensaizerker (d2mk1)
@@ -14,19 +18,20 @@ ACTION_IF (nokensaizerker = 0) BEGIN
   OUTER_TEXT_SPRINT kitname ~KENSAIZERKER~
   INCLUDE ~%install%/variables.tph~
   INCLUDE ~%install%/%kitname%.tph~
-  INCLUDE ~%install%/%kitname%lu.tph~
 END
 
 
 //Monastery Swordsman (d2mk2)
 ACTION_IF (nomonastery = 0) BEGIN
-ACTION_IF (GAME_IS ~bgee bg2ee iwdee eet~) BEGIN
+ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk2~
   OUTER_TEXT_SPRINT kitname ~MONASTERY~
   INCLUDE ~%install%/variables.tph~
   INCLUDE ~%install%/resources.tph~
   INCLUDE ~%install%/%kitname%.tph~
-  INCLUDE ~%install%/%kitname%ki.tph~    // ki pool
+  INCLUDE ~%install%/%kitname%ki.tph~
+  INCLUDE ~%install%/%kitname%config.tph~
+  INCLUDE ~%install%/%kitname%profs.tph~
 END
 END
 
@@ -41,8 +46,10 @@ ACTION_IF (nojesterblade = 0) BEGIN
 END
 
 
-//End stuff
+//
+INCLUDE ~%install%/hlaupdatermk1.tph~
 INCLUDE ~%install%/castingspeed.tph~
+INCLUDE ~%install%/bg2opcodecheck.tph~
 
 
 /*
