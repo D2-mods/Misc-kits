@@ -13,6 +13,17 @@
 @650 = ~Remarque : Le chant du barde peut être utilisé à volonté et dure 6 rounds + 1 round par tranche de 5 niveaux. Néanmoins un temps de récupération de 1 tour est nécessaire avant de pouvoir chanter à nouveau.~    // for Bardic Wonders (song mechanics tweak)
 
 
+//Ki Energy feedback
+@543601 = ~1 point d'énergie mystique restauré~
+@543602 = ~Énergie mystique insuffisante !~
+@543610 = ~Ki Energy Config~
+@543611 = ~Use this ability to select one of the following options:~
+@543612 = ~Masquer les informations visuelles~
+@543613 = ~Montrer les informations visuelles~
+@543614 = ~Supprimer la configuration (permanent)~
+@543615 = ~– ~    // en dash (Config description)
+
+
 //Kensaizerker
 @10101 = ~Kensaizerker~
 @10102 = ~kensaizerker~

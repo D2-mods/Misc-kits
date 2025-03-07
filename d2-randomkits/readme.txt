@@ -1,4 +1,8 @@
 GitHub: https://github.com/D2-mods/Misc-kits
+Download: https://github.com/D2-mods/Misc-kits/releases
+Languages: English, French (JohnBob)
+
+--
 
 Overview:
 - Compatible with EEs and classic BG2 engine.
@@ -62,7 +66,9 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 
 v3.0
-- Changed Monastery Swordsman to use the Ki Energy system (also used by Medic from Workshop Kitpack). This is a regenerating ability points system. It works seamlessly with Bubb's Spell Menu (one of the main reasons I wrote my own system). See kit description.
+- Changed Monastery Swordsman to use the Ki Energy system (also used by Medic from Workshop Kitpack). This is a regenerating ability points system. It works seamlessly with Bubb's Menu overlay mode (one of the main reasons I made my own system). See kit description. Ki/ability progression is different than with v2.x versions.
+- BG2 (classic): Fixed issues with default Enrage option caused by recent effects structure changes. (Enrage was missing ability icon, Winded icon/text was not displaying)
+- Tweaked visuals for Monastery Swordsman's Element weapon abilities. The wind and moon ones also play a visual on hit now, instead of looking like a normal hit. Wind hit is also delayed 1 second to time with visual.
 
 v2.16
 - Kit Updater: Fixed issue where the updater was removing tweaks to the Jesterblade's clab/abilities table. Now, anything not accounted for is left untouched by the updater.
@@ -72,11 +78,11 @@ v2.16
 - Compat fixes with Shohy's bard mod (hide 2 weapon prof, fixed Lingering Song HLA being unselectable).
 
 v2.15
-- Talents of Faerun notes:
-	- Kit Updater now does some specific ToF patching. Updates HLA lists, mod compat for Jesterblade, and proficiencies for Monastery Swordsman. Run the Kit Updater any time after ToF to update.
-	- Jesterblade can now select Blade-only abilities at same level as Blade. It can also now select IWD songs (similar to Blade and Jester kits).
-	- if ToF selectable songs are detected, the Jesterblade's song will also give an ability to switch to it. Selectable songs are added if you install IWD songs + minor/high level abilities.
-	- Monastery Swordsman can now learn Improved Criticals and Dirty Fighting at same level as fighter.
+Talents of Faerun notes:
+- Kit Updater now does some specific ToF patching. Updates HLA lists, mod compat for Jesterblade, and proficiencies for Monastery Swordsman. Run the Kit Updater any time after ToF to update.
+- Jesterblade can now select Blade-only abilities at same level as Blade. It can also now select IWD songs (similar to Blade and Jester kits).
+- if ToF selectable songs are detected, the Jesterblade's song will also give an ability to switch to it. Selectable songs are added if you install IWD songs + minor/high level abilities.
+- Monastery Swordsman can now learn Improved Criticals and Dirty Fighting at same level as fighter.
 
 v2.14
 - Changed "Update HLAs" component to "Kit Updater". It now also updates the Monastery Swordsman's HLAs and proficiencies if relevant tweaks were installed after this mod. This component can be re-run at any time.

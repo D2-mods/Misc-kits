@@ -14,6 +14,7 @@ ACTION_IF (ee_game > 0) BEGIN
 END ELSE BEGIN
   OUTER_SET winded_warn = RESOLVE_STR_REF (@99301)    // 15 damage info (classic BG2)
 END
+OUTER_SET norecast = RESOLVE_STR_REF (@302)    // used for classic BG2
 
 OUTER_SET make_d2rage20 = 0    // 2 turns version (test functions)
 OUTER_SET make_d2ragef  = 1    // 8 round no visual (for Frenzy)
@@ -69,6 +70,7 @@ ACTION_IF (build_d2rage > 0) BEGIN
     END ELSE BEGIN
       LPF CLONE_EFFECT INT_VAR silent=1 STR_VAR match_resource=SPCL321 resource=d2rageb insert=last END
       LPF DELETE_EFFECT STR_VAR match_resource=SPCL321 END
+      LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=norecast STR_VAR match_resource=d2rageb END
     END
 
     PATCH_IF (GAME_IS ~pst pstee~) BEGIN
@@ -91,7 +93,8 @@ ACTION_IF (build_d2rage > 0) BEGIN
       LPF DELETE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=SPCL321 END
       LPF d2_remove_effects_on_cast END
     END ELSE BEGIN
-      LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=SPCL321 resource=d2ragew END
+      LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=SPCL321 resource=d2rageb END
+      LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=norecast STR_VAR match_resource=d2rageb END
     END
   BUT_ONLY
 

@@ -17,12 +17,18 @@ COPY ~%passives%/speedfactorkensai.SPL~  ~override/%e2%.SPL~
 COPY ~%passives%/acbonus2.SPL~           ~override/%e3%.SPL~ 
 
 
+//get icon
+OUTER_TEXT_SPRINT enrage_icon ~SPIN117B~
+COPY_EXISTING - ~SPCL321.spl~  ~~
+  READ_ASCII 0x76 enrage_icon (8)
+IF_EXISTS
+
 //add Enrage
 COPY ~%abilities%/applyeffects.SPL~  ~override/%s1%.SPL~
   SAY NAME1 @100
   WRITE_LONG 0x50 enrage_desc
-  WRITE_ASCII 0x3a SPIN117B #8
-  LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=SPIN117B END
+  WRITE_ASCII 0x3a ~%enrage_icon%~ #8
+  LPF ALTER_SPELL_HEADER INT_VAR target=5 STR_VAR icon=~%enrage_icon%~ END
   LPF ALTER_EFFECT STR_VAR resource=d2rageb END    // cast Enrage (enrageprep.tph)
 //  WRITE_LONG 0x18 THIS | BIT9    // break sanctuary (use IWD rules, keep invis)
   WRITE_SHORT 0x1c 4

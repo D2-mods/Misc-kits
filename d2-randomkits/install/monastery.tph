@@ -15,7 +15,7 @@ COPY ~%passives%/nobowslingdart.SPL~  ~override/%e2%.SPL~
 //
 //prep for elemental abilities
 COPY - ~%abilities%/blazingweapon.SPL~  ~inlined/d2elementweapon.SPL~
-  LPF ALTER_SPELL_HEADER INT_VAR header=1 new_header_type=1 END
+  LPF ALTER_SPELL_HEADER INT_VAR header=1 new_header_type=1 speed=0 END
   LPF DELETE_SPELL_HEADER INT_VAR header_type=3 END
   LPF ALTER_EFFECT INT_VAR match_duration=6 duration=24 END
   LPF ALTER_EFFECT INT_VAR match_opcode=321 opcode=326 STR_VAR resource=~%s1%x~ END
@@ -26,11 +26,13 @@ COPY ~%abilities%/removespelleffects.SPL~  ~override/%s1%x.SPL~
   LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s3%~ END
   LPF CLONE_EFFECT INT_VAR multi_match=1 STR_VAR resource=~%s4%~ END
 
-COPY ~%abilities%/blazingweapon.EFF~  ~override/%s1%.EFF~    // fire
+COPY ~%abilities%/blazingweapon.EFF~  ~override/%s1%a.EFF~    // fire
   WRITE_SHORT 0x22 8
-COPY ~%abilities%/blazingweapon.EFF~  ~override/%s3%.EFF~    // slashing
+COPY ~%abilities%/blazingweapon.EFF~  ~override/%s3%a.EFF~    // slashing
   WRITE_SHORT 0x22 256
-COPY ~%abilities%/blazingweapon.EFF~  ~override/%s4%.EFF~    // magic
+  WRITE_LONG 0x24 4    // delay 1 second (hits at end of swirl)
+  WRITE_LONG 0x28 1
+COPY ~%abilities%/blazingweapon.EFF~  ~override/%s4%a.EFF~    // magic
   WRITE_SHORT 0x22 64
 
 COPY ~%icons%/elementweapon.BAM~  ~override/%s1%i.BAM~
@@ -39,15 +41,42 @@ COPY ~%icons%/monasterywind.BAM~  ~override/%s3%.BAM~
 COPY ~%icons%/monasterymoon.BAM~  ~override/%s4%.BAM~
 
 
+//casting visual
+COPY ~%abilities%/elementweapon.VVC~  ~override/%s1%s.VVC~    // fire
+  WRITE_ASCII 0x8 ~%s1%s~ #8
+COPY ~%abilities%/elementweapon.VVC~  ~override/%s3%s.VVC~    // wind
+  WRITE_ASCII 0x8 ~%s3%s~ #8
+COPY ~%abilities%/elementweapon.VVC~  ~override/%s4%s.VVC~    // moon
+  WRITE_ASCII 0x8 ~%s4%s~ #8
+
+COPY ~%abilities%/elementfire.BAM~  ~override/%s1%s.BAM~
+COPY ~%abilities%/elementwind.BAM~  ~override/%s3%s.BAM~
+COPY ~%abilities%/elementmoon.BAM~  ~override/%s4%s.BAM~
+
+//hit visuals
+COPY ~%abilities%/applyeffects.EFF~  ~override/%s3%b.EFF~    // wind
+  WRITE_LONG  0x10 215
+  WRITE_ASCII 0x30 ~%s3%b~ #8
+COPY ~%abilities%/applyeffects.EFF~  ~override/%s4%b.EFF~    // moon
+  WRITE_LONG  0x10 215
+  WRITE_ASCII 0x30 ~%s4%b~ #8
+
+COPY ~%abilities%/swirlwind.VVC~  ~override/%s3%b.VVC~
+COPY ~%abilities%/swirlmoon.VVC~  ~override/%s4%b.VVC~
+  WRITE_ASCII 0x8 ~%s4%b~ #8
+COPY ~%abilities%/swirlmoon.BAM~  ~override/%s4%b.BAM~
+
+
 //
 //add elemental abilities
 LAF d2_portrait_icon INT_VAR name=RESOLVE_STR_REF (@101) STR_VAR bam=~%s1%i~ RET icon END
 COPY ~inlined/d2elementweapon.SPL~  ~override/%s1%.SPL~
   SAY NAME1 @101
   SAY UNIDENTIFIED_DESC @201
-  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s1%~ END
+  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s1%a~ END
   LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=%icon% END
   LPF ALTER_EFFECT INT_VAR match_opcode=141 parameter2=22 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=~%s1%s~ END
   WRITE_ASCII 0x3a ~%s1%~ #8
   WRITE_ASCII 0x76 ~%s1%~ #8
 
@@ -55,9 +84,11 @@ LAF d2_portrait_icon INT_VAR name=RESOLVE_STR_REF (@103) STR_VAR bam=~%s1%i~ RET
 COPY ~inlined/d2elementweapon.SPL~  ~override/%s3%.SPL~
   SAY NAME1 @103
   SAY UNIDENTIFIED_DESC @203
-  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s3%~ END
+  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s3%a~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s3%b~ END    // hit visual
   LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=%icon% END
   LPF ALTER_EFFECT INT_VAR match_opcode=141 parameter2=14 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=~%s3%s~ END
   WRITE_ASCII 0x3a ~%s3%~ #8
   WRITE_ASCII 0x76 ~%s3%~ #8
 
@@ -65,9 +96,11 @@ LAF d2_portrait_icon INT_VAR name=RESOLVE_STR_REF (@104) STR_VAR bam=~%s1%i~ RET
 COPY ~inlined/d2elementweapon.SPL~  ~override/%s4%.SPL~
   SAY NAME1 @104
   SAY UNIDENTIFIED_DESC @204
-  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s4%~ END
+  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s4%a~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s4%b~ END    // hit visual
   LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=%icon% END
   LPF ALTER_EFFECT INT_VAR match_opcode=141 parameter2=6 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=~%s4%s~ END
   WRITE_ASCII 0x3a ~%s4%~ #8
   WRITE_ASCII 0x76 ~%s4%~ #8
 
@@ -87,6 +120,7 @@ COPY ~%abilities%/sever.SPL~  ~override/%s2%.SPL~
   LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%a~ END    // damage
   LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%b~ END    // vorpal
   LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=%icon% END
+  LPF d2_mindamageboost INT_VAR amount=3 duration=12 END
 
 COPY ~%abilities%/applyeffects.EFF~   ~override/%s2%a.EFF~
   WRITE_ASCII 0x30 ~%s2%a~ #8
