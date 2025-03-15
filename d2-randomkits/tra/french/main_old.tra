@@ -56,16 +56,13 @@ Avantages :
 – Peut atteindre la grande maîtrise (5 points de compétence) avec les armes utilisable par les moines.
 – Peut se spécialiser (2 points de compétence) dans n'importe quel style de combat à une main, et allouer trois points de compétence dans le style de combat à deux armes.
 – Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
-– Peut utiliser l'énergie mystique afin d'activer ses capacités spéciales. Obtient 1 point par niveau d'expérience, jusqu'à un maximum de 20.
-– Régénération mystique : Cette capacité passive permet au moine de récupérer 1 point d'énergie mystique tout les 5 rounds.
+– Accumule une quantité de ki, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 tous les 3 niveaux, jusqu'à un maximum de 10 au niveau 30.
 
-– 3ème niveau : Peut utiliser la capacité « Souffle élémentaire : Brasier », nécessite 3 points d’énergie mystique.
-– 5ème niveau : Peut utiliser la capacité « Souffle élémentaire : Zéphyr », nécessite 3 points d’énergie mystique.
-– 7ème niveau : Peut utiliser la capacité « Souffle élémentaire : Lune », nécessite 3 points d’énergie mystique.
+– 3ème niveau : Peut utiliser les capacités élémentaires « Brasier », « Zéphyr. » ou « Lune » (Consomme une unité de ki).
 
 SOUFFLES ÉLÉMENTAIRES : Le moine canalise sa lumière intérieure, enveloppant ses armes d’énergie élémentaire. Ses attaques de mêlée infligent 2d6 points de dégâts de feu, tranchants ou magiques supplémentaires à chaque coup pendant 4 round. (Seul un élément à la fois peut être activé).
 
-– 13ème niveau : Peut utiliser la capacité « Vorpal », nécessite 6 points d’énergie mystique.
+– 13ème niveau : Peut utiliser la capacité « Vorpal » (Consomme une unité de ki).
 
 VORPAL : Un seul coup mais un coup mortel. La prochaine attaque réussie sous 2 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
 
@@ -114,7 +111,7 @@ Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à
 
 Les attaques de mêlée infligent 2d6 points de dégâts de feu à chaque coup pendant 4 round.
 
-Nécessite 3 points d’énergie mystique.
+Nécessite : une unité de ki
 
 (Un seul souffle élémentaire peut être activé à la fois)~
 
@@ -123,14 +120,14 @@ Nécessite 3 points d’énergie mystique.
 
 Un seul coup mais un coup mortel. La prochaine attaque réussie sous 2 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
 
-Nécessite 6 points d’énergie mystique.~
+Nécessite : une unité de ki~
 
 @103 = ~Souffle élémentaire : Zéphyr~
 @203 = ~Souffle élémentaire : Zéphyr
 
 Les attaques de mêlée infligent 2d6 points de dégâts tranchants à chaque coup pendant 4 round.
 
-Nécessite 3 points d’énergie mystique.
+Nécessite : une unité de ki
 
 (Un seul souffle élémentaire peut être activé à la fois)~
 
@@ -139,7 +136,7 @@ Nécessite 3 points d’énergie mystique.
 
 Les attaques de mêlée infligent 2d6 points de dégâts magiques à chaque coup pendant 4 round.
 
-Nécessite 3 points d’énergie mystique.
+Nécessite : une unité de ki
 
 (Un seul souffle élémentaire peut être activé à la fois)~
 

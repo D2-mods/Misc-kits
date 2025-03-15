@@ -1,0 +1,330 @@
+/*
+ranger kit version of Monastery Swordsman (d2mk2)
+this is for classic BG2 engine
+
+bg2opcodecheck.tph removes or edits any EE-only effects (if not changed in here)
+*/
+
+
+//Copy passive effects
+COPY ~%passives%/monkac.SPL~           ~override/%e3%.SPL~
+COPY ~%passives%/acbonus1.SPL~         ~override/%e4%.SPL~    // missile AC (not in monk clab, they get it somewhere else)
+  LPF ALTER_EFFECT INT_VAR parameter2=2 END
+COPY ~%passives%/hitdamage1.SPL~       ~override/%e5%.SPL~
+COPY ~%passives%/nocasting.SPL~        ~override/%e6%.SPL~
+COPY ~%passives%/fewerspells1.SPL~     ~override/%e7%.SPL~
+  LPF ALTER_EFFECT INT_VAR opcode=62 parameter2=127 END
+COPY ~%passives%/savebonus2spell.SPL~  ~override/%e8%.SPL~
+
+/*using kensai restrictions instead
+OUTER_SET note = RESOLVE_STR_REF (@303)    // "Cannot use item."
+COPY ~%passives%/restrictitembg2.SPL~  ~override/%e2%.SPL~
+  LPF ALTER_EFFECT INT_VAR parameter2=15 parameter1=note END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 parameter2=18 END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 parameter2=24 END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 parameter2=27 END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 parameter2=2 END    // armor
+  LPF CLONE_EFFECT INT_VAR multi_match=1 parameter2=7 END    // helmets
+  LPF CLONE_EFFECT INT_VAR multi_match=1 parameter2=12 END    // shields
+*/
+
+
+//
+//prep for elemental abilities
+COPY - ~%abilities%/blazingweapon.SPL~  ~inlined/d2elementweapon.SPL~
+  LPF ALTER_SPELL_HEADER INT_VAR header=1 new_header_type=1 speed=0 END
+  LPF DELETE_SPELL_HEADER INT_VAR header_type=3 END
+  LPF DELETE_EFFECT INT_VAR match_opcode=321 END
+  LPF ALTER_EFFECT INT_VAR match_duration=6 duration=24 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=SPUSEANY END
+  LPF ALTER_EFFECT INT_VAR target=2 resist_dispel=2 END
+
+COPY ~%abilities%/blazingweapon.EFF~  ~override/%s1%a.EFF~    // fire
+  WRITE_SHORT 0x22 8
+COPY ~%abilities%/blazingweapon.EFF~  ~override/%s3%a.EFF~    // slashing
+  WRITE_SHORT 0x22 256
+  WRITE_LONG 0x24 4    // delay 1 second (hits at end of swirl)
+  WRITE_LONG 0x28 1
+COPY ~%abilities%/blazingweapon.EFF~  ~override/%s4%a.EFF~    // magic
+  WRITE_SHORT 0x22 64
+
+//COPY ~%icons%/elementweapon.BAM~  ~override/%s1%i.BAM~
+COPY ~%icons%/monasteryfire.BAM~  ~override/%s1%.BAM~
+COPY ~%icons%/monasterywind.BAM~  ~override/%s3%.BAM~
+COPY ~%icons%/monasterymoon.BAM~  ~override/%s4%.BAM~
+
+DEFINE_PATCH_FUNCTION element_cooldown BEGIN
+  SPRINT ability_name @101
+  LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=206 parameter1=RESOLVE_STR_REF (@358) STR_VAR resource=~%s1%~ insert=last END
+  SPRINT ability_name @103
+  LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=206 parameter1=RESOLVE_STR_REF (@358) STR_VAR resource=~%s3%~ insert=last END
+  SPRINT ability_name @104
+  LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=206 parameter1=RESOLVE_STR_REF (@358) STR_VAR resource=~%s4%~ insert=last END
+  // move the one that blocks current spell to bottom
+  LPF CLONE_EFFECT INT_VAR match_opcode=206 STR_VAR match_resource=~%DEST_RES%~ insert=last END
+  LPF DELETE_EFFECT INT_VAR multi_match=1 match_opcode=206 STR_VAR match_resource=~%DEST_RES%~ END
+END
+
+DEFINE_PATCH_FUNCTION sever_cooldown BEGIN
+  SPRINT ability_name @102
+  LPF CLONE_EFFECT INT_VAR multi_match=1 opcode=206 parameter1=RESOLVE_STR_REF (@350) timing=0 duration=5 STR_VAR resource=~%s2%b~ insert=last END
+  LPF CLONE_EFFECT INT_VAR multi_match=1 opcode=206 parameter1=RESOLVE_STR_REF (@350) timing=0 duration=5 STR_VAR resource=~%s2%a~ insert=last END
+END
+
+
+//casting visual
+COPY ~%abilities%/elementweapon.VVC~  ~override/%s1%s.VVC~    // fire
+  WRITE_ASCII 0x8 ~%s1%s~ #8
+  WRITE_SHORT 0x18 (THIS BAND BNOT BIT9)    // no 3D blend (not bright enough)
+COPY ~%abilities%/elementweapon.VVC~  ~override/%s3%s.VVC~    // wind
+  WRITE_ASCII 0x8 ~%s3%s~ #8
+  WRITE_SHORT 0x18 (THIS BAND BNOT BIT9)
+COPY ~%abilities%/elementweapon.VVC~  ~override/%s4%s.VVC~    // moon
+  WRITE_ASCII 0x8 ~%s4%s~ #8
+  WRITE_SHORT 0x18 (THIS BAND BNOT BIT9)
+
+COPY ~%abilities%/elementfire.BAM~  ~override/%s1%s.BAM~
+COPY ~%abilities%/elementwind.BAM~  ~override/%s3%s.BAM~
+COPY ~%abilities%/elementmoon.BAM~  ~override/%s4%s.BAM~
+
+//hit visuals
+COPY ~%abilities%/castspelltarget.EFF~  ~override/%s1%b.EFF~    // fire
+  WRITE_LONG  0x10 215
+  WRITE_ASCII 0x30 ~%s1%b~ #8
+  WRITE_LONG 0x20 0    // unattached
+COPY ~%abilities%/castspelltarget.EFF~  ~override/%s3%b.EFF~    // wind
+  WRITE_LONG  0x10 215
+  WRITE_ASCII 0x30 ~%s3%b~ #8
+  WRITE_LONG 0x20 0    // unattached
+COPY ~%abilities%/castspelltarget.EFF~  ~override/%s4%b.EFF~    // moon
+  WRITE_LONG  0x10 215
+  WRITE_ASCII 0x30 ~%s4%b~ #8
+  WRITE_LONG 0x20 0    // unattached
+
+COPY ~%abilities%/swirlfire.VVC~  ~override/%s1%b.VVC~
+  WRITE_ASCII 0x8 ~%s1%b~ #8
+COPY ~%abilities%/swirlwind.VVC~  ~override/%s3%b.VVC~
+  WRITE_ASCII 0x8 SPFLESHS #8
+  WRITE_SHORT 0x18 (THIS BAND BNOT BIT9)    // no 3D blend
+  WRITE_SHORT 0x18 THIS | BIT13             // 2D blend
+COPY ~%abilities%/swirlmoon.VVC~  ~override/%s4%b.VVC~
+  WRITE_ASCII 0x8 ~%s4%b~ #8
+  WRITE_SHORT 0x18 (THIS BAND BNOT BIT9)
+
+COPY ~%abilities%/swirlfire.BAM~  ~override/%s1%b.BAM~
+COPY ~%abilities%/swirlmoon.BAM~  ~override/%s4%b.BAM~
+
+
+//
+//add elemental abilities
+SET fireglow = 254699008
+SET windglow = 1870467840
+SET moonglow = 1360366080
+OUTER_SET icon = 94    // "Magnetized" (no good icons, so this is fine)
+
+COPY ~inlined/d2elementweapon.SPL~  ~override/%s1%.SPL~
+  SAY NAME1 @101
+  SAY UNIDENTIFIED_DESC @99201
+  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s1%a~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s1%b~ END    // hit visual
+  LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=icon END
+  LPF ALTER_EFFECT INT_VAR match_opcode=141 parameter2=22 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=~%s1%s~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=8 parameter1=fireglow parameter2=21 STR_VAR insert=last END
+  WRITE_ASCII 0x3a ~%s1%~ #8
+  WRITE_ASCII 0x76 ~%s1%~ #8
+  LPF element_cooldown END
+
+COPY ~inlined/d2elementweapon.SPL~  ~override/%s3%.SPL~
+  SAY NAME1 @103
+  SAY UNIDENTIFIED_DESC @99203
+  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s3%a~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s3%b~ END    // hit visual
+  LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=icon END
+  LPF ALTER_EFFECT INT_VAR match_opcode=141 parameter2=14 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=~%s3%s~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=8 parameter1=windglow parameter2=21 STR_VAR insert=last END
+  WRITE_ASCII 0x3a ~%s3%~ #8
+  WRITE_ASCII 0x76 ~%s3%~ #8
+  LPF element_cooldown END
+
+COPY ~inlined/d2elementweapon.SPL~  ~override/%s4%.SPL~
+  SAY NAME1 @104
+  SAY UNIDENTIFIED_DESC @99204
+  LPF ALTER_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s4%a~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=248 STR_VAR resource=~%s4%b~ END    // hit visual
+  LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=icon END
+  LPF ALTER_EFFECT INT_VAR match_opcode=141 parameter2=6 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=~%s4%s~ END
+  LPF CLONE_EFFECT INT_VAR match_opcode=142 opcode=8 parameter1=moonglow parameter2=21 STR_VAR insert=last END
+  WRITE_ASCII 0x3a ~%s4%~ #8
+  WRITE_ASCII 0x76 ~%s4%~ #8
+  LPF element_cooldown END
+
+
+//
+//Add Sever
+OUTER_SET icon = 154    // deathblow
+
+COPY ~%icons%/sever.BAM~      ~override/%s2%.BAM~
+COPY ~%abilities%/sever.SPL~  ~override/%s2%.SPL~
+  SAY NAME1 @102
+  SAY UNIDENTIFIED_DESC @99202
+  WRITE_ASCII 0x3a ~%s2%~ #8
+  WRITE_ASCII 0x76 ~%s2%~ #8
+  LPF ALTER_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%a~ END    // damage
+  LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%b~ END    // vorpal
+  LPF ALTER_EFFECT INT_VAR match_opcode=174 match_timing=4 STR_VAR resource=EFF_E05 END
+  LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=icon END
+  LPF d2_mindamageboost INT_VAR amount=3 duration=12 END
+  LPF ALTER_EFFECT INT_VAR target=2 resist_dispel=2 END
+  LPF ALTER_EFFECT INT_VAR match_duration=12 duration=5 END
+
+//damage
+COPY ~%abilities%/castspelltarget.EFF~  ~override/%s2%a.EFF~
+  WRITE_ASCII 0x30 ~%s2%a~ #8
+COPY ~%abilities%/severslashing.SPL~    ~override/%s2%a.SPL~
+  LPF sever_cooldown END
+  LPF ALTER_EFFECT INT_VAR match_opcode=206 parameter1=0 END    // no immune message
+
+//kill target
+COPY ~%abilities%/castspelltarget.EFF~  ~override/%s2%b.EFF~
+  WRITE_ASCII 0x30 ~%s2%b~ #8
+  WRITE_LONG 0x40 4
+  WRITE_LONG 0x44 ~-2~
+COPY ~%abilities%/d2vorpal.SPL~         ~override/%s2%b.SPL~
+  LPF DELETE_EFFECT INT_VAR match_opcode=318 END    // no racial immunities
+  LPF DELETE_EFFECT INT_VAR match_opcode=139 END    // no display string
+  LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=~%s2%b~ END
+
+//death visual
+COPY_EXISTING ~FODEATH.VVC~  ~override/%s2%b.VVC~
+  WRITE_SHORT 0x18 (THIS BAND BNOT BIT9)    // no 3D blend
+
+
+//base ac (levels are same as unmodded EE)
+ACTION_DEFINE_ASSOCIATIVE_ARRAY monk_base_ac BEGIN
+  1  => 9
+  2  => 8
+  4  => 7
+  6  => 6
+  8  => 5    // right side is just for reference (base ac)
+  10 => 4    // left side is level applied from clab
+  12 => 3
+  14 => 2
+  16 => 1
+  18 => 0
+  21 => ~-1~
+  24 => ~-2~
+  27 => ~-3~
+  30 => ~-4~
+  35 => ~-5~
+  40 => ~-6~
+END
+
+
+//
+//Make clab table
+COPY ~inlined/d2clab_monk_noquivstun~  ~override/%kitid%.2DA~
+  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e4%~ END
+  LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=5 STR_VAR resource=~%e5%~ END
+//  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END    // using kensai restrictions instead
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e8%~ END
+
+  // elements
+  LPF d2_kit_ability_adder INT_VAR level=3  STR_VAR resource=~%s1%~ END
+  LPF d2_kit_ability_adder INT_VAR level=8  STR_VAR resource=~%s1%~ END
+  LPF d2_kit_ability_adder INT_VAR level=20 STR_VAR resource=~%s1%~ END
+  LPF d2_kit_ability_adder INT_VAR level=6  STR_VAR resource=~%s3%~ END
+  LPF d2_kit_ability_adder INT_VAR level=11 STR_VAR resource=~%s3%~ END
+  LPF d2_kit_ability_adder INT_VAR level=20 STR_VAR resource=~%s3%~ END
+  LPF d2_kit_ability_adder INT_VAR level=9  STR_VAR resource=~%s4%~ END
+  LPF d2_kit_ability_adder INT_VAR level=14 STR_VAR resource=~%s4%~ END
+  LPF d2_kit_ability_adder INT_VAR level=20 STR_VAR resource=~%s4%~ END
+
+  // sever
+  LPF d2_kit_ability_adder INT_VAR level=13 STR_VAR resource=~%s2%~ END
+  LPF d2_kit_ability_adder INT_VAR level=18 STR_VAR resource=~%s2%~ END
+
+  // no casting
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e6%~ END
+  LPF d2_kit_ability_adder INT_VAR passive=1 multi=1 increment=1 limit=20 STR_VAR resource=~%e7%~ END
+  FOR (n = 1; n < 5; ++n) BEGIN
+    LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e7%~ END
+  END
+
+  // base ac
+  PHP_EACH monk_base_ac AS level => stat BEGIN
+    LPF d2_kit_ability_adder INT_VAR level=level passive=1 STR_VAR resource=~%e3%~ END
+  END
+
+  // fix APR tweak (no conflicts if also fixed in cdtweaks)
+  LPF d2_kit_ability_adder INT_VAR level=7  passive=1 STR_VAR resource=~D5_NUMAT~ END
+  LPF d2_kit_ability_adder INT_VAR level=13 passive=1 STR_VAR resource=~D5_NUMA2~ END
+  LPF d2_kit_ability_adder END
+
+
+//
+//Kit function
+LAF ADD_KIT_EX
+  INT_VAR
+    kit_class = 12
+    mixed = RESOLVE_STR_REF (@10201)
+    lower = RESOLVE_STR_REF (@10202)
+    help = RESOLVE_STR_REF (@9910203)
+  STR_VAR
+    kit_name = ~D2%kitname%~
+    clab_path = ~%kitid%~
+    clsrcreq = ~1 1 1 1 1 1 1~        // Usable by all races, if base class is usable
+//    clascolr = ~115 24 25 24 72~      // enchanter colors (file is EE only)
+    alignmnt = ~1 1 1 1 1 1 0 0 0~    // no chaotic
+  RET 
+    kit_id
+END
+
+
+//kensai usability
+OUTER_TEXT_SPRINT ids_name ~D2%kitname%~
+ACTION_IF (RESOURCE_CONTAINS ~kitlist.2da~  ~kensai~) BEGIN
+  COPY_EXISTING ~kitlist.2da~  ~override~
+    LPF d2_get_2da_entry INT_VAR col_read=1 STR_VAR row_name=kensai col_name=unusable RET entry END
+    LPF d2_edit_2da_entry INT_VAR col_read=1 STR_VAR row_name=~%ids_name%~ col_name=unusable entry=d2spell END
+    REPLACE_TEXTUALLY ~d2spell~ ~%entry%~
+    PRETTY_PRINT_2DA
+  BUT_ONLY
+END
+
+//REPLACE_TEXTUALLY method is just to make it look better in kitlist.2da
+//using entry=~%entry%~ in function also works, but looks different from other rows
+
+
+//profs
+OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+LAF d2_weapprof_kitedits INT_VAR amount=7 STR_VAR kit=~%ids_name%~ attribute=thief END
+LAF d2_weapprof_kitedits INT_VAR amount=0 STR_VAR kit=~%ids_name%~ attribute=ranged END
+LAF d2_weapprof_styles INT_VAR b=0 STR_VAR kit=~%ids_name%~ END    // no shield style
+
+
+//hla table
+OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+LAF d2_hla_baseclass STR_VAR kit=~%ids_name%~ class=monk END
+LAF d2_hla_tableres STR_VAR kit=~%ids_name%~ abbrev=~%kitid%~ END
+//LAF d2_clone_hla_table STR_VAR kitids=~%ids_name%~ copy=monk abbrev=~%kitid%~ RET hlatable END
+
+
+//Gains kensai effects from items
+OUTER_TEXT_SPRINT kit_group ~kensai~
+OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+INCLUDE ~%install%/beamdogitems.tph~
+
+
+//Set variables for external use
+OUTER_TEXT_SPRINT monastery   ~%kitid%~
+OUTER_TEXT_SPRINT elementfire  ~%s1%~
+OUTER_TEXT_SPRINT elementwind  ~%s3%~
+OUTER_TEXT_SPRINT elementmoon  ~%s4%~
+OUTER_TEXT_SPRINT sever        ~%s2%~
+
+
+/*
+*/

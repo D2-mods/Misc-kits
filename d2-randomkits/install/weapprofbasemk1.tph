@@ -8,6 +8,10 @@ OUTER_TEXT_SPRINT $d2mk_classprofs (~d2kensaizerker~) ~kensai~
 OUTER_TEXT_SPRINT $d2mk_classprofs (~d2monastery~) ~monk~
 OUTER_TEXT_SPRINT $d2mk_classprofs (~d2jesterblade~) ~blade~
 
+ACTION_IF !(RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
+  OUTER_TEXT_SPRINT $d2mk_classprofs (~d2monastery~) ~ranger~
+END
+
 
 COPY_EXISTING ~weapprof.2da~  ~override~
 

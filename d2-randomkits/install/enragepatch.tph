@@ -33,15 +33,20 @@ ACTION_IF (enrage_mode = 2) BEGIN
     // update resource fields
     LPF ALTER_EFFECT INT_VAR silent=1 STR_VAR match_resource=~%enrage%~ resource=~%s1%~ END
 
-    // EEs: no damage/winded after rest
+    // no damage/winded after rest
     PATCH_IF (ee_game > 0) BEGIN
       LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=12 opcode=321 timing=4 duration=61 parameter2=0 STR_VAR resource=~%s1%~ END
+    END ELSE BEGIN
+      LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=0 timing=3 duration=61 STR_VAR match_resource=~%s1%~ resource=~%winded%~ insert=first END
+      LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=12 opcode=146 parameter1=0 parameter2=1 timing=4 STR_VAR resource=d2ragez END
+      LPF DELETE_EFFECT INT_VAR match_opcode=12 END
+      LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=206 match_duration=61 STR_VAR resource=d2ragez END
     END
 
     // IWDEE: does not prevent resting
     LPF DELETE_EFFECT INT_VAR match_opcode=338 END
 
-    // recast message
+    // no recast message (classic BG2)
     SET norecast = RESOLVE_STR_REF (@302)
     LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=norecast STR_VAR match_resource=~%s1%~ END
 
@@ -51,6 +56,12 @@ ACTION_IF (enrage_mode = 2) BEGIN
     LPF DELETE_EFFECT STR_VAR match_resource=~%s1%~ END
     LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=norecast STR_VAR match_resource=~%enrage%~ resource=~%s1%~ END
   BUT_ONLY
+
+  // if TOF detected
+  COPY_EXISTING ~dw-scrna.spl~  ~override~
+    LPF DELETE_EFFECT STR_VAR match_resource=~%s1%~ END
+    LPF CLONE_EFFECT INT_VAR silent=1 multi_match=1 match_opcode=206 parameter1=norecast STR_VAR resource=~%s1%~ END
+  IF_EXISTS BUT_ONLY
 
 END
 

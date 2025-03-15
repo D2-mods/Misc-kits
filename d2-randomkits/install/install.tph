@@ -24,16 +24,19 @@ END
 
 //Monastery Swordsman (d2mk2)
 ACTION_IF (nomonastery = 0) BEGIN
-ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk2~
   OUTER_TEXT_SPRINT kitname ~MONASTERY~
   INCLUDE ~%install%/variables.tph~
   INCLUDE ~%install%/resources.tph~
-  INCLUDE ~%install%/%kitname%.tph~
-  INCLUDE ~%install%/%kitname%ki.tph~
-  INCLUDE ~%install%/%kitname%config.tph~
-  INCLUDE ~%install%/%kitname%profs.tph~
-END
+
+  ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
+    INCLUDE ~%install%/%kitname%.tph~
+    INCLUDE ~%install%/%kitname%ki.tph~
+    INCLUDE ~%install%/%kitname%config.tph~
+    INCLUDE ~%install%/%kitname%profs.tph~
+  END ELSE BEGIN
+    INCLUDE ~%install%/%kitname%ranger.tph~
+  END
 END
 
 
@@ -50,8 +53,10 @@ END
 
 //
 INCLUDE ~%install%/hlaupdatermk1.tph~
+INCLUDE ~%install%/tofenragepatch.tph~
 INCLUDE ~%install%/castingspeed.tph~
 INCLUDE ~%install%/bg2opcodecheck.tph~
+INCLUDE ~%install%/waninjapatch.tph~
 
 
 /*

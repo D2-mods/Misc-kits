@@ -2,12 +2,25 @@
 //
 
 
+/*
+//Kits descriptions
+//Ability text
+//Alt kit text for classic BG2
+*/
+
+
 //Dialogue messages
 @300 = ~When the berserk state ends, the character will take 15 damage.~
 @301 = ~The berserk state has ended. The character now loses the extra 15 Hit Points previously gained. If the character is below 15 Hit Points, he or she will be knocked unconscious.~
 @302 = ~You cannot use Enrage again until the current casting has run out.~
 @303 = ~Cannot use item.~
 @304 = ~Confused~
+@305 = ~ Rangers~    // waninjapatch.tph (classic BG2), added to "Usable" list
+
+
+//text with variables
+@350 = ~Unaffected by effects from %ability_name%~
+@358 = ~You cannot cast %ability_name% until the current casting has run out.~
 
 
 //additional text (for mod compat)
@@ -24,6 +37,17 @@
 @543614 = ~Remove Config (permanent)~
 @543615 = ~– ~    // en dash (Config description)
 
+
+//tof hla (tofenragepatch.tph)
+@86345201 = ~Extra Enrage~
+@86345202 = ~The character gains an additional use of the Enrage ability.
+
+Requirements: 1st level Berserker or 1st level Kensaizerker.~
+
+
+
+//
+//Kits descriptions
 
 //Kensaizerker
 @10101 = ~Kensaizerker~
@@ -107,6 +131,8 @@ Disadvantages:
 
 
 
+
+//
 //Ability text
 @100 = ~Enrage~
 @200 = ~Enrage
@@ -153,11 +179,12 @@ The Jesterblade's song confuses enemies within 30 feet unless they save vs. Spel
 
 
 
-
-//Alt text string for classic BG2
+//
+//Alt winded string for classic BG2
 @99301 = ~The berserk state has ended.  The character now loses the extra 15 hit points previously gained.  If the character is below 15 hit points, he or she will be killed.~
 
 
+//
 //Alt kit text for classic BG2
 @9910103 = ~KENSAIZERKER: A variant of the kensai, or "sword saint", these warriors are in tune with their animalistic side and, during combat, can achieve an ecstatic state of mind that will enable them to fight longer, harder, and more savagely than any person has a right to.
 
@@ -173,9 +200,44 @@ Advantages:
 Disadvantages:
 -  Becomes winded after berserking. While winded receives penalties of -2 to hit, -2 to damage and +2 to armor class.
 -  May not use missile weapons
--  May not wear armor
+-  May not wear armor or helmets
 -  May not wear gauntlets or bracers
--  Alignment restricted to any non-lawful.~
+-  May not use shields
+-  Cannot be lawful alignments~
+
+
+@9910203 = ~MONASTERY SWORDSMAN: These finely skilled warriors channel a subtle energy, called ki, to perform amazing feats. Their best known feat is the ability to sever an opponent with a single strike.
+
+Advantages:
+-  Gains all passive bonuses of the monk class, except for improved fist attacks.
+-  May achieve Grand Mastery in any melee weapon that a thief can use.
+-  Bonus +1 to hit and +1 to damage at 3rd level and every 5 levels thereafter.
+-  3rd level:  May use the Element—Fire ability once per day. Gains additional uses at levels 8 and 20.
+
+ELEMENT—FIRE: For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
+
+-  6th level:  May use the Element—Wind ability once per day. Gains additional uses at levels 11 and 20.
+
+ELEMENT—WIND: For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
+
+-  7th level:  Lay on Hands to heal 2 hit points per level
+-  9th level:  May use the Element—Moon ability once per day. Gains additional uses at levels 14 and 20.
+
+ELEMENT—MOON: For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
+
+-  13th level:  May use the Sever ability once per day. Gains an additional use at level 18.
+
+SEVER: A single deadly strike. The next successful attack within 1 round forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
+
+Disadvantages:
+-  May not use missile weapons
+-  May not wear armor or helmets
+-  May not wear gauntlets or bracers
+-  May not use shields
+-  May not use 'charm animal' ability
+-  May not cast priest spells
+-  Cannot be chaotic alignments~
+
 
 @9910303 = ~JESTERBLADE: The Jesterblade is well versed in the arts of ridicule and hilarity, and uses his abilities to confuse enemies, cavorting madly during combat. Do not mistake him for a true fool, however. This bard is an expert fighter and adventurer, whose fighting style is lethally dangerous.
 
@@ -192,12 +254,44 @@ Disadvantages:
 -  Bard Song does not gain additional effects at higher levels.~
 
 
+
+//
 //Alt ability text for classic BG2 (can be seen with Improved GUI mod)
+
+//Enrage
 @99200 = ~Enrage
 
 The character becomes enraged for 1 turn. While enraged, the character gains a +2 bonus to attack and damage rolls as well as to Armor Class, and becomes immune to charm, confusion, fear, feeblemind, hold, imprisonment, level drain, maze, stun, and sleep. The character also gains 15 temporary Hit Points, which are taken away at the end of the berserk spree (possibly killing the character).
 
 After the effects end, the character becomes winded, suffering a -2 penalty to Armor Class, to-hit rolls, and damage rolls.~
+
+//Element—Fire
+@99201 = ~Element—Fire
+
+Adds 2d6 fire damage to melee attacks for the next 4 rounds.
+
+Cannot be used together with Element—Wind or Element—Moon.~
+
+//Sever
+@99202 = ~Sever
+
+A single deadly strike. The next successful attack within 1 round forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
+
+A creature can only be damaged by Sever once in a round.~
+
+//Element—Wind
+@99203 = ~Element—Wind
+
+Adds 2d6 slashing damage to melee attacks for the next 4 rounds.
+
+Cannot be used together with Element—Fire or Element—Moon.~
+
+//Element—Moon
+@99204 = ~Element—Moon
+
+Adds 2d6 magic damage to melee attacks for the next 4 rounds.
+
+Cannot be used together with Element—Fire or Element—Wind.~
 
 
 /*

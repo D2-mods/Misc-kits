@@ -13,13 +13,15 @@ v3.0 update:
 - Monastery Swordsman changed to use Ki Energy system (also used by Medic from Workshop Kitpack).
 - Added Kit Updater component. Run after all mods are installed (except possibly Dual to Kit).
 - Compat improvements with tweak/overhaul mods (especially ToF, HLA mods, and proficiency mods).
+- BG2 (classic): Added ranger variant of Monastery Swordsman.
 
 --
 
 Kits
-- Kensaizerker (fighter)     - EE and classic
-- Monastery Swordsman (monk) - EE only
-- Jesterblade (bard)         - EE and classic
+- Kensaizerker (fighter)       - EE and classic
+- Monastery Swordsman (monk)   - EE only
+- Jesterblade (bard)           - EE and classic
+- Monastery Swordsman (ranger) - alt kit for classic BG2
 
 Components
 1. Install kits
@@ -66,9 +68,16 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 
 v3.0
-- Changed Monastery Swordsman to use the Ki Energy system (also used by Medic from Workshop Kitpack). This is a regenerating ability points system. It works seamlessly with Bubb's Menu overlay mode (one of the main reasons I made my own system). See kit description. Ki/ability progression is different than with v2.x versions.
+- EEs: Changed Monastery Swordsman to use the Ki Energy system (also used by Medic from Workshop Kitpack). This is a regenerating ability points system. It works seamlessly with Bubb's Menu overlay mode (one of the main reasons I made my own system). See kit description. Ki/ability progression is different than with v2.x versions.
+- BG2 (classic): Added Monastery Swordsman as a ranger kit (see kit description). It has all passive bonuses of the monk class, including mod revisions if made before this mod. Item restrictions are same as kensai (no bracers but can use the offhand, unlike monks in original BG2).
 - BG2 (classic): Fixed issues with default Enrage option caused by recent effects structure changes. (Enrage was missing ability icon, Winded icon/text was not displaying)
 - Tweaked visuals for Monastery Swordsman's Element weapon abilities. The wind and moon ones also play a visual on hit now, instead of looking like a normal hit. Wind hit is also delayed 1 second to time with visual.
+- Kensaizerker: Winded/Rest fix for classic BG2 (this was already fixed for kit in EEs). If resting while Enrage is still active, the character no longer takes damage or becomes winded after Rest.
+- Monastery Swordsman: Element abilities now also make the weapon glow a solid color (still has portrait icon). Also fixed some effects being dispellable.
+- ToF mod: Fixed Option 2 of Enrage component being stackable with ToF (if using revised kits + feats components).
+- Kensaizerker: if using any mod that adds an "Extra Enrage" HLA (ex. ToF), this will now give the correct spell resource, so you won't have 2 separate enrage icons in the special abilities menu. For ToF specifically, this adds a new HLA to m_dw_hld.lua instead of changing the berserker HLA (it won't appear for other kits).
+- BG2 (classic): If Monastery Swordsman is installed, the Scarlet Ninjato item is usable by rangers. Can optionally make not usable by rangers from config.ini.
+- BG2 (classic): Fixed installer error if you didn't have TobEx installed. It was scanning a file that I didn't realize was added by TobEx and not in the base game.
 
 v2.16
 - Kit Updater: Fixed issue where the updater was removing tweaks to the Jesterblade's clab/abilities table. Now, anything not accounted for is left untouched by the updater.
@@ -276,6 +285,46 @@ Disadvantages:
 – Bard Song does not gain additional effects at higher levels.
 – Only has one half the normal Lore value.
 – Only has one half the normal Pick Pockets skill.
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+//alt kit for classic BG2
+
+==================================================
+Monastery Swordsman (Ranger)
+==================================================
+MONASTERY SWORDSMAN: These finely skilled warriors channel a subtle energy, called ki, to perform amazing feats. Their best known feat is the ability to sever an opponent with a single strike.
+
+Advantages:
+-  Gains all passive bonuses of the monk class, except for improved fist attacks.
+-  May achieve Grand Mastery in any melee weapon that a thief can use.
+-  Bonus +1 to hit and +1 to damage at 3rd level and every 5 levels thereafter.
+-  3rd level:  May use the Element—Fire ability once per day. Gains additional uses at levels 8 and 20.
+
+ELEMENT—FIRE: For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
+
+-  6th level:  May use the Element—Wind ability once per day. Gains additional uses at levels 11 and 20.
+
+ELEMENT—WIND: For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
+
+-  7th level:  Lay on Hands to heal 2 hit points per level
+-  9th level:  May use the Element—Moon ability once per day. Gains additional uses at levels 14 and 20.
+
+ELEMENT—MOON: For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
+
+-  13th level:  May use the Sever ability once per day. Gains an additional use at level 18.
+
+SEVER: A single deadly strike. The next successful attack within 1 round forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
+
+Disadvantages:
+-  May not use missile weapons
+-  May not wear armor or helmets
+-  May not wear gauntlets or bracers
+-  May not use shields
+-  May not use 'charm animal' ability
+-  May not cast priest spells
+-  Cannot be chaotic alignments
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------

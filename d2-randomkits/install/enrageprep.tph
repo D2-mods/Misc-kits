@@ -71,6 +71,12 @@ ACTION_IF (build_d2rage > 0) BEGIN
       LPF CLONE_EFFECT INT_VAR silent=1 STR_VAR match_resource=SPCL321 resource=d2rageb insert=last END
       LPF DELETE_EFFECT STR_VAR match_resource=SPCL321 END
       LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=norecast STR_VAR match_resource=d2rageb END
+
+      // fix for winded on rest (classic BG2)
+      LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=0 timing=3 duration=61 STR_VAR match_resource=d2rageb resource=d2ragew insert=first END
+      LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=12 opcode=146 parameter1=0 parameter2=1 timing=4 STR_VAR resource=d2ragez END
+      LPF DELETE_EFFECT INT_VAR match_opcode=12 END
+      LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=206 match_duration=61 STR_VAR resource=d2ragez END
     END
 
     PATCH_IF (GAME_IS ~pst pstee~) BEGIN
@@ -97,6 +103,12 @@ ACTION_IF (build_d2rage > 0) BEGIN
       LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=206 parameter1=norecast STR_VAR match_resource=d2rageb END
     END
   BUT_ONLY
+
+  // damage subspell (classic BG2)
+  ACTION_IF (ee_game = 0) BEGIN
+    COPY ~%abilities%/applyeffects.SPL~  ~override/d2ragez.SPL~
+      LPF ALTER_EFFECT INT_VAR opcode=12 parameter1=15 parameter2=0x08000000 END
+  END
 
 END
 

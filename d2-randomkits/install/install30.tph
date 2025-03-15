@@ -22,6 +22,7 @@ ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2kensaizerker~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk1~
   OUTER_TEXT_SPRINT kitname ~KENSAIZERKER~
   INCLUDE ~%install%/variables.tph~
+  OUTER_TEXT_SPRINT kensaizerker  ~%kitid%~
   OUTER_TEXT_SPRINT enrage        ~%s1%~
   OUTER_TEXT_SPRINT enrage_mod    ~%@1%~
   OUTER_TEXT_SPRINT enrage_base   ~SPCL321~
@@ -32,13 +33,21 @@ ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2monastery~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk2~
   OUTER_TEXT_SPRINT kitname ~MONASTERY~
   INCLUDE ~%install%/variables.tph~
-  INCLUDE ~%install%/%kitname%profs.tph~
 
-  // set Bubb's Menu level
-  ACTION_FOR_EACH spell IN ~%s1%~ ~%s2%~ ~%s3%~ ~%s4%~ BEGIN
-    COPY_EXISTING ~%spell%.SPL~  ~override~
-      WRITE_LONG 0x34 monastery_row    // "level" offset (row for Bubb's Spell Menu)
-    IF_EXISTS BUT_ONLY
+  ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
+    INCLUDE ~%install%/%kitname%profs.tph~
+
+    // set Bubb's Menu level
+    ACTION_FOR_EACH spell IN ~%s1%~ ~%s2%~ ~%s3%~ ~%s4%~ BEGIN
+      COPY_EXISTING ~%spell%.SPL~  ~override~
+        WRITE_LONG 0x34 monastery_row    // "level" offset (row for Bubb's Spell Menu)
+      IF_EXISTS BUT_ONLY
+    END
+  END ELSE BEGIN
+    OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+    LAF d2_weapprof_kitedits INT_VAR amount=7 STR_VAR kit=~%ids_name%~ attribute=thief END
+    LAF d2_weapprof_kitedits INT_VAR amount=0 STR_VAR kit=~%ids_name%~ attribute=ranged END
+    LAF d2_weapprof_styles INT_VAR b=0 STR_VAR kit=~%ids_name%~ END    // no shield style
   END
 END
 
@@ -57,7 +66,9 @@ END
 
 
 //
+INCLUDE ~%install%/tofenragepatch.tph~
 INCLUDE ~%install%/castingspeed.tph~
+INCLUDE ~%install%/waninjapatch.tph~
 
 
 //

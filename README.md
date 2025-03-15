@@ -21,6 +21,7 @@ Overview:
 - Monastery Swordsman changed to use Ki Energy system (also used by Medic from Workshop Kitpack).
 - Added Kit Updater component. Run after all mods are installed (except possibly Dual to Kit).
 - Compat improvements with tweak/overhaul mods (especially ToF, HLA mods, and proficiency mods).
+- BG2 (classic): Added ranger variant of Monastery Swordsman.
 
 --
 
@@ -111,6 +112,47 @@ Disadvantages:
 - Bard Song does not gain additional effects at higher levels.
 - Only has one half the normal Lore value.
 - Only has one half the normal Pick Pockets skill.
+
+---
+  
+</details>
+
+<details>
+  <summary>Monastery Swordsman (ranger) - alt kit for classic BG2</summary>
+  
+---
+
+MONASTERY SWORDSMAN: These finely skilled warriors channel a subtle energy, called ki, to perform amazing feats. Their best known feat is the ability to sever an opponent with a single strike.
+
+Advantages:
+-  Gains all passive bonuses of the monk class, except for improved fist attacks.
+-  May achieve Grand Mastery in any melee weapon that a thief can use.
+-  Bonus +1 to hit and +1 to damage at 3rd level and every 5 levels thereafter.
+-  3rd level:  May use the Element—Fire ability once per day. Gains additional uses at levels 8 and 20.
+
+ELEMENT—FIRE: For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
+
+-  6th level:  May use the Element—Wind ability once per day. Gains additional uses at levels 11 and 20.
+
+ELEMENT—WIND: For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
+
+-  7th level:  Lay on Hands to heal 2 hit points per level
+-  9th level:  May use the Element—Moon ability once per day. Gains additional uses at levels 14 and 20.
+
+ELEMENT—MOON: For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
+
+-  13th level:  May use the Sever ability once per day. Gains an additional use at level 18.
+
+SEVER: A single deadly strike. The next successful attack within 1 round forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
+
+Disadvantages:
+-  May not use missile weapons
+-  May not wear armor or helmets
+-  May not wear gauntlets or bracers
+-  May not use shields
+-  May not use 'charm animal' ability
+-  May not cast priest spells
+-  Cannot be chaotic alignments
 
 ---
   
