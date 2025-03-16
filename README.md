@@ -128,22 +128,12 @@ Advantages:
 -  Gains all passive bonuses of the monk class, except for improved fist attacks.
 -  May achieve Grand Mastery in any melee weapon that a thief can use.
 -  Bonus +1 to hit and +1 to damage at 3rd level and every 5 levels thereafter.
--  3rd level:  May use the Element—Fire ability once per day. Gains additional uses at levels 8 and 20.
-
-ELEMENT—FIRE: For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
-
--  6th level:  May use the Element—Wind ability once per day. Gains additional uses at levels 11 and 20.
-
-ELEMENT—WIND: For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
-
+-  3rd level:  May use 'Element—Fire' ability once per day. Gains additional uses at levels 8 and 20. For 4 rounds, each successful melee attack deals an extra 2d6 fire damage.
+-  6th level:  May use 'Element—Wind' ability once per day. Gains additional uses at levels 11 and 20. For 4 rounds, each successful melee attack deals an extra 2d6 slashing damage.
 -  7th level:  Lay on Hands to heal 2 hit points per level
--  9th level:  May use the Element—Moon ability once per day. Gains additional uses at levels 14 and 20.
-
-ELEMENT—MOON: For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
-
--  13th level:  May use the Sever ability once per day. Gains an additional use at level 18.
-
-SEVER: A single deadly strike. The next successful attack within 1 round forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
+-  9th level:  May use 'Element—Moon' ability once per day. Gains additional uses at levels 14 and 20. For 4 rounds, each successful melee attack deals an extra 2d6 magic damage.
+-  13th level:  May use 'Sever' ability once per day. Gains an additional use at level 18.
+-  Sever: A single deadly strike. The next successful attack within 1 round forces the target to make a save vs. Death at -2 or die. An opponent that survives the attack still suffers 5d6 slashing damage.
 
 Disadvantages:
 -  May not use missile weapons
