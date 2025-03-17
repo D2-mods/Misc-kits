@@ -78,6 +78,7 @@ v3.0
 - Kensaizerker: if using any mod that adds an "Extra Enrage" HLA (ex. ToF), this will now give the correct spell resource, so you won't have 2 separate enrage icons in the special abilities menu. For ToF specifically, this adds a new HLA to m_dw_hld.lua instead of changing the berserker HLA (it won't appear for other kits).
 - BG2 (classic): If Monastery Swordsman is installed, the Scarlet Ninjato item is usable by rangers. Can optionally make not usable by rangers from config.ini.
 - BG2 (classic): Fixed installer error if you didn't have TobEx installed. It was scanning a file that I didn't realize was added by TobEx and not in the base game.
+- Fixed possible install error on Mac systems, caused by using text files without extensions.
 
 v2.16
 - Kit Updater: Fixed issue where the updater was removing tweaks to the Jesterblade's clab/abilities table. Now, anything not accounted for is left untouched by the updater.

@@ -3,8 +3,6 @@
 Download: https://github.com/D2-mods/Misc-kits/releases  
 Languages: English, French (JohnBob)
 
-**Note: This page is based on the current repo files (near-finished v3.0).**
-
 Some kits I made for practice while planning a bigger kitpack -> [The Workshop Kitpack](https://github.com/D2-mods/The-Workshop-Kitpack).
 
 --
