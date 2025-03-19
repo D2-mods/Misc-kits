@@ -62,8 +62,13 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA02.2da~ ~BI#B20A~) BEGIN
     END
   IF_EXISTS BUT_ONLY
 
-  // hide 2 weapon prof (given automatically), shohy doesn't currently hide for blades
-  LAF d2_weapprof_styles INT_VAR d=0 STR_VAR kit=d2jesterblade END
+  // hide 2 weapon prof (unless higher than 3 max)
+  OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+  OUTER_SET 2weapon = 114
+  LAF d2_get_2da_entry INT_VAR col_read=1 STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%2weapon%~ RET entry END
+  ACTION_IF (IS_AN_INT entry AND entry<4) BEGIN
+    LAF d2_weapprof_styles INT_VAR d=0 STR_VAR kit=~%ids_name%~ END
+  END
 
 END
 

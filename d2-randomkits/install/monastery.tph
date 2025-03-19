@@ -2,7 +2,10 @@
 
 
 //Copy passive effects
-COPY ~%passives%/hitdamage1.SPL~  ~override/%e5%.SPL~
+COPY ~%passives%/hitdamage1.SPL~      ~override/%e5%.SPL~
+COPY ~%passives%/weaponfighting.SPL~  ~override/%e6%.SPL~
+  LPF d2_remove_level_headers END
+  LPF ALTER_EFFECT INT_VAR parameter2=113 parameter1=2 END
 
 /*using monasteryprofs.tph (more compatible method)
 COPY ~%passives%/nobowslingdart.SPL~  ~override/%e2%.SPL~
@@ -154,6 +157,7 @@ COPY ~%abilities%/removespelleffects.SPL~  ~override/%s2%x.SPL~
 //Make clab table
 COPY ~inlined/d2clab_monk_noquivstun~  ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=5 STR_VAR resource=~%e5%~ END
+  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e6%~ END
 
 //  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END
 //  LPF d2_kit_ability_adder INT_VAR level=2 multi=1 increment=4 STR_VAR resource=~%s1%~ END
@@ -161,7 +165,7 @@ COPY ~inlined/d2clab_monk_noquivstun~  ~override/%kitid%.2DA~
 //  LPF d2_kit_ability_adder INT_VAR level=17 STR_VAR resource=~%s2%~ END
 
   //for subtledoctor APR tweak (fixes this kit's APR)
-  LPF d2_kit_ability_adder INT_VAR level=7  passive=1 STR_VAR resource=~D5_NUMAT~ END
+  LPF d2_kit_ability_adder INT_VAR level=7 passive=1 STR_VAR resource=~D5_NUMAT~ END
   LPF d2_kit_ability_adder INT_VAR level=13 passive=1 STR_VAR resource=~D5_NUMA2~ END
   LPF d2_kit_ability_adder END
 

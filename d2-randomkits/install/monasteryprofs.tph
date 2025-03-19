@@ -47,6 +47,46 @@ OUTER_SET force2weapon = 1
 INCLUDE ~%install%/usableweapons.tph~
 
 
+
+//
+//bonus 2 slots in 2 handed (if monks have it)
+OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
+OUTER_TEXT_SPRINT profbonus  ~override/%e6%.SPL~
+OUTER_SET 2handed = 111
+LAF d2_get_2da_entry INT_VAR col_read=1 STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%2handed%~ RET entry END
+
+COPY ~%profbonus%~  ~%profbonus%~
+  LPF DELETE_EFFECT INT_VAR match_parameter2=2handed END
+  PATCH_IF (IS_AN_INT entry AND entry > 0) BEGIN
+    LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=233 parameter2=2handed END
+  END
+IF_EXISTS BUT_ONLY
+
+//check kit desc
+LAF GET_KIT_STRREF STR_VAR kit_name=~%ids_name%~ RET kit_strref END
+ACTION_GET_STRREF EVAL ~%kit_strref%~ desc
+OUTER_SPRINT base  @450
+OUTER_SPRINT mod  @451
+
+//
+ACTION_IF (IS_AN_INT entry AND entry > 0) BEGIN
+  ACTION_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%mod%~) BEGIN    // if "desc" does NOT contain "mod" text
+    OUTER_PATCH_SAVE newdesc ~%desc%~ BEGIN
+      REPLACE_TEXTUALLY EXACT_MATCH ~%base%~  ~%mod%~    // add "mod" text
+    END	
+    STRING_SET_EVALUATE kit_strref  ~%newdesc%~
+  END
+END ELSE BEGIN
+  ACTION_IF !(~%desc%~ STRING_CONTAINS_REGEXP ~%mod%~) BEGIN    // if "desc" DOES contain "mod" text
+    OUTER_PATCH_SAVE newdesc ~%desc%~ BEGIN
+      REPLACE_TEXTUALLY EXACT_MATCH ~%mod%~  ~%base%~    // remove "mod" text
+    END	
+    STRING_SET_EVALUATE kit_strref  ~%newdesc%~
+  END
+END
+
+
+
 //
 //mod stuff
 

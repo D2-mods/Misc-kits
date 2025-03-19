@@ -59,10 +59,11 @@ Disadvantages:
 MONASTERY SWORDSMAN: Monks are warriors who pursue perfection through contemplation as well as action. Among them are a subset that have been specially trained to be one with their favored weapons. This Monk's best known feat is the ability to sever an opponent with a single strike.
 
 Advantages:
-- May achieve Grand Mastery (five slots) in any melee weapon available to Monks.
-- May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
+- Starts with Specialization (two slots) in Single Weapon Style. (Do not place slots at creation!)
+- May place 3 slots in Two-Weapon Style.
 - +1 to attack and damage rolls at 3rd level and an additional +1 bonus every 5 levels thereafter.
-- Gains Ki Energy, which is used to activate kit abilities. Gains +1 per level to maximum Ki Energy, up to level 20.
+- May achieve Grand Mastery (five slots) in any melee weapon available to Monks.
+- Gains Ki Energy, which is used to activate kit abilities. Gains +1 to maximum Ki Energy each level up to level 20.
 - Ki Regen: The character passively regains +1 Ki Energy every 5 rounds.
 - 3rd level: May use the Element—Fire ability. Requires 3 Ki Energy.
 

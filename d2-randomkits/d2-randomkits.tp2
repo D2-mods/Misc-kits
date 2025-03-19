@@ -11,10 +11,6 @@ ALWAYS
     INCLUDE ~%BASH_FOR_FILESPEC%~
   END
   
-  ACTION_IF !(DIRECTORY_EXISTS ~weidu_external/Workspace~) BEGIN    // make folder for edits
-    MKDIR ~weidu_external/Workspace~
-  END
-  
   ACTION_DEFINE_ARRAY d2noconvert BEGIN setup END    // tra stuff for classic games
   ACTION_DEFINE_ARRAY d2reload BEGIN main END
   LAF HANDLE_CHARSETS

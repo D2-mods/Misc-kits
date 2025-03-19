@@ -79,6 +79,8 @@ v3.0
 - BG2 (classic): If Monastery Swordsman is installed, the Scarlet Ninjato item is usable by rangers. Can optionally make not usable by rangers from config.ini.
 - BG2 (classic): Fixed installer error if you didn't have TobEx installed. It was scanning a file that I didn't realize was added by TobEx and not in the base game.
 - Fixed possible install error on Mac systems, caused by using text files without extensions.
+- EEs: Monastery Swordsman now starts with 2 slots in Single Weapon Style, matching what a fighter class could do at level 1 (note: for compatibility, single weapon is not removed from the prof screen, so don't put points at creation. A tweak mod can increase the max number of points in weapon styles.)
+- Monastery Swordsman: If using a tweak that lets monks use 2-handed weapons, it also starts with 2 points in 2-handed style. You can re-run the updater at any time to recheck this. The description is also updated to match the current files.
 
 v2.16
 - Kit Updater: Fixed issue where the updater was removing tweaks to the Jesterblade's clab/abilities table. Now, anything not accounted for is left untouched by the updater.
@@ -240,10 +242,11 @@ Monastery Swordsman (Monk)
 MONASTERY SWORDSMAN: Monks are warriors who pursue perfection through contemplation as well as action. Among them are a subset that have been specially trained to be one with their favored weapons. This Monk's best known feat is the ability to sever an opponent with a single strike.
 
 Advantages:
-– May achieve Grand Mastery (five slots) in any melee weapon available to Monks.
-– May place 2 slots in Single Weapon Style and 3 slots in Two-Weapon Style.
+– Starts with Specialization (two slots) in Single Weapon Style. (Do not place slots at creation!)
+– May place 3 slots in Two-Weapon Style.
 – +1 to attack and damage rolls at 3rd level and an additional +1 bonus every 5 levels thereafter.
-– Gains Ki Energy, which is used to activate kit abilities. Gains +1 per level to maximum Ki Energy, up to level 20.
+– May achieve Grand Mastery (five slots) in any melee weapon available to Monks.
+– Gains Ki Energy, which is used to activate kit abilities. Gains +1 to maximum Ki Energy each level up to level 20.
 – Ki Regen: The character passively regains +1 Ki Energy every 5 rounds.
 – 3rd level: May use the Element—Fire ability. Requires 3 Ki Energy.
 

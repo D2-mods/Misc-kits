@@ -26,7 +26,7 @@ COPY_EXISTING ~%item%~  ~override~
     WRITE_LONG 0x1e (THIS BAND BNOT BIT21)    // no ranger flag
     WRITE_LONG 0x1e (THIS BAND BNOT BIT0)     // no chaotic flag
     WRITE_LONG 0x1e (THIS BAND BNOT BIT5)     // no neutral flag
-    LPF d2_item_race_flags END
+    LPF d2_item_race_flags END                // no race flags
 
     SPRINT note @305
     READ_STRREF 0x54 desc
@@ -36,17 +36,19 @@ COPY_EXISTING ~%item%~  ~override~
       WRITE_LONG 0x54 stringref
     END
   END ELSE BEGIN
-    WRITE_LONG 0x1e THIS | BIT21    // add ranger flag
-    WRITE_LONG 0x1e THIS | BIT0     // add chaotic flag
-    WRITE_LONG 0x1e THIS | BIT5     // add neutral flag
-    LPF d2_item_race_flags INT_VAR human=0 mode=2 END
+//    WRITE_LONG 0x1e THIS | BIT21    // add ranger flag
+//    WRITE_LONG 0x1e THIS | BIT0     // add chaotic flag	- using below method instead (copy from backup)
+//    WRITE_LONG 0x1e THIS | BIT5     // add neutral flag
+//    LPF d2_item_race_flags INT_VAR human=0 mode=2 END
 
     PATCH_IF (FILE_EXISTS ~%backup%~) BEGIN
       INNER_ACTION BEGIN
         COPY - ~%backup%~  ~~
-          READ_LONG 0x54 desc
+          READ_LONG 0x54 desc        // copy desc from backup
+          READ_LONG 0x1e restrict    // copy flags from backup
       END
       WRITE_LONG 0x54 desc
+      WRITE_LONG 0x1e restrict
     END
   END
 IF_EXISTS BUT_ONLY
