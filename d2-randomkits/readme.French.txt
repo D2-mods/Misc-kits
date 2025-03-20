@@ -1,34 +1,56 @@
-GitHub: https://github.com/D2-mods/Misc-kits
 
-Notes:
-- Compatible avec les Enhanced Editions et BG2 original
-- Utilise ADD_KIT_EX fonction par Argent77 (https://github.com/Argent77/A7-add_kit_ex)
-- Utilise semi_innate_casting fonction par subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
-- Utilise CD_EXTEND-O-MATIC fonction par CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
+GitHub: https://github.com/D2-mods/Misc-kits
+Téléchargement : https://github.com/D2-mods/Misc-kits/releases
+Langages : English, French
+
+--
+
+Présentation :
+
+- Compatible avec les Enhanced Editions et sur BG2 original
+- Quelques kits que j'ai réalisés pour m'entraîner.
+- Les tables de capacités sont créés en clonant celles du Kit ou de la Classe de base.
+
+
+--
+
+v3.0 update :
+- L'Adepte de l'épée utilise dorénavant le système d'énergie mystique (aussi utilisé par l'Urgentiste du Workshop Kitpack).
+- Ajout du Kit Updater, Utiliser ce composant après tous les mods de tweak et autres overhauls (une possible exception pour le mod Dual to Kit).
+- Amélioration de la compatibilité avec les mods de tweak et autres overhauls (Particulièrement avec Talents of Faerun, les mods modifiants les HLAs, et les compétences d'armes).
+- BG2 (classique): Ajout d'un variant rôdeur pour l'Adepte de l'épée.
 
 
 //Kits
 Kensaizerker (Kit de guerrier)   - Enhanced Editions et BG2 original
 Adepte de l'épée (Kit de moine)  - Enhanced Editions uniquement
 Bouffon cinglant (Kit de barde)  - Enhanced Editions et BG2 original
+Adepte de l'épée (Kit de rôdeur) - BG2 original uniquement
 
 Composants
 1. Installation des kits
 2. Choisir la version de la capacité Enragé du Kensaizerker
-3. Mettre à jour les HLA (ce composant n'est utile que si les capacités de haut niveau ont été modifiées après l'installation de ce mod)
+3. Kit Updater (voir ci-dessous)
 
 --
 
-//Notes
+//Notes d'installation
 
 - Fichier "config.ini" :  
 	. Mettez la valeur d'un kit à = 0 pour ne pas l'installer
-- Composant Mettre à jour les HLAs :  
-	. Ce composant peut être installé sans problème après Talents of Faerun. (Les « capacités mineures » de ToF qui nécessitent de déterminer le niveau du Bouffon cinglant ne peuvent pas être sélectionnées par celui-ci. L'une d'entre elles, l'Ambidextérité, sera attribuée au Bouffon cinglant au niveau 20.)
+- Composants Kit Updater et Enragé (Peut être installé en toute sécurité en fin d'installation et réinstallé à tout moment.)
 
 
 Traductions :
-- Français (par 11jo)
+- Français (JohnBob)
+
+Functions (not including my own):
+- ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
+- CD_EXTEND-O-MATIC function by CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
+- GET_KIT_STRREF (source unknown)
+
+Older (v2.x) ki system:
+- semi_innate_casting function by subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
 
 Outils :
 - Notepad++, WeiDU et Near Infinity
@@ -36,6 +58,50 @@ Outils :
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v3.1
+- ToF note: The kit updater now adds back a line for Monastery Swordsman if overwritten by ToF or another mod (the one that says it starts specialized in single weapon/two-handed weapon).
+- Tof note: Monastery Swordsman should no longer be able to put points in bows/crossbows if using the ToF proficiency system. Run the Kit Updater to fix. This edits the line for the kit in m_dw_krd.lua and backs up an unmodified copy in weidu_external/d2mk folder.
+- Tof note: Minor fix if using ToF proficiency system (monastery swordsman couldn't put 5 points in staff). Run the Kit Updater to fix. This edits the line for the kit in m_dw_krd.lua and backs up an unmodified copy in weidu_external/d2mk folder.
+- BG2 (classic): Minor compat adjustment. (note: if using a monk revision and the AC for Monastery Swordsman looks too low, check the monk class AC to see if the revision is causing it. Even though it's a ranger kit for non-EE, it still uses the monk table as the base before edits.)
+
+v3.0
+- EEs: Changed Monastery Swordsman to use the Ki Energy system (also used by Medic from Workshop Kitpack). This is a regenerating ability points system. It works seamlessly with Bubb's Menu overlay mode (one of the main reasons I made my own system). See kit description. Ki/ability progression is different than with v2.x versions.
+- BG2 (classic): Added Monastery Swordsman as a ranger kit (see kit description). It has all passive bonuses of the monk class, including mod revisions if made before this mod. Item restrictions are same as kensai (no bracers but can use the offhand, unlike monks in original BG2).
+- BG2 (classic): Fixed issues with default Enrage option caused by recent effects structure changes. (Enrage was missing ability icon, Winded icon/text was not displaying)
+- Tweaked visuals for Monastery Swordsman's Element weapon abilities. The wind and moon ones also play a visual on hit now, instead of looking like a normal hit. Wind hit is also delayed 1 second to time with visual.
+- Kensaizerker: Winded/Rest fix for classic BG2 (this was already fixed for kit in EEs). If resting while Enrage is still active, the character no longer takes damage or becomes winded after Rest.
+- Monastery Swordsman: Element abilities now also make the weapon glow a solid color (still has portrait icon). Also fixed some effects being dispellable.
+- ToF mod: Fixed Option 2 of Enrage component being stackable with ToF (if using revised kits + feats components).
+- Kensaizerker: if using any mod that adds an "Extra Enrage" HLA (ex. ToF), this will now give the correct spell resource, so you won't have 2 separate enrage icons in the special abilities menu. For ToF specifically, this adds a new HLA to m_dw_hld.lua instead of changing the berserker HLA (it won't appear for other kits).
+- BG2 (classic): If Monastery Swordsman is installed, the Scarlet Ninjato item is usable by rangers. Can optionally make not usable by rangers from config.ini.
+- BG2 (classic): Fixed installer error if you didn't have TobEx installed. It was scanning a file that I didn't realize was added by TobEx and not in the base game.
+- Fixed possible install error on Mac systems, caused by using text files without extensions.
+- EEs: Monastery Swordsman now starts with 2 slots in Single Weapon Style, matching what a fighter class could do at level 1 (note: for compatibility, single weapon is not removed from the prof screen, so don't put points at creation. A tweak mod can increase the max number of points in weapon styles.)
+- Monastery Swordsman: If using a tweak that lets monks use 2-handed weapons, it also starts with 2 points in 2-handed style. You can re-run the updater at any time to recheck this. The description is also updated to match the current files.
+
+v2.16
+- Kit Updater: Fixed issue where the updater was removing tweaks to the Jesterblade's clab/abilities table. Now, anything not accounted for is left untouched by the updater.
+- Jesterblade: Jesterblade can now take Whirlwind HLA with or without bard revisions. It will now always have access to HLA traps, even if a revision removed them (ex. ToF or Rogue Rebalancing).
+- Monastery Swordsman: Installer now checks for some fist-only HLAs added by mods (ex. Artisan's Kitpack). These will be removed for this kit. Instead, it will gain equivalent fighter hlas.
+- Fixed Monastery Swordsman not being able to use Big Metal Rod (every class/kit can use this).
+- Compat fixes with Shohy's bard mod (hide 2 weapon prof, fixed Lingering Song HLA being unselectable).
+
+v2.15
+Talents of Faerun notes:
+- Kit Updater now does some specific ToF patching. Updates HLA lists, mod compat for Jesterblade, and proficiencies for Monastery Swordsman. Run the Kit Updater any time after ToF to update.
+- Jesterblade can now select Blade-only abilities at same level as Blade. It can also now select IWD songs (similar to Blade and Jester kits).
+- if ToF selectable songs are detected, the Jesterblade's song will also give an ability to switch to it. Selectable songs are added if you install IWD songs + minor/high level abilities.
+- Monastery Swordsman can now learn Improved Criticals and Dirty Fighting at same level as fighter.
+
+v2.14
+- Changed "Update HLAs" component to "Kit Updater". It now also updates the Monastery Swordsman's HLAs and proficiencies if relevant tweaks were installed after this mod. This component can be re-run at any time.
+- Monastery Swordsman can now be installed before or after Monk usability tweaks and proficiency overhauls (except for Talents of Faerun overhaul). Any melee weapon or fighting style that the base monk has access to will be set to max ("max" being whatever the base fighter class is set to).
+- ToF note: Monastery Swordsman can gain grandmastery in all melee weapons with the ToF overhaul. The overhaul does this part by itself (the updater isn't needed specifically for this).
+- Fix ids warning when installing on original BG2 engine (this was harmless, but annoying to see).
+- EEs: Monastery Swordsman is now listed in the "Not Usably By:" part of the item description for slings and darts.
+- Kensizerker: Improved effects structure for Enrage ability.
+- Enrage component is now skipped if kensaizerker is not installed.
 
 v2.13
 - updated French translation from JohnBob.
@@ -173,22 +239,34 @@ Monastery Swordsman (Kit de Moine)
 ADEPTE DE L'ÉPÉE : Les moines sont des guerriers qui cherchent la perfection à travers la contemplation et l'action. Parmi eux, certains ont été spécialement formés pour ne faire qu'un avec leurs armes de prédilection. Le prouesse la plus connue des moines est leur aptitude à couper en deux un adversaire d'un seul coup.
 
 Avantages :
-– Peut atteindre la grande maîtrise (4 points de compétence) avec les armes utilisable par les moines.
-– Peut se spécialiser (2 points de compétence) dans n'importe quel style de combat à une main, et allouer trois étoiles dans le style de combat à deux armes.
-– Bonus de 1 aux jets d'attaque et de dégâts tout les 4 niveaux.
-– 2ème niveau : Peut utiliser la capacité « Brasier » une fois par jour, puis une fois supplémentaire tous les 4 niveaux.
+– Bénéficie de la spécialisation à la création (2 points de compétence) dans n'importe quel style de combat à une main.
+- Peut allouer trois points de compétence dans le style de combat à deux armes.
+– Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
+– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les moines.
+– Obtient une quantité d'énergie mystique, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 unité d'énergie mystique à chaque montée de niveau, jusqu' au niveau 20.
+- Accumulation d'énergie : Cette capacité passive permet de régénérer 1 unité d'énergie mystique tout les 5 rounds.
 
-BRASIER : Le moine canalise sa lumière intérieure, enveloppant ses armes d'une flamme vive, mais éphémère. Les attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 1 round. Cette durée passe à 2 rounds au niveau 9, à 3 rounds au niveau 12, à 4 rounds au niveau 15, et à 5 rounds au niveau 25.
+– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » (Consomme 3 unités d'énergie mystique).
 
-– 13ème niveau : Peut utiliser la capacité « Vorpal » une fois par jour.
+BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
+
+- 5ème niveau : Peut utiliser la capacité élémentaire « Zéphyr » (Consomme 3 unités d'énergie mystique).
+
+ZÉPHYR ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts tranchants supplémentaires à chaque coup pendant 4 round.
+
+- 7ème niveau : Peut utiliser la capacité élémentaire « Lune » (Consomme 3 unités d'énergie mystique).
+
+LUNE ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts magiques supplémentaires à chaque coup pendant 4 round.
+
+- 13ème niveau : Peut utiliser la capacité « Vorpal » (Consomme 6 unités d'énergie mystique).
 
 VORPAL : Un seul coup mais un coup mortel. La prochaine attaque réussie sous 2 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
 
-Inconvénients : 
-– Les attaques à mains nues ne bénéficient pas du bonus d'attaques par round..
-– Ne peut utiliser « Coup étourdissant ».
-– Ne peut utiliser « Paume tremblante ».
-– Ne peut utiliser les frondes et les fléchettes.
+Inconvénients :   
+- Les attaques à mains nues ne bénéficient pas du bonus d'attaques par round..
+- Ne peut utiliser « Coup étourdissant ».
+- Ne peut utiliser « Paume tremblante ».
+- Ne peut utiliser les frondes et les fléchettes.
 
 
 ==================================================
@@ -209,6 +287,48 @@ Inconvénients :
 – Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
 – Score de connaissances divisé par deux.
 – Score de Vol à la tire divisé par deux.
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+
+//alt kit for classic BG2
+
+==================================================
+Monastery Swordsman (Ranger)
+==================================================
+MONASTERY SWORDSMAN: These finely skilled warriors channel a subtle energy, called ki, to perform amazing feats. Their best known feat is the ability to sever an opponent with a single strike.
+
+Advantages:
+- Bénéficie de toutes les capacités passives du moine à l’exception de l'amélioration des attaques à mains nues.
+– Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
+– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les voleurs.
+
+– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » une fois par jour, puis une fois supplémentaire au niveau 8 et 20.
+
+BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
+
+- 6ème niveau : Peut utiliser la capacité élémentaire « Zéphyr » une fois par jour, puis une fois supplémentaire au niveau 11 et 20.
+
+ZÉPHYR ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts tranchants supplémentaires à chaque coup pendant 4 round.
+
+-  7ème niveau : Peut utiliser  « Imposition des mains » pour soigner 2 points de vie pas niveau.
+
+- 9ème niveau : Peut utiliser la capacité élémentaire « Lune » une fois par jour, puis une fois supplémentaire au niveau 11 et 20.
+
+LUNE ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts magiques supplémentaires à chaque coup pendant 4 round.
+
+- 13ème niveau : Peut utiliser la capacité « Vorpal » une fois par jour, puis une fois supplémentaire au niveau 18.
+
+VORPAL : Un seul coup mais un coup mortel. La prochaine attaque réussie sous 1 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
+
+Inconvénients :   
+- Ne peut utiliser les frondes et les fléchettes et autres armes à distance.
+- Ne peut utiliser d'armure ou de casque.
+- Ne peut utiliser de gantelets ou bracelets.
+- Ne peut utiliser de bouclier.
+- Ne peut utiliser « Charme animal ».
+- Ne peut accéder aux sorts de prêtre.
+- Ne peut être d'alignement chaotique.
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
