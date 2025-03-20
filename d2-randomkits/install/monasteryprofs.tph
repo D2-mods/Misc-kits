@@ -67,6 +67,18 @@ LAF GET_KIT_STRREF STR_VAR kit_name=~%ids_name%~ RET kit_strref END
 ACTION_GET_STRREF EVAL ~%kit_strref%~ desc
 OUTER_SPRINT base  @450
 OUTER_SPRINT mod  @451
+OUTER_SPRINT check  @452
+OUTER_SPRINT dash  @453
+OUTER_SPRINT note  @454
+OUTER_SPRINT space  ~ ~
+
+//tof fix (if it overwrites base line)
+ACTION_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%base%~) BEGIN    // if "desc" does NOT contain "base" text
+  OUTER_PATCH_SAVE desc ~%desc%~ BEGIN
+    REPLACE_TEXTUALLY EXACT_MATCH ~%check%~  ~%base%%space%%note%%WNL%%dash%%check%~
+  END	
+  STRING_SET_EVALUATE kit_strref  ~%desc%~
+END
 
 //
 ACTION_IF (IS_AN_INT entry AND entry > 0) BEGIN
@@ -98,6 +110,21 @@ LAF d2_edit_2da_entry STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%type
 //for Skills & Abilities (no Archery)
 OUTER_TEXT_SPRINT type ~ARCHERY~
 LAF d2_edit_2da_entry STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%type%~ entry=0 END
+
+
+//tof - give monastery swordsman correct profs
+//if tof is changed to account for prof revisions, this does nothing (skipped silently)
+OUTER_TEXT_SPRINT file ~override/m_dw_krd.lua~
+
+OUTER_TEXT_SPRINT line
+  ~[43]={[89]=5, [90]=5, [91]=5, [92]=5, [93]=5, [94]=5, [95]=5, [96]=5, [97]=5, [98]=5, [99]=5, [100]=5, [101]=5, [102]=2, [103]=2, [104]=2, [105]=2, [106]=0, [107]=0, [111]=2, [112]=0, [113]=2, [114]=3, [115]=5, },~
+
+OUTER_TEXT_SPRINT newline
+  ~[43]={[89]=5, [90]=5, [91]=5, [92]=5, [93]=5, [94]=5, [95]=5, [96]=5, [97]=5, [98]=5, [99]=5, [100]=5, [101]=5, [102]=5, [103]=0, [104]=0, [105]=0, [106]=0, [107]=0, [111]=2, [112]=0, [113]=2, [114]=3, [115]=5, },~
+
+COPY ~%file%~  ~%file%~
+  REPLACE_TEXTUALLY EXACT_MATCH  ~%line%~  ~%newline%~
+IF_EXISTS BUT_ONLY
 
 
 //

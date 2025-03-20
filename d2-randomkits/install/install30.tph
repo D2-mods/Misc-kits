@@ -5,6 +5,20 @@ Update mod compat for Jesterblade
 */
 
 
+//backup files (no edits = copied just for reference)
+ACTION_FOR_EACH file IN
+  ~M_KITPRF.lua~    // dual to kit (no edits)
+  ~m_dw_hld.lua~    // tof feats
+  ~m_dw_krd.lua~    // tof profs
+BEGIN
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%file%~) BEGIN
+    ACTION_IF !(FILE_EXISTS ~weidu_external/d2mk/%file%~) BEGIN
+      COPY_EXISTING ~%file%~  ~weidu_external/d2mk/%file%~
+    END
+  END
+END
+
+
 //
 INCLUDE ~%install%/weapontypes.tph~
 INCLUDE ~%install%/weapontypes2.tph~

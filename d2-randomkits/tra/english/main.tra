@@ -31,6 +31,11 @@
 @450 = ~Starts with Specialization (two slots) in Single Weapon Style.~
 @451 = ~Starts with Specialization (two slots) in Single Weapon Style and Two-Handed Weapon Style.~
 
+//tof fix (it overwrites single weapon line)
+@452 = ~May place 3 slots in Two-Weapon Style.~
+@453 = ~– ~    // en dash at start of line
+@454 = ~(Do not place slots at creation!)~
+
 
 //Ki Energy feedback
 @543601 = ~+1 Ki Energy restored~

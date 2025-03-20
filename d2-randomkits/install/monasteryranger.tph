@@ -235,8 +235,8 @@ COPY ~inlined/d2clab_monk_noquivstun~  ~override/%kitid%.2DA~
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=3 STR_VAR resource=~%e4%~ END
   LPF d2_kit_ability_adder INT_VAR level=3 passive=1 multi=1 increment=5 STR_VAR resource=~%e5%~ END
 //  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e2%~ END    // using kensai restrictions instead
-  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e8%~ END
-  LPF d2_kit_ability_adder INT_VAR level=9 passive=1 STR_VAR resource=~%e9%~ END
+//  LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%e8%~ END
+//  LPF d2_kit_ability_adder INT_VAR level=9 passive=1 STR_VAR resource=~%e9%~ END
 
   // elements
   LPF d2_kit_ability_adder INT_VAR level=3  STR_VAR resource=~%s1%~ END
@@ -263,6 +263,16 @@ COPY ~inlined/d2clab_monk_noquivstun~  ~override/%kitid%.2DA~
   // base ac
   PHP_EACH monk_base_ac AS level => stat BEGIN
     LPF d2_kit_ability_adder INT_VAR level=level passive=1 STR_VAR resource=~%e3%~ END
+  END
+
+  // saves
+  PATCH_IF (RESOURCE_CONTAINS ~clabmo01.2da~  ~GA_NMMONK03~) BEGIN
+    LPF d2_kit_ability_adder INT_VAR level=3 passive=1 STR_VAR resource=~%e8%~ END
+    LPF d2_kit_ability_adder INT_VAR level=2 passive=1 STR_VAR resource=~%e9%~ END
+    LPF d2_kit_ability_adder INT_VAR level=9 passive=1 STR_VAR resource=~%e9%~ END
+  END ELSE BEGIN
+    LPF d2_kit_ability_adder INT_VAR level=1 passive=1 STR_VAR resource=~%e8%~ END
+    LPF d2_kit_ability_adder INT_VAR level=9 passive=1 STR_VAR resource=~%e9%~ END
   END
 
   // fix APR tweak (no conflicts if also fixed in cdtweaks)
