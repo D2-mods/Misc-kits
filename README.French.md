@@ -1,12 +1,28 @@
 # Misc kits
 
-Téléchargement : https://github.com/D2-mods/Misc-kits/releases
+Téléchargement : https://github.com/D2-mods/Misc-kits/releases 
+Languages: English, French
 
 Quelques kits que j'ai réalisés pour m'entraîner, tout en prévoyant un kitpack plus important -> [The Workshop Kitpack](https://github.com/D2-mods/The-Workshop-Kitpack).
 
-#### Remarques:
+--
+
+Présentation :
+
 - Compatible avec les Enhanced Editions et sur BG2 original
-- Utilise ADD_KIT_EX fonction par Argent77 (https://github.com/Argent77/A7-add_kit_ex)
+- Quelques kits que j'ai réalisés pour m'entraîner.
+- Les tables de capacités sont créés en clonant celles du Kit ou de la Classe de base.
+
+
+--
+
+**v3.0 update:**
+- L'Adepte de l'épée utilise dorénavant le système d'énergie mystique (aussi utilisé par l'Urgentiste du Workshop Kitpack).
+- Ajout du Kit Updater, Utiliser ce composant après tous les mods de tweak et autres overhauls (une possible exception pour le mod Dual to Kit).
+- Amélioration de la compatibilité avec les mods de tweak et autres overhauls (Particulièrement avec Talents of Faerun, les mods modifiants les HLAs, et les compétences d'armes).
+- BG2 (classique): Ajout d'un variant rôdeur pour l'Adepte de l'épée.
+
+--
 
 #### Kits
 <details>
@@ -45,17 +61,27 @@ Inconvénients :
 
 ADEPTE DE L'ÉPÉE : Les moines sont des guerriers qui cherchent la perfection à travers la contemplation et l'action. Parmi eux, certains ont été spécialement formés pour ne faire qu'un avec leurs armes de prédilection. Le prouesse la plus connue des moines est leur aptitude à couper en deux un adversaire d'un seul coup.
 
-Avantages : 
-– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes utilisable par les moines.
-– Peut se spécialiser (2 points de compétence) dans n'importe quel style de combat à une main, et allouer trois points de compétence dans le style de combat à deux armes.
+Avantages :
+– Bénéficie de la spécialisation à la création (2 points de compétence) dans n'importe quel style de combat à une main.
+- Peut allouer trois points de compétence dans le style de combat à deux armes.
 – Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
-– Accumule une quantité de ki, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 tous les 3 niveaux, jusqu'à un maximum de 10 au niveau 30.
+– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les moines.
+– Obtient une quantité d'énergie mystique, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 unité d'énergie mystique à chaque montée de niveau, jusqu' au niveau 20.
+- Accumulation d'énergie : Cette capacité passive permet de régénérer 1 unité d'énergie mystique tout les 5 rounds.
 
-– 3ème niveau : Peut utiliser les capacités élémentaires « Brasier », « Zéphyr. » ou « Lune » (Consomme une unité de ki).
+– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » (Consomme 3 unités d'énergie mystique).
 
-SOUFFLES ÉLÉMENTAIRES : Le moine canalise sa lumière intérieure, enveloppant ses armes d’énergie élémentaire. Ses attaques de mêlée infligent 2d6 points de dégâts de feu, tranchants ou magiques supplémentaires à chaque coup pendant 4 round. (Seul un élément à la fois peut être activé).
+BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
 
-- 13ème niveau : Peut utiliser la capacité « Vorpal » (Consomme une unité de ki).
+- 5ème niveau : Peut utiliser la capacité élémentaire « Zéphyr » (Consomme 3 unités d'énergie mystique).
+
+ZÉPHYR ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts tranchants supplémentaires à chaque coup pendant 4 round.
+
+- 7ème niveau : Peut utiliser la capacité élémentaire « Lune » (Consomme 3 unités d'énergie mystique).
+
+LUNE ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts magiques supplémentaires à chaque coup pendant 4 round.
+
+- 13ème niveau : Peut utiliser la capacité « Vorpal » (Consomme 6 unités d'énergie mystique).
 
 VORPAL : Un seul coup mais un coup mortel. La prochaine attaque réussie sous 2 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
 
@@ -94,25 +120,80 @@ Inconvénients :
 ---
   
 </details>
+<details>
+  <summary>Adepte de l'épée (Kit de moine) - Classique BG2 uniquement</summary>
+  
+---
+  
+- Monastery Swordsman (Kit de rôdeur)
 
-#### Composants
+ADEPTE DE L'ÉPÉE : Les moines sont des guerriers qui cherchent la perfection à travers la contemplation et l'action. Parmi eux, certains ont été spécialement formés pour ne faire qu'un avec leurs armes de prédilection. Le prouesse la plus connue des moines est leur aptitude à couper en deux un adversaire d'un seul coup.
+
+Avantages :
+- Bénéficie de toutes les capacités passives du moine à l’exception de l'amélioration des attaques à mains nues.
+– Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
+– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les voleurs.
+
+– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » une fois par jour, puis une fois supplémentaire au niveau 8 et 20.
+
+BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
+
+- 6ème niveau : Peut utiliser la capacité élémentaire « Zéphyr » une fois par jour, puis une fois supplémentaire au niveau 11 et 20.
+
+ZÉPHYR ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts tranchants supplémentaires à chaque coup pendant 4 round.
+
+-  7ème niveau : Peut utiliser  « Imposition des mains » pour soigner 2 points de vie pas niveau.
+
+- 9ème niveau : Peut utiliser la capacité élémentaire « Lune » une fois par jour, puis une fois supplémentaire au niveau 11 et 20.
+
+LUNE ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts magiques supplémentaires à chaque coup pendant 4 round.
+
+- 13ème niveau : Peut utiliser la capacité « Vorpal » une fois par jour, puis une fois supplémentaire au niveau 18.
+
+VORPAL : Un seul coup mais un coup mortel. La prochaine attaque réussie sous 1 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
+
+Inconvénients :   
+- Ne peut utiliser les frondes et les fléchettes et autres armes à distance.
+- Ne peut utiliser d'armure ou de casque.
+- Ne peut utiliser de gantelets ou bracelets.
+- Ne peut utiliser de bouclier.
+- Ne peut utiliser « Charme animal ».
+- Ne peut accéder aux sorts de prêtre.
+- Ne peut être d'alignement chaotique.
+  
+---
+  
+</details>
+
+--
+ Composants
 1. Installation des kits
 2. Choisir la version de la capacité Enragé du Kensaizerker
-3. Mettre à jour les HLAs (ce composant n'est utile que si les capacités de haut niveau ont été modifiées après l'installation de ce mod)
+3. Kit Updater (voir ci-dessous)
 
-#### Notes
+#### Notes d'installation
 
 - Fichier "config.ini" :  
 	- Mettez la valeur d'un kit à = 0 pour ne pas l'installer
-- Composant Mettre à jour les HLAs :  
-	- Ce composant peut être installé sans problème après Talents of Faerun. (Les « capacités mineures » de ToF qui nécessitent de déterminer le niveau du Bouffon cinglant ne peuvent pas être sélectionnées par celui-ci. L'une d'entre elles, l'Ambidextérité, sera attribuée au Bouffon cinglant au niveau 20.)
+- Composants Kit Updater et Enragé (Peut être installé en toute sécurité en fin d'installation et réinstallé à tout moment.)
 
 
-#
+- Installer Misc kits après les mods qui modifient les classes à l’exception du mod Talents of Faerun.
+Si un mode indique spécifiquement qu'il doit être installer après n'importe quel kit. Vous pouvez essayer les deux méthodes.
+- Peut être installé avant ou après la plupart des tweaks, dont les mods qui révisent les compétences martiales.
+Bien sûr, il est toujours recommandé de suivre l'ordre d'installation conventionnel.
 
-#### Quelques notes au sujet du ki (Adepte de l'épée) :
-- Les capacités sont parfois retirées et réintégrées (Ex : après un repos ou le chargement d'un fichier de sauvegarde). C'est pourquoi il peut arriver que les capacités soient temporairement absentes du menu.
-- Si le nombres d'unités de ki est érronée, l'utilisation de n'importe quelle capacité devrait corriger le problème. Le nombres d'unités est basée sur une valeur interne propre à la compétence et change à chaque fois que l'on utilise une capacité (et il se réinitialise lors du Repos).
-- Tout autre type de problème peut, en règle générale, être résolu en ouvrant / fermant l'inventaire, ou en patientant quelques secondes. Le fait de se reposer réinitialise également les valeurs internes.
+#### Kit Updater
 
+- Reconstruit les tables des HLA, met à jour les compétences d'armes et effectue quelques vérifications mineures pour une meilleure compatibilité.
+- Monastery Swordsman: Can put max slots in any melee weapon usable by base Monk.
 
+- Utiliser ce composant après tous les mods de tweak et autres overhauls même ceux qui doivent être installés en dernier.
+
+- Dual to Kit note: Utiliser ce composant une fois avant Dual to Kit si vous utilisez un mod altérant les compétences d'armes.
+Il peut être relancé après si vous avez besoin de mettre à jour d'autres choses plus tard. (note : C'est spécifiquement le composant 3 de Dual to Kit qui doit être exécuté après toute modification des compétences d'armes)
+
+- Note sur le mod Talents of Faerun 
+Kit Updater: **Est INDISPENSABLE pour une compatibilité totale avec le mod Talents of Faerun.**
+- Le Bouffon cinglant peut apprendre les mêmes capacités qu'un Maître-lames de même niveau. Si Talents of Faerun "selectable songs" sont détectés, les chants du Bouffon cinglant bénéficieront également de la possibilité de changer de chanson.
+- L'Adepte de l'épée peut apprendre certaines des capacités des guerriers de même niveau. Il a accès à tous les HLAs des guerriers, ainsi qu'à la plupart des HLAs des moine.

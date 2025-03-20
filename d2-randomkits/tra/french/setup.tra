@@ -1,4 +1,6 @@
-//Setup
+//Installer text
+//
+
 @1 = ~Installer divers kits créés par Dan_P. "Kensaizerker, Adepte de l'épée et Bouffon cinglant"~
 @2 = ~~
 @3 = ~~
@@ -13,9 +15,11 @@ Version par défaut, cette option s'assure que Enragé garde les effets du jeu d
 Cette version d'Enragé clone le fichier SPCL321.spl (Furie) avec toutes les modifications qui auraient pu être apportés par d'autres mods à cette capacité (ex : Les révisons faites par Talents of Faerûn).~
 	
 
-@30 = ~Mettre à jour les HLA du Kensaizerker et du Bouffon cinglant (utile uniquement si les capacités de haut niveau ont été modifiées après l'installation de ce mod)~
+@30 = ~Kit Updater : HLAs, Compétences, compatibilité. (Peut être installé en toute sécurité en fin d'installation et réinstallé à tout moment.)~
 
-//
+
+/*
+*/
 
 
 
