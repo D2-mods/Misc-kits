@@ -69,7 +69,7 @@ Tools:
 
 v3.1
 - ToF note: The kit updater now adds back a line for Monastery Swordsman if overwritten by ToF or another mod (the one that says it starts specialized in single weapon/two-handed weapon).
-- Tof note: Monastery Swordsman should no longer be able to put points in bows/crossbows if using the ToF proficiency system. Run the Kit Updater to fix. This edits the line for the kit in m_dw_krd.lua and backs up an unmodified copy in weidu_external/d2mk folder.
+- Tof note: Minor fix if using ToF proficiency system (monastery swordsman couldn't put 5 points in staff). Run the Kit Updater to fix. This edits the line for the kit in m_dw_krd.lua and backs up an unmodified copy in weidu_external/d2mk folder.
 - BG2 (classic): Minor compat adjustment. (note: if using a monk revision and the AC for Monastery Swordsman looks too low, check the monk class AC to see if the revision is causing it. Even though it's a ranger kit for non-EE, it still uses the monk table as the base before edits.)
 
 v3.0
