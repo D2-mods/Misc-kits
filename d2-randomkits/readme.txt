@@ -67,6 +67,9 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v3.2
+- Monastery Swordsman: Fixed some possible weirdness with Dual to Kit component 3. If NOT using a tweak that lets monks use staff or other 2-handed weapons, the kit updater (when run after Dual to Kit) was still thinking it could use 2-handed weapons and was making a description/spell edit based on that.
+
 v3.1
 - ToF note: The kit updater now adds back a line for Monastery Swordsman if overwritten by ToF or another mod (the one that says it starts specialized in single weapon/two-handed weapon).
 - Tof note: Minor fix if using ToF proficiency system (monastery swordsman couldn't put 5 points in staff). Run the Kit Updater to fix. This edits the line for the kit in m_dw_krd.lua and backs up an unmodified copy in weidu_external/d2mk folder.

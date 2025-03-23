@@ -53,8 +53,13 @@ INCLUDE ~%install%/usableweapons.tph~
 OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
 OUTER_TEXT_SPRINT profbonus  ~override/%e6%.SPL~
 OUTER_SET 2handed = 111
-LAF d2_get_2da_entry INT_VAR col_read=1 STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%2handed%~ RET entry END
+LAF d2_get_2da_entry INT_VAR col_read=1 STR_VAR 2da=weapprof col_name=monk row_name=~%2handed%~ RET entry END
 
+//check if staff is usable (fix check with dual to kit)
+LAF d2_get_weapontype_fields STR_VAR type=staff RET item_unusable END
+ACTION_IF (item_unusable != 0) BEGIN  OUTER_SET entry = 0  END
+
+//patch if 
 COPY ~%profbonus%~  ~%profbonus%~
   LPF DELETE_EFFECT INT_VAR match_parameter2=2handed END
   PATCH_IF (IS_AN_INT entry AND entry > 0) BEGIN
@@ -67,15 +72,15 @@ LAF GET_KIT_STRREF STR_VAR kit_name=~%ids_name%~ RET kit_strref END
 ACTION_GET_STRREF EVAL ~%kit_strref%~ desc
 OUTER_SPRINT base  @450
 OUTER_SPRINT mod  @451
-OUTER_SPRINT check  @452
+OUTER_SPRINT match  @452
 OUTER_SPRINT dash  @453
 OUTER_SPRINT note  @454
 OUTER_SPRINT space  ~ ~
 
 //tof fix (if it overwrites base line)
-ACTION_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%base%~) BEGIN    // if "desc" does NOT contain "base" text
+ACTION_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%note%~) BEGIN    // if "desc" does NOT contain "note" text
   OUTER_PATCH_SAVE desc ~%desc%~ BEGIN
-    REPLACE_TEXTUALLY EXACT_MATCH ~%check%~  ~%base%%space%%note%%WNL%%dash%%check%~
+    REPLACE_TEXTUALLY EXACT_MATCH ~%match%~  ~%base%%space%%note%%WNL%%dash%%match%~
   END	
   STRING_SET_EVALUATE kit_strref  ~%desc%~
 END
@@ -112,16 +117,16 @@ OUTER_TEXT_SPRINT type ~ARCHERY~
 LAF d2_edit_2da_entry STR_VAR 2da=weapprof col_name=~%ids_name%~ row_name=~%type%~ entry=0 END
 
 
-//tof - give monastery swordsman correct profs
+//tof - give monastery swordsman 5 in staff (if set to 2)
 //if tof is changed to account for prof revisions, this does nothing (skipped silently)
 OUTER_TEXT_SPRINT file ~override/m_dw_krd.lua~
 LAF d2_get_kitnum STR_VAR kit=~%ids_name%~ RET kitnum END
 
 OUTER_TEXT_SPRINT line
-  ~[%kitnum%]={[89]=5, [90]=5, [91]=5, [92]=5, [93]=5, [94]=5, [95]=5, [96]=5, [97]=5, [98]=5, [99]=5, [100]=5, [101]=5, [102]=2, [103]=2, [104]=2, [105]=2, [106]=0, [107]=0, [111]=2, [112]=0, [113]=2, [114]=3, [115]=5, },~
+  ~[%kitnum%]={[89]=5, [90]=5, [91]=5, [92]=5, [93]=5, [94]=5, [95]=5, [96]=5, [97]=5, [98]=5, [99]=5, [100]=5, [101]=5, [102]=2~
 
 OUTER_TEXT_SPRINT newline
-  ~[%kitnum%]={[89]=5, [90]=5, [91]=5, [92]=5, [93]=5, [94]=5, [95]=5, [96]=5, [97]=5, [98]=5, [99]=5, [100]=5, [101]=5, [102]=5, [103]=0, [104]=0, [105]=0, [106]=0, [107]=0, [111]=2, [112]=0, [113]=2, [114]=3, [115]=5, },~
+  ~[%kitnum%]={[89]=5, [90]=5, [91]=5, [92]=5, [93]=5, [94]=5, [95]=5, [96]=5, [97]=5, [98]=5, [99]=5, [100]=5, [101]=5, [102]=5~
 
 COPY ~%file%~  ~%file%~
   REPLACE_TEXTUALLY EXACT_MATCH  ~%line%~  ~%newline%~
