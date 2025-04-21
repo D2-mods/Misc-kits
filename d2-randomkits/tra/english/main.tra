@@ -27,14 +27,14 @@
 @650 = ~Note: The Bard's Song may be used an unlimited number of times, and lasts for 6 rounds + 1 round per 5 levels gained. The Bard Song has a cooldown of 1 turn before it may be used again.~    // for Bardic Wonders (song mechanics tweak)
 
 
-//text replacement (mod compat)
-@450 = ~Starts with Specialization (two slots) in Single Weapon Style.~
+//text edit (if monks can use 2-handed weapons)
+@450 = ~Starts with Specialization (two slots) in Single Weapon Style.~    // match text in @10203
 @451 = ~Starts with Specialization (two slots) in Single Weapon Style and Two-Handed Weapon Style.~
 
-//tof fix (it overwrites single weapon line)
-@452 = ~May place 3 slots in Two-Weapon Style.~
+//tof fix (it overwrites "Single Weapon" line for Monastery Swordsman)
+@452 = ~May place 3 slots in Two-Weapon Style.~    // match text in @10203
 @453 = ~– ~    // en dash at start of line
-@454 = ~(Do not place slots at creation!)~
+@454 = ~(Do not place slots at creation!)~    // match text in @10203
 
 
 //Ki Energy feedback

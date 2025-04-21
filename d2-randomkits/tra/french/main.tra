@@ -26,15 +26,15 @@
 @650 = ~Remarque : Le chant du barde peut être utilisé à volonté et dure 6 rounds + 1 round par tranche de 5 niveaux. Néanmoins un temps de récupération de 1 tour est nécessaire avant de pouvoir chanter à nouveau.~    // for Bardic Wonders (song mechanics tweak)
 
 
-//text replacement (mod compat)
-@450 = ~Bénéficie de la spécialisation à la création (2 points de compétence) dans le style de combat à une main.~
-@451 = ~Bénéficie de la spécialisation à la création (2 points de compétence) dans le style de combat à une main et le style de combat à deux armes.~
+//text edit (if monks can use 2-handed weapons)
+@450 = ~Bénéficie de la spécialisation à la création (2 points de compétence) dans le style de combat à une main.~    // match text in @10203
+@451 = ~Bénéficie de la spécialisation à la création (2 points de compétence) dans le style de combat à une main et le style de combat à deux mains.~
 
 
-//tof fix (it overwrites single weapon line)
-@452 = ~Peut atteindre la maîtrise (3 points de compétence) dans le style de combat à deux armes.~
-@453 = ~– ~    // en dash at start of line
-@454 = ~(Ne pas placer les points de compétences à la création !)~
+//tof fix (it overwrites "Single Weapon" line for Monastery Swordsman)
+@452 = ~Peut allouer trois points de compétence dans le style de combat à deux armes.~    // match text in @10203
+@453 = ~- ~    // en dash at start of line
+@454 = ~(Ne pas placer les points de compétences à la création !)~    // match text in @10203
 
 
 //Ki Energy feedback
@@ -45,7 +45,7 @@
 @543612 = ~Masquer les informations visuelles~
 @543613 = ~Montrer les informations visuelles~
 @543614 = ~Supprimer la configuration (permanent)~
-@543615 = ~– ~    // en dash (Config description)
+@543615 = ~- ~    // en dash (Config description)
 
 
 //tof hla (tofenragepatch.tph)
@@ -65,19 +65,19 @@ Nécessite : Être un Berserker ou un Kensaizerker de niveau 1.~
 @10103 = ~KENSAIZERKER : Proche du kensai, ou « Seigneur de l'épée », ce guerrier est en phase avec son côté animal et peut atteindre un état d'extase qui lui permet de se battre plus longtemps, plus durement et plus sauvagement, au-delà de toute raison.
 
 Avantages :
-– Bonus de 2 à la classe d'armure.
-– Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
-– Bonus de 1 au facteur de vitesse tout les 4 niveaux.
-– Peut utiliser la capacité « Enragé » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+- Bonus de 2 à la classe d'armure.
+- Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
+- Bonus de 1 au facteur de vitesse tout les 4 niveaux.
+- Peut utiliser la capacité « Enragé » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
 
 ENRAGÉ : Pendant 1 tour, le personnage gagne un bonus de 2 à sa classe d'armure, à ses jets d'attaque et de dégâts, il bénéficie d'une immunité au charme, à la confusion, à la peur, à la débilité mentale, à l'immobilisation, à l'emprisonnement, au drainage de niveau, au sort de labyrinthe, à l'étourdissement et au sommeil. Le personnage reçoit également 15 points de vie supplémentaires qui seront retirés lorsque sa fureur prendra fin, ce qui peut entraîner une perte de connaissance.
 
 Inconvénients : 
-– Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à la classe d'armure, aux jets d'attaque et aux jets de dégâts.
-– Ne peut porter aucune armure.
-– Ne peut utiliser des armes à distance.
-– Ne peut porter de gantelets ou de bracelets.
-– Ne peut pas être d'alignement loyal.~
+- Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à la classe d'armure, aux jets d'attaque et aux jets de dégâts.
+- Ne peut porter aucune armure.
+- Ne peut utiliser des armes à distance.
+- Ne peut porter de gantelets ou de bracelets.
+- Ne peut pas être d'alignement loyal.~
 @10104 = ~~
 @10105 = ~~
 
@@ -88,14 +88,14 @@ Inconvénients :
 @10203 = ~ADEPTE DE L'ÉPÉE : Les moines sont des guerriers qui cherchent la perfection à travers la contemplation et l'action. Parmi eux, certains ont été spécialement formés pour ne faire qu'un avec leurs armes de prédilection. Le prouesse la plus connue des moines est leur aptitude à couper en deux un adversaire d'un seul coup.
 
 Avantages :
-– Bénéficie de la spécialisation à la création (2 points de compétence) dans le style de combat à une main.
+- Bénéficie de la spécialisation à la création (2 points de compétence) dans le style de combat à une main. (Ne pas placer les points de compétences à la création !)
 - Peut allouer trois points de compétence dans le style de combat à deux armes.
-– Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
-– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les moines.
-– Obtient une quantité d'énergie mystique, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 unité d'énergie mystique à chaque montée de niveau, jusqu' au niveau 20.
+- Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
+- Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les moines.
+- Obtient une quantité d'énergie mystique, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 unité d'énergie mystique à chaque montée de niveau, jusqu' au niveau 20.
 - Accumulation d'énergie : Cette capacité passive permet de régénérer 1 unité d'énergie mystique tout les 5 rounds.
 
-– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » (Consomme 3 unités d'énergie mystique).
+- 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » (Consomme 3 unités d'énergie mystique).
 
 BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
 
@@ -126,18 +126,18 @@ Inconvénients :
 @10303 = ~BOUFFON CINGLANT : Le Bouffon cinglant est versé dans l'art du ridicule et de la plaisanterie, il utilise ses capacités pour déconcerter ses ennemis en cabriolant joyeusement. Cependant, vous feriez mieux de le prendre au sérieux. Ce barde est un expert du combat et un grand aventurier, avec un style... mortel.
 
 Avantages :
-– Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, il affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts avec un bonus de 2 ou être frappé de confusion, le bonus passe à 1 au niveau 5, à 0 au niveau 10 et devient à malus de 1 au niveau 15. Au niveau 20 les adversaire devront réussir un jet de sauvegarde contre les sorts avec un malus de 2.
-– Peut allouer trois étoiles dans le style de combat à deux armes.
-– Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+- Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, il affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts avec un bonus de 2 ou être frappé de confusion, le bonus passe à 1 au niveau 5, à 0 au niveau 10 et devient à malus de 1 au niveau 15. Au niveau 20 les adversaire devront réussir un jet de sauvegarde contre les sorts avec un malus de 2.
+- Peut allouer trois étoiles dans le style de combat à deux armes.
+- Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
 
 SPIRALE OFFENSIVE : Durant les 4 prochains rounds, la vitesse de déplacement du personnage est doublée, il obtient un bonus de 2 au toucher et aux dégâts ainsi qu'une attaque supplémentaire par round, et toutes ses attaques font le maximum de dégâts. Ne peut être utilisée en conjonction avec les sorts profanes Hâte ou Hâte améliorée.
 
 SPIRALE DÉFENSIVE : Durant les 4 prochains rounds, le personnage ne peut plus se déplacer, mais obtient un bonus de 1 à sa classe d'armure par niveau d'expérience, jusqu'à un maximum de 10.
 
 Inconvénients : 
-– Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
-– Score de connaissances divisé par deux.
-– Score de Vol à la tire divisé par deux.~
+- Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
+- Score de connaissances divisé par deux.
+- Score de Vol à la tire divisé par deux.~
 @10304 = ~~
 @10305 = ~~
 
@@ -205,31 +205,31 @@ Le chant du Bouffon cinglant désoriente les ennemis dans un rayon de 9 mètres,
 @9910103 = ~KENSAIZERKER : Très proche du kensai, ou « Seigneur de l'épée », ce guerrier est en phase avec son côté animal et peut atteindre un état d'extase qui lui permet de se battre plus longtemps, plus durement et plus sauvagement, au-delà de toute raison.
 
 Avantages :
-– Bonus de 2 à la classe d'armure.
-– Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
-– Bonus de 1 au facteur de vitesse tout les 4 niveaux.
-– Peut utiliser la capacité « Enragé », pendant 60 secondes une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+- Bonus de 2 à la classe d'armure.
+- Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
+- Bonus de 1 au facteur de vitesse tout les 4 niveaux.
+- Peut utiliser la capacité « Enragé », pendant 60 secondes une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
 - Sous l'effet de la rage : Bonus de 2 à la classe d'armure, aux jets d'attaque et aux jets de dégâts.
 - Sous l'effet de la rage : Immunité au charme, à la confusion, à la peur, à la débilité mentale, à l'immobilisation, à l'emprisonnement, au drainage de niveau, au sort de labyrinthe, à l'étourdissement et au sommeil.
 - Sous l'effet de la rage : Reçoit 15 points de vie supplémentaires qui seront retirés lorsque la fureur prendra fin, ce qui peut entraîner une mort immédiate.
 
 Inconvénients : 
-– Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à sa classe d'armure, aux jets d'attaque et aux jets de dégâts.
-– Ne peut utiliser des armes à distance.
+- Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à sa classe d'armure, aux jets d'attaque et aux jets de dégâts.
+- Ne peut utiliser des armes à distance.
 - Ne peut utiliser d'armure ou de casque.
 - Ne peut utiliser de gantelets ou bracelets.
 - Ne peut utiliser de bouclier.
-– Ne peut pas être d'alignement loyal.~
+- Ne peut pas être d'alignement loyal.~
 
 
 @9910203 = ~ADEPTE DE L'ÉPÉE : Les moines sont des guerriers qui cherchent la perfection à travers la contemplation et l'action. Parmi eux, certains ont été spécialement formés pour ne faire qu'un avec leurs armes de prédilection. Le prouesse la plus connue des moines est leur aptitude à couper en deux un adversaire d'un seul coup.
 
 Avantages : 
 - Bénéficie de toutes les capacités passives du moine à l’exception de l'amélioration des attaques à mains nues.
-– Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
-– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les voleurs.
+- Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
+- Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les voleurs.
 
-– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » une fois par jour, puis une fois supplémentaire au niveau 8 et 20.
+- 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » une fois par jour, puis une fois supplémentaire au niveau 8 et 20.
 
 BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
 
@@ -237,7 +237,7 @@ BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts
 
 ZÉPHYR ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts tranchants supplémentaires à chaque coup pendant 4 round.
 
--  7ème niveau : Peut utiliser  « Imposition des mains » pour soigner 2 points de vie pas niveau.
+- 7ème niveau : Peut utiliser  « Imposition des mains » pour soigner 2 points de vie pas niveau.
 
 - 9ème niveau : Peut utiliser la capacité élémentaire « Lune » une fois par jour, puis une fois supplémentaire au niveau 11 et 20.
 
@@ -260,16 +260,16 @@ Inconvénients :
 @9910303 = ~BOUFFON CINGLANT : Le Bouffon cinglant est versé dans l'art du ridicule et de la plaisanterie, il utilise ses capacités pour déconcerter ses ennemis en cabriolant joyeusement. Cependant, vous feriez mieux de le prendre au sérieux. Ce barde est un expert du combat et un grand aventurier, avec un style... mortel.
 
 Avantages :
-– Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, il affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts avec un bonus de 2 ou être frappé de confusion, le bonus passe à 1 au niveau 5, à 0 au niveau 10 et devient à malus de 1 au niveau 15. Au niveau 20 les adversaire devront réussir un jet de sauvegarde contre les sorts avec un malus de 2.
--  – Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
--  Spirale offensive : Durant les 24 prochains secondes, la vitesse de déplacement du personnage est doublée et il obtient un bonus de 2 au toucher et aux dégâts, ainsi qu'une attaque supplémentaire par round, et toutes ses attaques font le maximum de dégâts. Ne peut être utilisée en conjonction avec les sorts profanes Hâte ou Hâte améliorée.
--  Spirale défensive : Durant les 24 prochains secondes, le personnage ne peut plus se déplacer, mais obtient un bonus de 1 à sa classe d'armure par niveau d'expérience, jusqu'à un maximum de 10.
-– Peut allouer trois étoiles dans le style de combat à deux armes.
+- Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, il affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts avec un bonus de 2 ou être frappé de confusion, le bonus passe à 1 au niveau 5, à 0 au niveau 10 et devient à malus de 1 au niveau 15. Au niveau 20 les adversaire devront réussir un jet de sauvegarde contre les sorts avec un malus de 2.
+- Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+- Spirale offensive : Durant les 24 prochains secondes, la vitesse de déplacement du personnage est doublée et il obtient un bonus de 2 au toucher et aux dégâts, ainsi qu'une attaque supplémentaire par round, et toutes ses attaques font le maximum de dégâts. Ne peut être utilisée en conjonction avec les sorts profanes Hâte ou Hâte améliorée.
+- Spirale défensive : Durant les 24 prochains secondes, le personnage ne peut plus se déplacer, mais obtient un bonus de 1 à sa classe d'armure par niveau d'expérience, jusqu'à un maximum de 10.
+- Peut allouer trois étoiles dans le style de combat à deux armes.
 
 Inconvénients : 
-– Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
-– Score de connaissances divisé par deux.
-– Score de Vol à la tire divisé par deux.~
+- Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
+- Score de connaissances divisé par deux.
+- Score de Vol à la tire divisé par deux.~
 
 
 //
@@ -292,7 +292,7 @@ Les attaques de mêlée infligent 2d6 points de dégâts de feu à chaque coup p
 //Sever
 @99202 = ~Vorpal
 
-Un seul coup mais un coup mortel. La prochaine attaque réussie sous 2 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
+Un seul coup mais un coup mortel. La prochaine attaque réussie sous 1 rounds tue la cible si celle-ci échoue son jet de sauvegarde contre la mort à -2. Un adversaire qui survit à l'attaque subit tout de même 5d6 points de dégâts tranchants.
 
 Une créature ne peut subir les effets de Vorpal qu'une fois par round.~
 

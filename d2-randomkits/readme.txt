@@ -67,6 +67,11 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v3.3
+- Sever does 1 second hit stun if target survives (not mentioned in description).
+- French translation: Corrected some lines used for text matching in the French TRA. My notes for these weren't very clear so I added some extra notes to the TRA.
+- French translation now always uses hyphens at the starts of lines instead of en dashes. This is to match the style of other kits in French. English is the same as before (en dashes for EE, hyphens for classic).
+
 v3.2
 - Monastery Swordsman: Fixed some possible weirdness with Dual to Kit component 3. If NOT using a tweak that lets monks use staff or other 2-handed weapons, the kit updater (when run after Dual to Kit) was still thinking it could use 2-handed weapons and was making a description/spell edit based on that.
 

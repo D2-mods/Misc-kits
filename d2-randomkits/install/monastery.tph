@@ -138,6 +138,7 @@ COPY ~%abilities%/sever.SPL~  ~override/%s2%.SPL~
 COPY ~%abilities%/applyeffects.EFF~   ~override/%s2%a.EFF~
   WRITE_ASCII 0x30 ~%s2%a~ #8
 COPY ~%abilities%/severslashing.SPL~  ~override/%s2%a.SPL~
+  LPF d2_addhitstun INT_VAR match_opcode=12 END
 
 COPY ~%abilities%/applyeffects.EFF~   ~override/%s2%b.EFF~
   WRITE_ASCII 0x30 ~%s2%b~ #8

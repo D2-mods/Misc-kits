@@ -192,6 +192,7 @@ COPY ~%abilities%/castspelltarget.EFF~  ~override/%s2%a.EFF~
 COPY ~%abilities%/severslashing.SPL~    ~override/%s2%a.SPL~
   LPF sever_cooldown END
   LPF ALTER_EFFECT INT_VAR match_opcode=206 parameter1=0 END    // no immune message
+  LPF d2_addhitstun INT_VAR match_opcode=12 END
 
 //kill target
 COPY ~%abilities%/castspelltarget.EFF~  ~override/%s2%b.EFF~

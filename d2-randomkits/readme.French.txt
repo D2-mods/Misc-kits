@@ -59,6 +59,11 @@ Outils :
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v3.3
+- Sever does 1 second hit stun if target survives (not mentioned in description).
+- French translation: Corrected some lines used for text matching in the French TRA. My notes for these weren't very clear so I added some extra notes to the TRA.
+- French translation now always uses hyphens at the starts of lines instead of en dashes. This is to match the style of other kits in French. English is the same as before (en dashes for EE, hyphens for classic).
+
 v3.2
 - Monastery Swordsman: Fixed some possible weirdness with Dual to Kit component 3. If NOT using a tweak that lets monks use staff or other 2-handed weapons, the kit updater (when run after Dual to Kit) was still thinking it could use 2-handed weapons and was making a description/spell edit based on that.
 
@@ -220,19 +225,19 @@ Kensaizerker (Kit de Guerrier)
 KENSAIZERKER : Proche du kensai, ou « Seigneur de l'épée », ce guerrier est en phase avec son côté animal et peut atteindre un état d'extase qui lui permet de se battre plus longtemps, plus durement et plus sauvagement, au-delà de toute raison.
 
 Avantages :
-– Bonus de 2 à la classe d'armure.
-– Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
-– Bonus de 1 au facteur de vitesse tout les 4 niveaux.
-– Peut utiliser la capacité « Enragé » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+- Bonus de 2 à la classe d'armure.
+- Bonus de 1 aux jets d'attaque et de dégâts tout les 3 niveaux.
+- Bonus de 1 au facteur de vitesse tout les 4 niveaux.
+- Peut utiliser la capacité « Enragé » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
 
 ENRAGÉ : Pendant 1 tour, le personnage gagne un bonus de 2 à sa classe d'armure, à ses jets d'attaque et de dégâts, il bénéficie d'une immunité au charme, à la confusion, à la peur, à la débilité mentale, à l'immobilisation, à l'emprisonnement, au drainage de niveau, au sort de labyrinthe, à l'étourdissement et au sommeil. Le personnage reçoit également 15 points de vie supplémentaires qui seront retirés lorsque sa fureur prendra fin, ce qui peut entraîner une perte de connaissance.
 
 Inconvénients : 
-– Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à la classe d'armure, aux jets d'attaque et aux jets de dégâts.
-– Ne peut porter aucune armure.
-– Ne peut utiliser des armes à distance.
-– Ne peut porter de gantelets ou de bracelets.
-– Ne peut pas être d'alignement loyal.
+- Suite à sa fureur, le personnage est essoufflé et subit une pénalité de 2 à la classe d'armure, aux jets d'attaque et aux jets de dégâts.
+- Ne peut porter aucune armure.
+- Ne peut utiliser des armes à distance.
+- Ne peut porter de gantelets ou de bracelets.
+- Ne peut pas être d'alignement loyal.
 
 
 ==================================================
@@ -241,14 +246,14 @@ Monastery Swordsman (Kit de Moine)
 ADEPTE DE L'ÉPÉE : Les moines sont des guerriers qui cherchent la perfection à travers la contemplation et l'action. Parmi eux, certains ont été spécialement formés pour ne faire qu'un avec leurs armes de prédilection. Le prouesse la plus connue des moines est leur aptitude à couper en deux un adversaire d'un seul coup.
 
 Avantages :
-– Bénéficie de la spécialisation à la création (2 points de compétence) dans n'importe quel style de combat à une main.
+- Bénéficie de la spécialisation à la création (2 points de compétence) dans n'importe quel style de combat à une main.
 - Peut allouer trois points de compétence dans le style de combat à deux armes.
-– Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
-– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les moines.
-– Obtient une quantité d'énergie mystique, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 unité d'énergie mystique à chaque montée de niveau, jusqu' au niveau 20.
+- Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
+- Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les moines.
+- Obtient une quantité d'énergie mystique, qui sera utilisée pour activer les capacités de l'Adepte de l'épée. Bonus de 1 unité d'énergie mystique à chaque montée de niveau, jusqu' au niveau 20.
 - Accumulation d'énergie : Cette capacité passive permet de régénérer 1 unité d'énergie mystique tout les 5 rounds.
 
-– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » (Consomme 3 unités d'énergie mystique).
+- 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » (Consomme 3 unités d'énergie mystique).
 
 BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
 
@@ -277,18 +282,18 @@ Jesterblade (Kit de Barde)
 BOUFFON CINGLANT : Le Bouffon cinglant est versé dans l'art du ridicule et de la plaisanterie, il utilise ses capacités pour déconcerter ses ennemis en cabriolant joyeusement. Cependant, vous feriez mieux de le prendre au sérieux. Ce barde est un expert du combat et un grand aventurier, avec un style... mortel.
 
 Avantages :
-– Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, elle affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts à -2 ou devenir confus pendant 1 round.
-– Peut allouer trois étoiles dans le style de combat à deux armes.
-– Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
+- Le chant du barde du Bouffon cinglant n'aide pas ses alliés. Au contraire, elle affecte tous les ennemis dans un rayon de 10 m, qui doivent réussir un jet de sauvegarde contre les sorts à -2 ou devenir confus pendant 1 round.
+- Peut allouer trois étoiles dans le style de combat à deux armes.
+- Peut utiliser les capacités « spirale offensive » et « spirale défensive » une fois par jour au niveau 1, puis une fois supplémentaire tous les 4 niveaux.
 
 SPIRALE OFFENSIVE : Durant les 4 prochains rounds, la vitesse de déplacement du personnage est doublée et il obtient un bonus de 2 au toucher et aux dégâts, ainsi qu'une attaque supplémentaire par round, et toutes ses attaques font le maximum de dégâts. Ne peut être utilisée en conjonction avec les sorts profanes Hâte ou Hâte améliorée.
 
 SPIRALE DÉFENSIVE : Durant les 4 prochains rounds, le personnage ne peut plus se déplacer, mais obtient un bonus de 1 à sa classe d'armure par niveau d'expérience, jusqu'à un maximum de 10.
 
 Inconvénients : 
-– Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
-– Score de connaissances divisé par deux.
-– Score de Vol à la tire divisé par deux.
+- Le chant du barde ne gagne pas d'effet additionnels à haut niveau.
+- Score de connaissances divisé par deux.
+- Score de Vol à la tire divisé par deux.
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
@@ -302,10 +307,10 @@ MONASTERY SWORDSMAN: These finely skilled warriors channel a subtle energy, call
 
 Advantages:
 - Bénéficie de toutes les capacités passives du moine à l’exception de l'amélioration des attaques à mains nues.
-– Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
-– Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les voleurs.
+- Bonus de 1 aux jets d'attaque et de dégâts au niveau 3, puis une fois supplémentaire tous les 5 niveaux.
+- Peut atteindre la grande maîtrise (5 points de compétence) avec les armes de mêlé utilisable par les voleurs.
 
-– 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » une fois par jour, puis une fois supplémentaire au niveau 8 et 20.
+- 3ème niveau : Peut utiliser la capacité élémentaire « Brasier » une fois par jour, puis une fois supplémentaire au niveau 8 et 20.
 
 BRASIER ÉLÉMENTAIRE : Ses attaques de mêlée infligent 2d6 points de dégâts de feu supplémentaires à chaque coup pendant 4 round.
 
