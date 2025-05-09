@@ -67,6 +67,11 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v3.4
+- IWDEE: Jesterblade gets the Jester bonus effect from Jester's Bag item (extra random item).
+- Sever: added visual/audio feedback if target survives the attack. Slightly reorganized install. Vorpal effect moved to a new "d2vorpal" subspell.
+- Sever: Vorpal visual won't play if target is immune to the vorpal/death effect (patches existing files). Death immunities installed after this mod can block "d2vorpal" directly and/or, for EEs, give the DEATH_WARD or DEATH_IMMUNITY (EE fixpack) spell states.
+
 v3.3
 - Sever does 1 second hit stun if target survives (not mentioned in description).
 - French translation: Corrected some lines used for text matching in the French TRA. My notes for these weren't very clear so I added some extra notes to the TRA.

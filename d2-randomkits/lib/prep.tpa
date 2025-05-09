@@ -2,16 +2,8 @@
 //
 
 
-//fix #BONECIR.SPL (wrong signature)
-ACTION_IF (FILE_EXISTS_IN_GAME ~#BONECIR.SPL~) BEGIN
-  COPY_EXISTING ~#BONECIR.SPL~  ~override~
-    WRITE_ASCII 0x0 ~SPL ~ #4
-  BUT_ONLY
-END
-
-
 //number => id
-ACTION_DEFINE_ASSOCIATIVE_ARRAY array_for_import_fix BEGIN
+ACTION_DEFINE_ASSOCIATIVE_ARRAY number_id_array BEGIN
   1   => 1
   2   => 2
   3   => 3
@@ -41,6 +33,7 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY item_kit_effects BEGIN
   bdbelt02 => blade
   bdbrac05 => stalker
   bdbrd04  => jester
+  HOLDING  => jester    // iwdee
   bdsw1h04 => kensai
 //bdsw2h01 => berserk         // not needed (effect based on STATE_ENRAGED spell state)
   BDAMUL11 => shapeshifter

@@ -28,6 +28,7 @@ ACTION_IF (nomonastery = 0) BEGIN
   OUTER_TEXT_SPRINT kitname ~MONASTERY~
   INCLUDE ~%install%/variables.tph~
   INCLUDE ~%install%/resources.tph~
+  INCLUDE ~%install%/vorpal.tph~
 
   ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
     INCLUDE ~%install%/%kitname%.tph~
@@ -55,6 +56,7 @@ END
 INCLUDE ~%install%/hlaupdatermk1.tph~
 INCLUDE ~%install%/tofenragepatch.tph~
 INCLUDE ~%install%/castingspeed.tph~
+INCLUDE ~%install%/spellpatchingmk1.tph~
 INCLUDE ~%install%/bg2opcodecheck.tph~
 INCLUDE ~%install%/waninjapatch.tph~
 

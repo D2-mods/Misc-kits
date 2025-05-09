@@ -7,6 +7,7 @@
 @3 = ~~
 @4 = ~~
 @5 = ~~
+@6 = ~Additional patching of spells, items, or creatures~
 
 @20 = ~Choose Enrage version (can re-run to change setting at any time)~
 	@21 = ~Use default. This option ensures that Enrage always has vanilla/unmodded bonuses and penalties. On EEs, it will also be recastable, overwriting previous effects.~

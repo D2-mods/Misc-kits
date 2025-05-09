@@ -1,0 +1,85 @@
+/*
+add d2vorpal
+
+needs applyeffects.EFF in "abilities" folder
+EEs: needs d2_misc_functions.tpa
+bg2 (classic): needs FODEATH.vvc and FODEATH.bam in override (from iwdee)
+*/
+
+
+OUTER_SET ee_game = 0
+ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~zoomlock~) BEGIN OUTER_SET ee_game = 1 END
+ACTION_IF !(FILE_EXISTS ~engine.lua~) BEGIN OUTER_SET ee_game = 0 END
+
+
+//default vorpal EFF (copy and edit for individual abilities)
+DEFINE_PATCH_FUNCTION vorpalsavebonus INT_VAR save=4 bonus=0 BEGIN
+  WRITE_LONG 0x40 save     // 4 = save vs. death
+  WRITE_LONG 0x44 bonus    // -2 penalty to save
+END
+
+COPY ~%abilities%/applyeffects.EFF~   ~override/d2vorpal.EFF~
+  PATCH_IF (ee_game > 0) BEGIN
+    //
+  END ELSE BEGIN
+    WRITE_LONG 0x10 146    // non-EE opcode
+    WRITE_LONG 0x20 1      // cast instantly
+  END
+  WRITE_ASCII 0x30 d2vorpal #8
+//
+
+
+//
+DEFINE_PATCH_FUNCTION vorpalstrings BEGIN
+  PATCH_IF (GAME_INCLUDES ~bg2~) BEGIN
+    LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1=64285 END    // "Vorpal Hit"
+  END ELSE PATCH_IF (GAME_IS ~iwdee~) BEGIN
+    LPF ALTER_EFFECT INT_VAR match_opcode=139 parameter1=35592 END    // "Vorpal Hit"
+  END ELSE BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=139 END    // no display string
+  END
+END
+
+DEFINE_PATCH_FUNCTION vorpalstates BEGIN
+  SET splstate = 110
+  SET death_ward = IDS_OF_SYMBOL (~splstate~ ~DEATH_WARD~)
+  LPF d2_protect_on_castequip INT_VAR cre_type=splstate cre_special=death_ward duration=0 STR_VAR insert=first END
+  PATCH_IF (IS_AN_INT death_immunity && death_immunity > 0) BEGIN
+    LPF CLONE_EFFECT INT_VAR multi_match=1 parameter1=death_immunity END    // EE fixpack check
+  END
+END
+
+DEFINE_PATCH_FUNCTION vorpalvisual BEGIN
+  INNER_ACTION BEGIN
+    COPY_EXISTING ~FODEATH.VVC~  ~override/d2vorpal.VVC~
+      WRITE_SHORT 0x18 (THIS BAND BNOT BIT9)    // no 3D blend
+    IF_EXISTS
+  END
+END
+
+
+COPY ~%abilities%/vorpal.spl~  ~override/d2vorpal.spl~
+  LPF DELETE_EFFECT INT_VAR match_opcode=318 END    // no racial immunities (use death immunity instead)
+//LPF DELETE_EFFECT INT_VAR match_opcode=139 END    // no display string
+  LPF vorpalstrings END
+
+  // if EEs
+  PATCH_IF (ee_game > 0) BEGIN
+    LPF vorpalstates END
+  END
+
+  // if BG2 engine
+  ELSE PATCH_IF (RESOURCE_CONTAINS ~kitlist.2da~ ~berserker~) BEGIN
+    LPF ALTER_EFFECT INT_VAR match_opcode=215 STR_VAR resource=d2vorpal END    // change visual
+    LPF vorpalvisual END
+  END
+
+  // other
+  ELSE BEGIN
+    LPF DELETE_EFFECT INT_VAR match_opcode=215 END    // delete bg2 opcode
+  END
+//
+
+
+/*
+*/

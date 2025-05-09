@@ -127,27 +127,25 @@ COPY ~%abilities%/sever.SPL~  ~override/%s2%.SPL~
   SAY UNIDENTIFIED_DESC @202
   WRITE_ASCII 0x3a ~%s2%~ #8
   WRITE_ASCII 0x76 ~%s2%~ #8
-  LPF ALTER_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%x~ END
-  LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%a~ END    // damage
-  LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%b~ END    // vorpal
+  LPF ALTER_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%x~ END    // remove on hit
+  LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%b~ END    // damage
+  LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=248 STR_VAR resource=~%s2%a~ END    // vorpal
   LPF ALTER_EFFECT INT_VAR match_opcode=174 match_timing=4 STR_VAR resource=EFF_E05 END
   LPF ALTER_EFFECT INT_VAR match_opcode=142 parameter2=icon END
   LPF d2_mindamageboost INT_VAR amount=3 duration=12 END
   LPF ALTER_EFFECT INT_VAR target=2 resist_dispel=2 END
 
-COPY ~%abilities%/applyeffects.EFF~   ~override/%s2%a.EFF~
-  WRITE_ASCII 0x30 ~%s2%a~ #8
-COPY ~%abilities%/severslashing.SPL~  ~override/%s2%a.SPL~
-  LPF d2_addhitstun INT_VAR match_opcode=12 END
+//vorpal (subspell from vorpal.tph)
+COPY_EXISTING ~override/d2vorpal.EFF~  ~override/%s2%a.EFF~
+  LPF vorpalsavebonus INT_VAR bonus=~-2~ END
 
+//damage
 COPY ~%abilities%/applyeffects.EFF~   ~override/%s2%b.EFF~
   WRITE_ASCII 0x30 ~%s2%b~ #8
-  WRITE_LONG 0x40 4
-  WRITE_LONG 0x44 ~-2~
-COPY ~%abilities%/d2vorpal.SPL~       ~override/%s2%b.SPL~
-  LPF DELETE_EFFECT INT_VAR match_opcode=318 END    // no racial immunities
-  LPF DELETE_EFFECT INT_VAR match_opcode=139 END    // no display string
+COPY ~%abilities%/severslashing.SPL~  ~override/%s2%b.SPL~
+  LPF d2_addhitstun INT_VAR match_opcode=12 END
 
+//remove on hit
 COPY ~%abilities%/castspellself.EFF~       ~override/%s2%x.EFF~
   WRITE_ASCII 0x30 ~%s2%x~ #8
 COPY ~%abilities%/removespelleffects.SPL~  ~override/%s2%x.SPL~
@@ -204,6 +202,15 @@ OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
 INCLUDE ~%install%/beamdogitems.tph~
 
 
+//function to block vorpal effects (visual/sound)
+DEFINE_PATCH_FUNCTION block_sever_visual BEGIN
+  LPF DELETE_EFFECT STR_VAR match_resource=vorpal END
+  SET vorpal = 13
+  LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=d2vorpal END
+  LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=vorpal END
+END
+
+
 //Set variables for external use
 OUTER_TEXT_SPRINT monastery   ~%kitid%~
 OUTER_TEXT_SPRINT elementfire  ~%s1%~
@@ -212,5 +219,5 @@ OUTER_TEXT_SPRINT elementmoon  ~%s4%~
 OUTER_TEXT_SPRINT sever        ~%s2%~
 
 
-/*
-*/
+//
+//
