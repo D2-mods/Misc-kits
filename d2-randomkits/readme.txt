@@ -67,6 +67,9 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v3.5
+- Made a function more efficient. Cuts a few seconds off install time.
+
 v3.4
 - IWDEE: Jesterblade gets the Jester bonus effect from Jester's Bag item (extra random item).
 - Sever: added visual/audio feedback if target survives the attack. Slightly reorganized install. Vorpal effect moved to a new "d2vorpal" subspell.

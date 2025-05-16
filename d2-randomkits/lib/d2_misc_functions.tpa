@@ -529,7 +529,8 @@ END
 //automatically switches to opcode 206 if game is not EE v2.0+
 
 DEFINE_PATCH_FUNCTION d2_immunity_spl_block INT_VAR opcode=318 effect=13 STR_VAR block=vorpal BEGIN
-  PATCH_IF (FILE_EXISTS_IN_GAME ~%block%.spl~) BEGIN
+//  PATCH_IF (FILE_EXISTS_IN_GAME ~%block%.spl~) BEGIN
+  PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_FILE%~  ~[^0-9^a-z]%block%[^0-9^a-z]~) BEGIN
     PATCH_IF (opcode!=324 && opcode!=206) BEGIN  SET opcode=318  END
     PATCH_IF !(FILE_EXISTS ~engine.lua~) BEGIN  SET opcode=206  END
     PATCH_IF !(RESOURCE_CONTAINS ~action.ids~ ~zoomlock~) BEGIN  SET opcode=206  END
@@ -548,6 +549,7 @@ DEFINE_PATCH_FUNCTION d2_immunity_spl_block INT_VAR opcode=318 effect=13 STR_VAR
       END
     END
   END
+//  END
 END
 
 ////////////////////////////////////////////////////////////

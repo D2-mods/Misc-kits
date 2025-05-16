@@ -136,7 +136,7 @@ COPY ~%abilities%/sever.SPL~  ~override/%s2%.SPL~
   LPF ALTER_EFFECT INT_VAR target=2 resist_dispel=2 END
 
 //vorpal (subspell from vorpal.tph)
-COPY_EXISTING ~override/d2vorpal.EFF~  ~override/%s2%a.EFF~
+COPY_EXISTING ~d2vorpal.EFF~  ~override/%s2%a.EFF~
   LPF vorpalsavebonus INT_VAR bonus=~-2~ END
 
 //damage
@@ -204,7 +204,6 @@ INCLUDE ~%install%/beamdogitems.tph~
 
 //function to block vorpal effects (visual/sound)
 DEFINE_PATCH_FUNCTION block_sever_visual BEGIN
-  LPF DELETE_EFFECT STR_VAR match_resource=vorpal END
   SET vorpal = 13
   LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=d2vorpal END
   LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=vorpal END
