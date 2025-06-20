@@ -30,7 +30,7 @@ ACTION_IF (nomonastery = 0) BEGIN
   INCLUDE ~%install%/resources.tph~
   INCLUDE ~%install%/vorpal.tph~
 
-  ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
+  ACTION_IF (ee_game > 0) BEGIN
     INCLUDE ~%install%/%kitname%.tph~
     INCLUDE ~%install%/%kitname%ki.tph~
     INCLUDE ~%install%/%kitname%config.tph~

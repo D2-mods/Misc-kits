@@ -69,6 +69,7 @@ Tools:
 
 v3.5
 - Made a function more efficient. Cuts a few seconds off install time.
+- EEs that don't support v2.0+ opcodes will now be treated as classic BG2 engine.
 
 v3.4
 - IWDEE: Jesterblade gets the Jester bonus effect from Jester's Bag item (extra random item).

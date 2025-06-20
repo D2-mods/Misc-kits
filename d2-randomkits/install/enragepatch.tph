@@ -10,8 +10,10 @@ INCLUDE ~%install%/variables.tph~
 
 OUTER_TEXT_SPRINT enrage ~SPCL321~
 OUTER_TEXT_SPRINT winded ~SPCL321D~
+
 OUTER_SET ee_game = 0
 ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~zoomlock~) BEGIN OUTER_SET ee_game = 1 END
+ACTION_IF !(FILE_EXISTS ~engine.lua~) BEGIN OUTER_SET ee_game = 0 END
 
 
 //custom Enrage (copy backup file)

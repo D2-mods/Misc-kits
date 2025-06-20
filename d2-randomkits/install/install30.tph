@@ -48,7 +48,7 @@ ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2monastery~) BEGIN
   OUTER_TEXT_SPRINT kitname ~MONASTERY~
   INCLUDE ~%install%/variables.tph~
 
-  ACTION_IF (RESOURCE_CONTAINS ~action.ids~ ~ZoomLock~) BEGIN
+  ACTION_IF (ee_game > 0) BEGIN
     INCLUDE ~%install%/%kitname%profs.tph~
 
     // set Bubb's Menu level
