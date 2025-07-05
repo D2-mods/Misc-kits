@@ -1,0 +1,76 @@
+/*
+EE: remove race restrictions
+classic: usable by rangers, remove race restrictions
+*/
+
+
+ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2monastery~) BEGIN
+
+
+OUTER_SET bg2monkitems = 1
+ACTION_IF (nobg2monkitempatch > 0) BEGIN  OUTER_SET bg2monkitems = 0  END
+
+
+ACTION_IF (ee_game > 0) BEGIN
+
+  OUTER_SET human=0
+  ACTION_IF (bg2monkitems > 0) BEGIN  OUTER_SET human = ~-1~  END    // no restrictions
+  OUTER_SET mode=2
+
+  COPY_EXISTING ~waninja.itm~  ~override~
+    LPF d2_item_race_flags INT_VAR human=human mode=mode END
+  IF_EXISTS BUT_ONLY
+
+END ELSE BEGIN
+
+  //backup file
+  OUTER_TEXT_SPRINT item  ~waninja.itm~
+  OUTER_TEXT_SPRINT backup  ~override/d2wanin.itm~
+
+  ACTION_IF !(FILE_EXISTS ~%backup%~) BEGIN
+    COPY_EXISTING ~%item%~  ~%backup%~  IF_EXISTS
+  END
+
+
+  //
+  COPY_EXISTING ~%item%~  ~override~
+    PATCH_IF (bg2monkitems > 0) BEGIN
+      WRITE_LONG 0x1e (THIS BAND BNOT BIT21)    // no ranger flag
+//    WRITE_LONG 0x1e (THIS BAND BNOT BIT0)     // no chaotic flag
+      WRITE_LONG 0x1e (THIS BAND BNOT BIT5)     // no neutral flag
+      LPF d2_item_race_flags END                // no race flags
+
+      SPRINT note @305
+      READ_STRREF 0x54 desc
+      PATCH_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%note%~) BEGIN
+        TEXT_SPRINT newtext ~%desc%%WNL%%note%~
+        SET stringref = RESOLVE_STR_REF (~%newtext%~)
+        WRITE_LONG 0x54 stringref
+      END
+    END
+
+    ELSE BEGIN
+//    WRITE_LONG 0x1e THIS | BIT21    // add ranger flag
+//    WRITE_LONG 0x1e THIS | BIT0     // add chaotic flag	- using below method instead (copy from backup)
+//    WRITE_LONG 0x1e THIS | BIT5     // add neutral flag
+//    LPF d2_item_race_flags INT_VAR human=0 mode=2 END
+
+      PATCH_IF (FILE_EXISTS ~%backup%~) BEGIN
+        INNER_ACTION BEGIN
+          COPY - ~%backup%~  ~~
+            READ_LONG 0x54 desc        // copy desc from backup
+            READ_LONG 0x1e restrict    // copy flags from backup
+        END
+        WRITE_LONG 0x54 desc
+        WRITE_LONG 0x1e restrict
+      END
+    END
+  IF_EXISTS BUT_ONLY
+
+
+END
+END
+
+
+/*
+*/

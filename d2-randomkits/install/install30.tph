@@ -82,7 +82,7 @@ END
 //
 INCLUDE ~%install%/tofenragepatch.tph~
 INCLUDE ~%install%/castingspeed.tph~
-INCLUDE ~%install%/waninjapatch.tph~
+INCLUDE ~%install%/waninjapatch2.tph~
 
 
 //

@@ -322,6 +322,17 @@ LAF d2_hla_tableres STR_VAR kit=~%ids_name%~ abbrev=~%kitid%~ END
 //LAF d2_clone_hla_table STR_VAR kitids=~%ids_name%~ copy=monk abbrev=~%kitid%~ RET hlatable END
 
 
+//edit ToB starting items
+ACTION_IF (FILE_EXISTS_IN_GAME ~bag23.itm~) BEGIN
+  COPY_EXISTING ~25STWEAP.2da~  ~override~
+    LPF d2_edit_2da_entry STR_VAR col_name=~D2%kitname%~ row_name=bag entry=bag23 END    // monk bag
+    LPF d2_edit_2da_entry STR_VAR col_name=~D2%kitname%~ row_name=MISC4 entry=dagg12 END    // firetooth
+    LPF d2_edit_2da_entry STR_VAR col_name=~D2%kitname%~ row_name=MISC5 entry=waninja END    // ninjato
+    LPF d2_edit_2da_entry STR_VAR col_name=~D2%kitname%~ row_name=weapon1 entry=~*~ END    // start unarmed
+  BUT_ONLY
+END
+
+
 //Gains kensai effects from items
 OUTER_TEXT_SPRINT kit_group ~kensai~
 OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~

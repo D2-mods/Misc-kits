@@ -58,7 +58,7 @@ INCLUDE ~%install%/tofenragepatch.tph~
 INCLUDE ~%install%/castingspeed.tph~
 INCLUDE ~%install%/spellpatchingmk1.tph~
 INCLUDE ~%install%/bg2opcodecheck.tph~
-INCLUDE ~%install%/waninjapatch.tph~
+INCLUDE ~%install%/waninjapatch2.tph~
 
 
 /*

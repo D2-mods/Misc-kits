@@ -67,6 +67,10 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v3.6
+- fixed Monastery Swordsman not being able to use Godbow (usable by every kit/class).
+- BG2EE: if using a tweak that lets all races be monks, non-human races will be able to use Scarlet Ninjato (WANINJA). Can optionally disable in config file (setting can be changed with Kit updater).
+
 v3.5
 - Made a function more efficient. Cuts a few seconds off install time.
 - EEs that don't support v2.0+ opcodes will now be treated as classic BG2 engine.
