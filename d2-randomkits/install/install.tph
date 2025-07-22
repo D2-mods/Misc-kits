@@ -48,6 +48,7 @@ ACTION_IF (nojesterblade = 0) BEGIN
   INCLUDE ~%install%/variables.tph~
   INCLUDE ~%install%/resources.tph~
   INCLUDE ~%install%/%kitname%.tph~
+  INCLUDE ~%install%/%kitname%r.tph~
   INCLUDE ~%install%/%kitname%rr.tph~
 END
 

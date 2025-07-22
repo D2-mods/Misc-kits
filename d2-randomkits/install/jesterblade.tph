@@ -27,7 +27,9 @@ END
 COPY_EXISTING ~SPCL751.SPL~   ~override/%e1%.SPL~
   WRITE_LONG 0x8 ~-1~
   LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
-  LPF d2_protect_on_castequip INT_VAR timing=9 STR_VAR resource=~#bard7a~ END
+  PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_FILE%~  ~#bard7a~) BEGIN
+    LPF d2_protect_on_castequip INT_VAR timing=9 STR_VAR resource=~#bard7a~ END
+  END
 
 //projectile
 COPY - ~%abilities%/invisible30enemy.PRO~ ~%workspace%/%s1%.PRO~
@@ -156,6 +158,7 @@ INCLUDE ~%install%/beamdogitems.tph~
 OUTER_TEXT_SPRINT jesterblade    ~%kitid%~
 OUTER_TEXT_SPRINT offensivespin  ~SPCL521~
 OUTER_TEXT_SPRINT defensivespin  ~SPCL522~
+OUTER_TEXT_SPRINT jesterstart    ~%e1%~
 
 
 /*

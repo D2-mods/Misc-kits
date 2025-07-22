@@ -70,6 +70,13 @@ Tools:
 v3.6
 - fixed Monastery Swordsman not being able to use Godbow (usable by every kit/class).
 - BG2EE: if using a tweak that lets all races be monks, non-human races will be able to use Scarlet Ninjato (WANINJA). Can optionally disable in config file (setting can be changed with Kit updater).
+- ToF (beta 15) note: running the Kit updater will fix a possible issue that causes nonhuman monk avatars to disappear if equipping anything in the armor slot.
+- Monastery Swordsman: won't have Quivering Palm as an HLA if added by a mod.
+- ToF note: slightly adjusted HLA lists again for my monk/bard kits (relevant for Jesterblade and Monastery Swordsman).
+- Compatibility updates for HLAs from two older tweak mods, Oversights and Refinements.
+- ToF (beta 15) note: Fixed critical issues with jester HLA song. This happened if selectable songs were added for jesters/skalds (IWD spells + feats). The HLA wasn't changing to the HLA song, and wasn't giving a song switching ability. Run the Kit updater to fix.
+- IWDification note: if using Selectable songs for jesters/skalds, the jester HLA songs from Rogue Rebalancing, Refinements, or Bardic Wonders mods will also give a song ability (for Jesterblade only).
+- Jesterblade: Fixed possible duplicate text in kit description if you also installed Bardic Wonders song mechanics tweak.
 
 v3.5
 - Made a function more efficient. Cuts a few seconds off install time.

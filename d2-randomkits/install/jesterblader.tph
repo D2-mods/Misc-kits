@@ -1,0 +1,201 @@
+/*
+this is mainly for compat with IWDification selectable songs
+adds abilities for RR, Refinements, shohy, or Bardic Wonders HLAs
+function is run from jesterbladerr.tph
+
+This is run from both the main component and the Kit updater.
+
+TG#EN02 - hla
+TG#ENH2 - effects
+TG#LI02 - lingering
+TG#LIN2 - effects
+
+RR#BJS01 - hla
+RR#BJS02 - effects
+RR#BJS03 - lingering
+RR#BJS04 - effects
+
+BI#B3SS - hla
+BI#B3SB - effects
+
+C0JES03 - hla
+C0JES03A - effects
+
+dw-hljes - ToF hla
+RR#BJS02 - effects (same as RR)
+*/
+
+
+//compat with IWDification
+DEFINE_ACTION_FUNCTION refinements_edits BEGIN
+  OUTER_SPRINT name  @105
+  OUTER_SPRINT desc  ~~
+  OUTER_SPRINT lingering  ~~
+  OUTER_SPRINT hla1  ~%s1%~
+  OUTER_SPRINT hla2  ~%s1%~
+  OUTER_SPRINT icon  ~~
+
+  ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~TG#EN02~) BEGIN
+    COPY_EXISTING - ~TG#EN02.spl~ ~~
+      READ_STRREF 0x8 name
+      READ_STRREF 0x50 desc
+    IF_EXISTS
+    COPY_EXISTING - ~TG#LI02.spl~ ~~  READ_STRREF 0x50 note  IF_EXISTS
+    OUTER_SPRINT lingering  ~%note%%WNL%%WNL%%desc%~
+    OUTER_SPRINT hla1  ~TG#ENH2~
+    OUTER_SPRINT hla2  ~TG#LIN2~
+  END
+
+  ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~RR#BJS01~) BEGIN
+    COPY_EXISTING - ~RR#BJS01.spl~ ~~
+      READ_STRREF 0x8 name
+      READ_STRREF 0x50 desc
+    IF_EXISTS
+    COPY_EXISTING - ~RR#BJS03.spl~ ~~  READ_STRREF 0x50 note  IF_EXISTS
+    OUTER_SPRINT lingering  ~%note%%WNL%%WNL%%desc%~
+    OUTER_SPRINT hla1  ~RR#BJS02~
+    OUTER_SPRINT hla2  ~RR#BJS04~
+  END
+
+  ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~BI#B3SS~) BEGIN
+    COPY_EXISTING - ~BI#B3SS.spl~ ~~
+      READ_STRREF 0x8 name
+      READ_STRREF 0x50 desc
+    IF_EXISTS
+    COPY_EXISTING - ~BI#B1SA.spl~ ~~
+      READ_STRREF 0x8 name2
+      PATCH_IF !(~%name2%~ STR_EQ ~~) BEGIN  SPRINT name ~%name2%~  END
+    IF_EXISTS
+    OUTER_SPRINT lingering  ~%desc%~
+    OUTER_SPRINT hla1  ~BI#B3SB~
+    OUTER_SPRINT hla2  ~BI#B3SB~
+  END
+
+  ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~C0JES03~) BEGIN
+    COPY_EXISTING - ~C0JES03.spl~ ~~
+      READ_STRREF 0x8 name
+      READ_STRREF 0x50 desc
+    IF_EXISTS
+    OUTER_SPRINT lingering  ~%desc%~
+    OUTER_SPRINT hla1  ~C0JES03A~
+    OUTER_SPRINT hla2  ~C0JES03A~
+    OUTER_SPRINT icon  ~SPENBARB~
+  END
+
+  ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~dw-hljes~) BEGIN
+    COPY_EXISTING - ~dw-hljes.spl~ ~~
+      READ_STRREF 0x8 name
+      READ_STRREF 0x50 desc
+    IF_EXISTS
+    COPY_EXISTING - ~RR#BJS02.spl~ ~~
+      READ_STRREF 0x8 name2
+      PATCH_IF !(~%name2%~ STR_EQ ~~) BEGIN  SPRINT name ~%name2%~  END
+    IF_EXISTS
+    OUTER_SPRINT lingering  ~%desc%~
+    OUTER_SPRINT hla1  ~RR#BJS02~
+    OUTER_SPRINT hla2  ~RR#BJS02~
+  END
+
+  // hla song
+  COPY_EXISTING ~%m1%.spl~  ~override/%m2%.spl~
+    SAY NAME1 ~%name%~
+    SAY UNIDENTIFIED_DESC ~%desc%~
+    LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%hla1%~ END
+    LPF ALTER_EFFECT STR_VAR match_resource=~%SOURCE_RES%~ resource=~%DEST_RES%~ END
+    PATCH_IF !(~%icon%~ STR_EQ ~~) BEGIN
+      WRITE_ASCII 0x3a ~%icon%~ #8
+      WRITE_ASCII 0x76 ~%icon%~ #8
+    END
+  IF_EXISTS
+
+  // lingering song
+  COPY_EXISTING ~%m1%.spl~  ~override/%m3%.spl~
+    SAY NAME1 ~%name%~
+    SAY UNIDENTIFIED_DESC ~%lingering%~
+    LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%hla2%~ END
+    LPF ALTER_EFFECT STR_VAR match_resource=~%SOURCE_RES%~ resource=~%DEST_RES%~ END
+    PATCH_IF !(~%icon%~ STR_EQ ~~) BEGIN
+      WRITE_ASCII 0x3a ~%icon%~ #8
+      WRITE_ASCII 0x76 ~%icon%~ #8
+    END
+  IF_EXISTS
+
+END
+
+
+//unlock song switching
+DEFINE_ACTION_FUNCTION jester_hlaedits STR_VAR hla=~~ subspell=~~ block=~~ BEGIN
+  ACTION_IF (FILE_EXISTS_IN_GAME ~%hla%.SPL~) BEGIN
+    OUTER_SET opcode = 146
+    OUTER_SET param = 1
+    OUTER_SET key = 206
+    ACTION_IF (ee_game > 0) BEGIN  OUTER_SET opcode=326 OUTER_SET param=0 OUTER_SET key=318  END
+
+    // edit hla
+    COPY_EXISTING ~%hla%.SPL~  ~override~
+      PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_FILE%~  ~%subspell%~) BEGIN
+        LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=251 opcode=opcode parameter2=param STR_VAR resource=~%subspell%~ END
+      END
+    BUT_ONLY
+
+    // unlock key spell
+    COPY_EXISTING ~%jesterstart%.SPL~  ~override~
+      PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_FILE%~  ~%block%~) BEGIN
+        LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=251 opcode=key parameter2=param STR_VAR resource=~%block%~ END
+      END
+    BUT_ONLY
+  END
+END
+
+ACTION_IF (RESOURCE_CONTAINS ~cdcl751.spl~  ~SPCL751A~) BEGIN
+  LAF jester_hlaedits STR_VAR hla=~TG#EN02~ subspell=~%m2%a~ block=~%m2%x~ END    // refinements
+  LAF jester_hlaedits STR_VAR hla=~TG#LI02~ subspell=~%m3%a~ block=~%m3%x~ END
+  LAF jester_hlaedits STR_VAR hla=~RR#BJS01~ subspell=~%m2%a~ block=~%m2%x~ END    // rr
+  LAF jester_hlaedits STR_VAR hla=~RR#BJS03~ subspell=~%m3%a~ block=~%m3%x~ END
+  LAF jester_hlaedits STR_VAR hla=~C0JES03~ subspell=~%m3%a~ block=~%m3%x~ END    // Bardic Wonders
+  LAF jester_hlaedits STR_VAR hla=~BI#B3SS~ subspell=~%m2%a~ block=~%m2%x~ END    // shohy
+END
+ACTION_IF (RESOURCE_CONTAINS ~#bard7.spl~  ~RR#BDF04~) BEGIN
+  LAF jester_hlaedits STR_VAR hla=~dw-hljes~ subspell=~%m2%a~ block=~%m2%x~ END    // ToF
+END
+
+
+//
+ACTION_IF !(FILE_EXISTS_IN_GAME ~%m2%a.spl~) BEGIN
+  OUTER_SET opcode = 146
+  OUTER_SET param = 1
+  OUTER_SET key = 206
+  ACTION_IF (ee_game > 0) BEGIN  OUTER_SET opcode=326 OUTER_SET param=0 OUTER_SET key=318  END
+
+  COPY ~%abilities%/applyeffects.SPL~  ~override/%m2%a.SPL~     // main subspell
+    LPF ALTER_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m2%g~ END
+    LPF CLONE_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m2%x~ END
+  COPY ~%passives%/giveability.SPL~    ~override/%m2%g.SPL~     // give ability
+    LPF ALTER_EFFECT STR_VAR resource=~%m2%~ END
+    LPF CLONE_EFFECT INT_VAR opcode=172 STR_VAR resource=~%m1%~ END    // removes vanilla HLA (just in case)
+  COPY ~%abilities%/opcode318.SPL~      ~override/%m2%x.SPL~    // block g spell
+    LPF ALTER_EFFECT INT_VAR opcode=key STR_VAR resource=~%m2%g~ END
+
+  //refinements lingering song
+  COPY ~%abilities%/applyeffects.SPL~  ~override/%m3%a.SPL~     // main subspell
+    LPF ALTER_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m3%g~ END
+    LPF CLONE_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m3%x~ END
+  COPY ~%passives%/giveability.SPL~    ~override/%m3%g.SPL~     // give ability
+    LPF ALTER_EFFECT STR_VAR resource=~%m3%~ END
+    LPF CLONE_EFFECT INT_VAR opcode=172 STR_VAR resource=~%m2%~ END    // removes non-lingering version
+  COPY ~%abilities%/opcode318.SPL~      ~override/%m3%x.SPL~    // block g spell
+    LPF ALTER_EFFECT INT_VAR opcode=key STR_VAR resource=~%m3%g~ END
+END
+
+
+//lingering song fixes
+COPY_EXISTING ~TG#LIN2.spl~ ~override~
+  PATCH_IF (ee_game > 0) BEGIN
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=142 parameter2=40 END    // fix portrait icon for EEs
+  END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_timing=10 match_duration=18 duration=200 END    // fix statuses lasting only a second
+IF_EXISTS BUT_ONLY
+
+
+//
+//

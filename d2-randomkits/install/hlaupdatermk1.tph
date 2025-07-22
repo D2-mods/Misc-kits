@@ -48,7 +48,7 @@ END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_restricthlas BEGIN    // abilities to skip (can be a list)
   d2kensaizerker => GA_SPCL144
-  d2monastery    => ~GA_SPCL904 AP_DW-FTMTY AP_DW-FTDDL AP_DW-GCRY~
+  d2monastery    => ~GA_SPCL904 AP_DW-FTMTY AP_DW-FTDDL AP_DW-GCRY GA_SPCL901 AP_SPCL901 GA_SPCL903 AP_SPCL903~
   d2jesterblade  => none
 END
 
@@ -75,7 +75,8 @@ END
 //remove if detected
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_kit BEGIN    // kit => res (can be a list)
   d2kensaizerker => ~AP_DW-FTDDL~
-  d2monastery    => ~GA_c0mn#h05 GA_c0mn#h06 GA_c0mn#h07 AP_c0mn#h14 GA_TG#TIGS~
+  d2monastery    => ~GA_SPCL820 GA_SPCL811 GA_c0mn#h05 GA_c0mn#h06 GA_c0mn#h07 AP_c0mn#h14 GA_TG#TIGS~
+  d2jesterblade  => ~AP_LI#FINE~
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_res BEGIN    // ability => mod (right side not used)
@@ -91,6 +92,9 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_res BEGIN    // ability => mod (
   GA_c0mn#h07  => delete
   AP_c0mn#h14  => delete
   GA_TG#TIGS   => delete    // tof tiger strike (keep smite instead)
+  GA_SPCL820   => delete    // quivering palm
+  GA_SPCL811   => delete    // stunning blow
+  AP_LI#FINE   => delete    // finesse (refinements), bad design (changes kit)
 END
 
 ACTION_PHP_EACH d2mk_removehlas_kit AS kit => res BEGIN
@@ -117,18 +121,23 @@ END
 //
 //remove if a mod equivalent is detected
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_replacehlas_kit BEGIN    // kit => res
-  d2jesterblade => ~AP_BI#B2SS~
-  d2monastery   => ~GA_SPCL907~
+  d2jesterblade => ~AP_BI#B2SS AP_SPCL920~
+  d2monastery   => ~GA_SPCL907 GA_SPCL909~
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_replacehlas_res BEGIN    // res => mod
   AP_BI#B2SS => ~AP_BI#B3SS~    // shohy hla songs
   GA_SPCL907 => ~GA_TG#CHNT~    // hardiness
+  GA_SPCL909 => ~GA_TG#TIGS GA_KISH2~    // smite
+  AP_SPCL920 => ~AP_DW-HLJES~    // ToF hla songs
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_replacehlas_mod BEGIN    // mod => list
-  AP_BI#B3SS => replace
-  GA_TG#CHNT => replace
+  AP_BI#B3SS   => replace
+  GA_TG#CHNT   => replace
+//  GA_TG#TIGS => replace    // smite clone, no crit bonus (keep Smite instead)
+  GA_KISH2     => replace    // smite clone, prereq for stances
+  AP_DW-HLJES  => replace
 END
 
 ACTION_PHP_EACH d2mk_replacehlas_kit AS kit => res BEGIN

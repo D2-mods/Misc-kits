@@ -119,10 +119,12 @@ ACTION_IF ((FILE_EXISTS ~override/c0bardsx.spl~) AND
   ACTION_GET_STRREF EVAL ~%kit_strref%~ desc
   OUTER_SPRINT bardic_tweak @650
 
+/*
   ACTION_IF (~%desc%~ STRING_CONTAINS_REGEXP ~%bardic_tweak%~) BEGIN    // if "desc" does NOT contain "bardic_tweak"
     OUTER_TEXT_SPRINT kittext ~%desc%%WNL%%WNL%%bardic_tweak%~
     STRING_SET_EVALUATE kit_strref  ~%kittext%~
   END
+*/
 
 END
 
@@ -142,7 +144,8 @@ END
 
 //
 //IWDification (jester/skald song tweak)
-ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~cdcl751~) BEGIN
+//ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~cdcl751~) BEGIN
+ACTION_IF (RESOURCE_CONTAINS ~cdcl751.spl~  ~SPCL751A~) BEGIN
   COPY ~override/cdcl751.spl~  ~override/%m1%.SPL~
     SAY NAME1 @105
     SAY UNIDENTIFIED_DESC ~%songchange%~
@@ -162,11 +165,15 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~cdcl751~) BEGIN
       LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%m1%~ END
     BUT_ONLY
   END
+
+  LAF refinements_edits END    // refinementsprep.tph
 END
 
 
+//
 //ToF selectable Jester song (IWD songs + minor/HLAs)
-ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~dw-sng2~) BEGIN
+//ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~dw-sng2~) BEGIN
+ACTION_IF (RESOURCE_CONTAINS ~dw-sng2.spl~  ~SPCL751A~) BEGIN
   COPY ~override/dw-sng2.spl~  ~override/%m1%.SPL~
     SAY NAME1 @105
     SAY UNIDENTIFIED_DESC ~%songchange%~
@@ -186,6 +193,8 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~dw-sng2~) BEGIN
       LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%m1%~ END
     BUT_ONLY
   END
+
+  LAF refinements_edits END    // refinementsprep.tph
 END
 
 
@@ -212,6 +221,8 @@ ACTION_FOR_EACH spell IN
   ~d2BIjst~
   ~%bardic2%~
   ~%m1%~
+  ~%m2%~
+  ~%m3%~
 //  ~%m5%~
 BEGIN
   ACTION_IF !(FILE_EXISTS ~override/%spell%.SPL~) BEGIN

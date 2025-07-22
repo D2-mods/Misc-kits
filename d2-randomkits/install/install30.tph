@@ -25,6 +25,7 @@ INCLUDE ~%install%/weapontypes2.tph~
 INCLUDE ~%install%/clabprep.tph~
 INCLUDE ~%install%/classchecks.tph~
 INCLUDE ~%install%/hlatables.tph~
+INCLUDE ~%install%/tofhlasongfixer.tph~
 
 //
 INCLUDE ~%install%/hlaupdatermk1.tph~
@@ -70,6 +71,9 @@ ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2jesterblade~) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk3~
   OUTER_TEXT_SPRINT kitname ~JESTERBLADE~
   INCLUDE ~%install%/variables.tph~
+
+  OUTER_TEXT_SPRINT jesterstart  ~%e1%~
+  INCLUDE ~%install%/%kitname%r.tph~
   INCLUDE ~%install%/%kitname%rr.tph~
 
   //check Blade passives
@@ -83,6 +87,7 @@ END
 INCLUDE ~%install%/tofenragepatch.tph~
 INCLUDE ~%install%/castingspeed.tph~
 INCLUDE ~%install%/waninjapatch2.tph~
+INCLUDE ~%install%/tofavatarfix.tph~
 
 
 //
