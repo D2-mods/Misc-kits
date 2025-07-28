@@ -26,21 +26,48 @@ RR#BJS02 - effects (same as RR)
 */
 
 
-//compat with IWDification
-DEFINE_ACTION_FUNCTION refinements_edits BEGIN
+//song change abilities
+DEFINE_ACTION_FUNCTION jesterhlasongs BEGIN
   OUTER_SPRINT name  @105
   OUTER_SPRINT desc  ~~
   OUTER_SPRINT lingering  ~~
   OUTER_SPRINT hla1  ~%s1%~
   OUTER_SPRINT hla2  ~%s1%~
-  OUTER_SPRINT icon  ~~
+  OUTER_SPRINT icon1  ~~
+  OUTER_SPRINT icon2  ~~
+
+  OUTER_SPRINT hlatable  ~lu%kitid%~
+  ACTION_IF !(FILE_EXISTS_IN_GAME ~%hlatable%.2da~) BEGIN
+    LAF d2_get_2da_entry STR_VAR 2da=luabbr col_name=abbrev row_name=jester RET entry END
+    OUTER_SPRINT hlatable ~lu%entry%~
+  END
+
+  ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~spcl920~) BEGIN
+    COPY_EXISTING - ~spcl920.spl~ ~~
+      READ_STRREF 0x8 name
+      READ_STRREF 0x50 desc
+      READ_ASCII 0x3a icon1 (8)
+    IF_EXISTS
+    COPY_EXISTING - ~#bard7.spl~ ~~
+      READ_STRREF 0x8 name
+      READ_STRREF 0x50 desc
+    IF_EXISTS
+    OUTER_SPRINT lingering  ~%desc%~
+    OUTER_SPRINT hla1  ~spcl920a~
+    OUTER_SPRINT hla2  ~spcl920a~
+    OUTER_SPRINT icon2  ~%icon1%~
+  END
 
   ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~TG#EN02~) BEGIN
     COPY_EXISTING - ~TG#EN02.spl~ ~~
       READ_STRREF 0x8 name
       READ_STRREF 0x50 desc
+      READ_ASCII 0x3a icon1 (8)
     IF_EXISTS
-    COPY_EXISTING - ~TG#LI02.spl~ ~~  READ_STRREF 0x50 note  IF_EXISTS
+    COPY_EXISTING - ~TG#LI02.spl~ ~~
+      READ_STRREF 0x50 note
+      READ_ASCII 0x3a icon2 (8)
+    IF_EXISTS
     OUTER_SPRINT lingering  ~%note%%WNL%%WNL%%desc%~
     OUTER_SPRINT hla1  ~TG#ENH2~
     OUTER_SPRINT hla2  ~TG#LIN2~
@@ -50,8 +77,12 @@ DEFINE_ACTION_FUNCTION refinements_edits BEGIN
     COPY_EXISTING - ~RR#BJS01.spl~ ~~
       READ_STRREF 0x8 name
       READ_STRREF 0x50 desc
+      READ_ASCII 0x3a icon1 (8)
     IF_EXISTS
-    COPY_EXISTING - ~RR#BJS03.spl~ ~~  READ_STRREF 0x50 note  IF_EXISTS
+    COPY_EXISTING - ~RR#BJS03.spl~ ~~
+      READ_STRREF 0x50 note
+      READ_ASCII 0x3a icon2 (8)
+    IF_EXISTS
     OUTER_SPRINT lingering  ~%note%%WNL%%WNL%%desc%~
     OUTER_SPRINT hla1  ~RR#BJS02~
     OUTER_SPRINT hla2  ~RR#BJS04~
@@ -61,6 +92,7 @@ DEFINE_ACTION_FUNCTION refinements_edits BEGIN
     COPY_EXISTING - ~BI#B3SS.spl~ ~~
       READ_STRREF 0x8 name
       READ_STRREF 0x50 desc
+      READ_ASCII 0x3a icon1 (8)
     IF_EXISTS
     COPY_EXISTING - ~BI#B1SA.spl~ ~~
       READ_STRREF 0x8 name2
@@ -69,23 +101,26 @@ DEFINE_ACTION_FUNCTION refinements_edits BEGIN
     OUTER_SPRINT lingering  ~%desc%~
     OUTER_SPRINT hla1  ~BI#B3SB~
     OUTER_SPRINT hla2  ~BI#B3SB~
+    OUTER_SPRINT icon2  ~%icon1%~
   END
 
   ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~C0JES03~) BEGIN
     COPY_EXISTING - ~C0JES03.spl~ ~~
       READ_STRREF 0x8 name
       READ_STRREF 0x50 desc
+      READ_ASCII 0x3a icon1 (8)
     IF_EXISTS
     OUTER_SPRINT lingering  ~%desc%~
     OUTER_SPRINT hla1  ~C0JES03A~
     OUTER_SPRINT hla2  ~C0JES03A~
-    OUTER_SPRINT icon  ~SPENBARB~
+    OUTER_SPRINT icon2  ~%icon1%~
   END
 
   ACTION_IF (RESOURCE_CONTAINS ~%hlatable%.2da~ ~dw-hljes~) BEGIN
     COPY_EXISTING - ~dw-hljes.spl~ ~~
       READ_STRREF 0x8 name
       READ_STRREF 0x50 desc
+//      READ_ASCII 0x3a icon1 (8)    // no icon
     IF_EXISTS
     COPY_EXISTING - ~RR#BJS02.spl~ ~~
       READ_STRREF 0x8 name2
@@ -94,7 +129,11 @@ DEFINE_ACTION_FUNCTION refinements_edits BEGIN
     OUTER_SPRINT lingering  ~%desc%~
     OUTER_SPRINT hla1  ~RR#BJS02~
     OUTER_SPRINT hla2  ~RR#BJS02~
+    OUTER_SPRINT icon2  ~%icon1%~
   END
+
+  ACTION_IF (~%icon1%~ STR_EQ ~~) BEGIN  OUTER_SPRINT icon1 ~SPENBARB~  END
+  ACTION_IF (~%icon2%~ STR_EQ ~~) BEGIN  OUTER_SPRINT icon1 ~SPENBARB~  END
 
   // hla song
   COPY_EXISTING ~%m1%.spl~  ~override/%m2%.spl~
@@ -102,10 +141,11 @@ DEFINE_ACTION_FUNCTION refinements_edits BEGIN
     SAY UNIDENTIFIED_DESC ~%desc%~
     LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%hla1%~ END
     LPF ALTER_EFFECT STR_VAR match_resource=~%SOURCE_RES%~ resource=~%DEST_RES%~ END
-    PATCH_IF !(~%icon%~ STR_EQ ~~) BEGIN
-      WRITE_ASCII 0x3a ~%icon%~ #8
-      WRITE_ASCII 0x76 ~%icon%~ #8
+    PATCH_IF !(~%icon1%~ STR_EQ ~~) BEGIN
+      WRITE_ASCII 0x3a ~%icon1%~ #8
+      WRITE_ASCII 0x76 ~%icon1%~ #8
     END
+//    LPF CLONE_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%m1%~ END
   IF_EXISTS
 
   // lingering song
@@ -114,9 +154,9 @@ DEFINE_ACTION_FUNCTION refinements_edits BEGIN
     SAY UNIDENTIFIED_DESC ~%lingering%~
     LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%hla2%~ END
     LPF ALTER_EFFECT STR_VAR match_resource=~%SOURCE_RES%~ resource=~%DEST_RES%~ END
-    PATCH_IF !(~%icon%~ STR_EQ ~~) BEGIN
-      WRITE_ASCII 0x3a ~%icon%~ #8
-      WRITE_ASCII 0x76 ~%icon%~ #8
+    PATCH_IF !(~%icon2%~ STR_EQ ~~) BEGIN
+      WRITE_ASCII 0x3a ~%icon2%~ #8
+      WRITE_ASCII 0x76 ~%icon2%~ #8
     END
   IF_EXISTS
 
@@ -131,10 +171,17 @@ DEFINE_ACTION_FUNCTION jester_hlaedits STR_VAR hla=~~ subspell=~~ block=~~ BEGIN
     OUTER_SET key = 206
     ACTION_IF (ee_game > 0) BEGIN  OUTER_SET opcode=326 OUTER_SET param=0 OUTER_SET key=318  END
 
+    // block level 1 song (only if m2 song is taken)
+    OUTER_SET nostartsong = 0
+    ACTION_IF (~%subspell%~ STR_EQ ~%m2%a~) BEGIN  OUTER_SET nostartsong = 1  END
+
     // edit hla
     COPY_EXISTING ~%hla%.SPL~  ~override~
       PATCH_IF !(RESOURCE_CONTAINS ~%SOURCE_FILE%~  ~%subspell%~) BEGIN
         LPF CLONE_EFFECT INT_VAR silent=1 match_opcode=251 opcode=opcode parameter2=param STR_VAR resource=~%subspell%~ END
+      END
+      PATCH_IF ((nostartsong > 0) && !(RESOURCE_CONTAINS ~%SOURCE_FILE%~ ~%#1%~)) BEGIN
+        LPF CLONE_EFFECT INT_VAR silent=1 multi_match=1 opcode=key timing=9 STR_VAR resource=~%#1%~ insert=last END
       END
     BUT_ONLY
 
@@ -147,6 +194,17 @@ DEFINE_ACTION_FUNCTION jester_hlaedits STR_VAR hla=~~ subspell=~~ block=~~ BEGIN
   END
 END
 
+LAF jester_hlaedits STR_VAR hla=~TG#EN02~ subspell=~%m2%a~ block=~%m2%x~ END    // refinements
+LAF jester_hlaedits STR_VAR hla=~TG#LI02~ subspell=~%m3%a~ block=~%m3%x~ END
+LAF jester_hlaedits STR_VAR hla=~RR#BJS01~ subspell=~%m2%a~ block=~%m2%x~ END    // rr
+LAF jester_hlaedits STR_VAR hla=~RR#BJS03~ subspell=~%m3%a~ block=~%m3%x~ END
+LAF jester_hlaedits STR_VAR hla=~C0JES03~ subspell=~%m3%a~ block=~%m3%x~ END    // Bardic Wonders
+LAF jester_hlaedits STR_VAR hla=~BI#B3SS~ subspell=~%m2%a~ block=~%m2%x~ END    // shohy
+LAF jester_hlaedits STR_VAR hla=~dw-hljes~ subspell=~%m2%a~ block=~%m2%x~ END    // ToF
+LAF jester_hlaedits STR_VAR hla=~spcl920~ subspell=~%m3%a~ block=~%m3%x~ END    // vanilla HLA
+
+
+/*
 ACTION_IF (RESOURCE_CONTAINS ~cdcl751.spl~  ~SPCL751A~) BEGIN
   LAF jester_hlaedits STR_VAR hla=~TG#EN02~ subspell=~%m2%a~ block=~%m2%x~ END    // refinements
   LAF jester_hlaedits STR_VAR hla=~TG#LI02~ subspell=~%m3%a~ block=~%m3%x~ END
@@ -158,15 +216,55 @@ END
 ACTION_IF (RESOURCE_CONTAINS ~#bard7.spl~  ~RR#BDF04~) BEGIN
   LAF jester_hlaedits STR_VAR hla=~dw-hljes~ subspell=~%m2%a~ block=~%m2%x~ END    // ToF
 END
+ACTION_IF (RESOURCE_CONTAINS ~#bard7.spl~  ~SPCL920A~) BEGIN
+  LAF jester_hlaedits STR_VAR hla=~spcl920~ subspell=~d2#BARD7~ block=~%m3%x~ END    // IWDification
+END
+*/
 
 
-//
-ACTION_IF !(FILE_EXISTS_IN_GAME ~%m2%a.spl~) BEGIN
-  OUTER_SET opcode = 146
-  OUTER_SET param = 1
-  OUTER_SET key = 206
-  ACTION_IF (ee_game > 0) BEGIN  OUTER_SET opcode=326 OUTER_SET param=0 OUTER_SET key=318  END
 
+//spell should be 7 characters or less
+//suffix with a, b, x, and g should be free
+//cleanup is older ability to be replaced
+
+DEFINE_ACTION_FUNCTION hlasubspells STR_VAR spell=~~ cleanup=~~ BEGIN
+  //main subspell
+  COPY ~%abilities%/applyeffects.SPL~  ~override/%spell%a.SPL~    // casts B and X
+    LPF ALTER_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%spell%b~ END
+    LPF CLONE_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%spell%x~ END
+//    LPF CLONE_EFFECT INT_VAR multi_match=1 opcode=key timing=9 STR_VAR resource=~%cleanup%~ insert=last END
+
+  // apply effects
+  COPY ~%abilities%/applyeffects.SPL~  ~override/%spell%b.SPL~    // B casts G
+    LPF ALTER_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%spell%g~ END
+    LPF CLONE_EFFECT INT_VAR opcode=272 parameter1=6 parameter2=3 timing=9 END    // repeating effect (import fix)
+    PATCH_IF !(~%cleanup%~ STR_EQ ~~) BEGIN
+      LPF ADD_SPELL_EFFECT INT_VAR opcode=172 target=2 timing=1 STR_VAR resource=~%cleanup%~ END
+      PATCH_IF (ee_game > 0) BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR opcode=321 target=2 timing=1 STR_VAR resource=~%cleanup%b~ END
+      END ELSE BEGIN
+        LPF ADD_SPELL_EFFECT INT_VAR opcode=206 target=2 timing=9 STR_VAR resource=~%cleanup%g~ END
+      END
+    END
+
+  // block effects
+  COPY ~%abilities%/opcode318.SPL~  ~override/%spell%x.SPL~    // X blocks B
+    LPF ALTER_EFFECT INT_VAR opcode=key STR_VAR resource=~%spell%b~ END
+
+  // give ability
+  OUTER_SPRINT castspell  ~castspellself~
+  ACTION_IF (ee_game > 0) BEGIN  OUTER_SPRINT castspell ~applyeffects~  END
+  COPY ~%abilities%/%castspell%.EFF~  ~override/%spell%g.EFF~
+    WRITE_ASCII 0x30 ~%spell%g~ #8
+  COPY ~%passives%/giveability.SPL~   ~override/%spell%g.SPL~
+    LPF ALTER_EFFECT STR_VAR resource=~%spell%~ END
+    LPF CLONE_EFFECT INT_VAR opcode=172 STR_VAR resource=~%spell%~ END
+    LPF CLONE_EFFECT INT_VAR multi_match=1 opcode=key timing=0 duration=3600000 STR_VAR resource=~%DEST_RES%~ insert=last END
+//    LPF CLONE_EFFECT INT_VAR match_opcode=172 timing=4 STR_VAR resource=~%cleanup%~ END
+END
+
+//old version (bug when importing as Charname)
+DEFINE_ACTION_FUNCTION hlasubspells_old BEGIN
   COPY ~%abilities%/applyeffects.SPL~  ~override/%m2%a.SPL~     // main subspell
     LPF ALTER_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m2%g~ END
     LPF CLONE_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m2%x~ END
@@ -176,7 +274,7 @@ ACTION_IF !(FILE_EXISTS_IN_GAME ~%m2%a.spl~) BEGIN
   COPY ~%abilities%/opcode318.SPL~      ~override/%m2%x.SPL~    // block g spell
     LPF ALTER_EFFECT INT_VAR opcode=key STR_VAR resource=~%m2%g~ END
 
-  //refinements lingering song
+  // lingering song
   COPY ~%abilities%/applyeffects.SPL~  ~override/%m3%a.SPL~     // main subspell
     LPF ALTER_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m3%g~ END
     LPF CLONE_EFFECT INT_VAR opcode=opcode parameter2=param STR_VAR resource=~%m3%x~ END
@@ -188,13 +286,37 @@ ACTION_IF !(FILE_EXISTS_IN_GAME ~%m2%a.spl~) BEGIN
 END
 
 
-//lingering song fixes
-COPY_EXISTING ~TG#LIN2.spl~ ~override~
-  PATCH_IF (ee_game > 0) BEGIN
-    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=142 parameter2=40 END    // fix portrait icon for EEs
+//subspells
+ACTION_IF !(FILE_EXISTS_IN_GAME ~%m2%a.spl~) BEGIN
+  OUTER_SET opcode = 146
+  OUTER_SET param = 1
+  OUTER_SET key = 206
+  ACTION_IF (ee_game > 0) BEGIN
+    OUTER_SET opcode=326 OUTER_SET param=0 OUTER_SET key=318
+    LAF hlasubspells STR_VAR spell=~%m2%~ cleanup=~%m1%~ END    // mod HLA 1 (removes Jesterblade Song)
+    LAF hlasubspells STR_VAR spell=~%m3%~ cleanup=~%m2%~ END    // mod HLA 2 (removes hla 1 song)
+  END ELSE BEGIN
+    LAF hlasubspells_old END
   END
-  LPF ALTER_EFFECT INT_VAR silent=1 match_timing=10 match_duration=18 duration=200 END    // fix statuses lasting only a second
-IF_EXISTS BUT_ONLY
+END
+
+
+//shell spell for IWDification
+ACTION_IF (RESOURCE_CONTAINS ~#bard7b.spl~  ~#BARD7~) BEGIN
+  OUTER_SPRINT spell  ~#bard7~
+  OUTER_SPRINT cleanup  ~%m3%b~
+  ACTION_IF !(RESOURCE_CONTAINS ~%cleanup%.spl~  ~%spell%~) BEGIN
+    COPY_EXISTING ~%cleanup%.spl~  ~override~
+      LPF CLONE_EFFECT INT_VAR multi_match=1 match_opcode=172 STR_VAR resource=~%spell%~ END
+    IF_EXISTS BUT_ONLY
+  END
+END
+
+ACTION_IF !(FILE_EXISTS_IN_GAME ~d2#BARD7.SPL~) BEGIN
+  OUTER_SPRINT spell  ~d2#BARD7~
+  COPY ~%abilities%/applyeffects.SPL~  ~override/d2#BARD7.SPL~
+    LPF ALTER_EFFECT STR_VAR resource=~%m3%a~ END
+END
 
 
 //

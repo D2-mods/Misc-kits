@@ -67,6 +67,12 @@ Tools:
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
 
+v3.7
+- Jesterblade song now has a song switching ability by default. Previously, this was only with ToF or IWDification. If taking the vanilla HLA song, it will gain a separate ability so you can switch between them. If learning the ToF jester song, it will replace the Jesterblade song with an ability for the HLA song.
+- Also tested with a few other jester/HLA revisions. If the HLA song is a confusion song, it will replace the Jesterblade song. If not a confusion song (ex. Bardic Wonders), it will add a separate ability for it.
+- Jesterblade: fixed a possible export/import issue with HLA song in BG2EE. Previously, the song change ability could be lost if you exported the CHR, then imported as Charname (note: bug seems to only happen when importing as Charname).
+- Reorganized patching related to song switching abilities, including the HLA variants (jesterblader.tph, jesterbladerr.tph). This was originally done for ToF and IWDification, but now applies to the base mod as well.
+
 v3.6
 - fixed Monastery Swordsman not being able to use Godbow (usable by every kit/class).
 - BG2EE: if using a tweak that lets all races be monks, non-human races will be able to use Scarlet Ninjato (WANINJA). Can optionally disable in config file (setting can be changed with Kit updater).

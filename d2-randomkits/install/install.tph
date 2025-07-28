@@ -12,6 +12,17 @@ INCLUDE ~%install%/hlatables.tph~
 INCLUDE ~%install%/enrageprep.tph~
 
 
+//make dummy spell
+ACTION_IF !(FILE_EXISTS ~override/d2spell.SPL~) BEGIN
+  COPY_EXISTING ~SPCL142.SPL~  ~override/d2spell.SPL~
+    LPF d2_subspell_remove_effects END
+    LPF ALTER_EFFECT INT_VAR opcode=0 parameter1=0 parameter2=0 timing=0 duration=0 END
+    WRITE_LONG 0x18 THIS | BIT14
+    WRITE_LONG 0x18 THIS | BIT25
+  IF_EXISTS
+END
+
+
 //Kensaizerker (d2mk1)
 ACTION_IF (nokensaizerker = 0) BEGIN
   OUTER_TEXT_SPRINT kitid ~d2mk1~

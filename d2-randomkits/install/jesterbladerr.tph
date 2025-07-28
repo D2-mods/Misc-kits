@@ -10,16 +10,17 @@ COPY ~override/%@1%.SPL~  ~override/%s1%.SPL~ IF_EXISTS
 
 //variables
 OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
-OUTER_TEXT_SPRINT hlatable  ~lu%kitid%~    // clone of blade table
+OUTER_TEXT_SPRINT hlatable  ~lu%kitid%~
 
 
 //clear mod stuff from clab
 COPY_EXISTING ~%kitid%.2DA~  ~override~
-  REPLACE_TEXTUALLY ~AP_RR#BJSIT~  ~****~
+  REPLACE_TEXTUALLY ~AP_RR#BJSIT~ ~****~
   REPLACE_TEXTUALLY ~AP_d2BIjst~  ~****~
   REPLACE_TEXTUALLY ~GA_C0JES01~  ~****~
   REPLACE_TEXTUALLY ~AP_%m1%~  ~****~
   REPLACE_TEXTUALLY ~AP_%m5%~  ~****~
+  REPLACE_TEXTUALLY ~AP_%#1%~  ~****~
   PRETTY_PRINT_2DA
 BUT_ONLY
 
@@ -30,6 +31,15 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~RR#BJSIT~) BEGIN
     LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~RR#BJSIT~ END
   BUT_ONLY
 END
+
+
+//refinements - lingering song fixes
+COPY_EXISTING ~TG#LIN2.spl~ ~override~
+  PATCH_IF (ee_game > 0) BEGIN
+    LPF ALTER_EFFECT INT_VAR silent=1 match_opcode=142 parameter2=40 END    // fix portrait icon for EEs
+  END
+  LPF ALTER_EFFECT INT_VAR silent=1 match_timing=10 match_duration=18 duration=200 END    // fix statuses lasting only a second
+IF_EXISTS BUT_ONLY
 
 
 //Shohy bard mod
@@ -53,6 +63,7 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA02.2da~ ~BI#B20A~) BEGIN
   BUT_ONLY
 */
 
+/*using below method instead
   // give "chorus" abilities (with hla song)
   COPY_EXISTING ~BI#B3SS.spl~  ~override~
     LPF DELETE_EFFECT INT_VAR match_opcode=326 match_parameter1=IDS_OF_SYMBOL (kit ~%ids_name%~) END
@@ -61,6 +72,7 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA02.2da~ ~BI#B20A~) BEGIN
       STR_VAR resource=~BI#B00D~
     END
   IF_EXISTS BUT_ONLY
+*/
 
   // hide 2 weapon prof (unless higher than 3 max)
   OUTER_TEXT_SPRINT ids_name  ~D2%kitname%~
@@ -71,6 +83,18 @@ ACTION_IF (RESOURCE_CONTAINS ~CLABBA02.2da~ ~BI#B20A~) BEGIN
   END
 
 END
+
+//shohy - new way to give chorus
+OUTER_SPRINT spell ~%m2%g~
+OUTER_SPRINT chorus ~BI#B00D~
+COPY_EXISTING ~%spell%.spl~  ~override~
+  PATCH_IF (RESOURCE_CONTAINS ~%chorus%.spl~  ~BI#B00B~) BEGIN
+    LPF d2_remove_effects_on_cast INT_VAR 326override=1 STR_VAR resource=~%chorus%~ END
+  END ELSE
+  PATCH_IF (RESOURCE_CONTAINS ~%SOURCE_FILE%~  ~%chorus%~) BEGIN
+    LPF DELETE_EFFECT STR_VAR match_resource=~%chorus%~ END
+  END
+BUT_ONLY
 
 
 //
@@ -129,11 +153,7 @@ ACTION_IF ((FILE_EXISTS ~override/c0bardsx.spl~) AND
 END
 
 
-/*
-The OUTER_SPRINT stuff below was just experimenting (combines text from IWDification and Bardic Wonders tweaks).
-NOTE: Bardic Wonders Jester/Skald revisions are not fully compatible with IWDification (you can make it work, but there will be weirdness). The tweaks section should be fine.
-*/
-
+//add note for Bardic Wonders tweak if detected
 OUTER_SPRINT songchange @205
 ACTION_IF (VARIABLE_IS_SET bardic_tweak) BEGIN
   OUTER_SPRINT desc @205
@@ -141,61 +161,78 @@ ACTION_IF (VARIABLE_IS_SET bardic_tweak) BEGIN
   OUTER_SPRINT songchange ~%desc%%WNL%%WNL%%note%~
 END
 
+//remove IWDification effect (keep main jesterblade.tph unchanged)
+OUTER_SPRINT spell  ~#bard7a~
+ACTION_IF (RESOURCE_CONTAINS ~%jesterstart%.spl~  ~%spell%~) BEGIN
+  COPY_EXISTING ~%jesterstart%.spl~  ~override~
+    LPF DELETE_EFFECT STR_VAR match_resource=~%spell%~ END
+  BUT_ONLY
+END
+
 
 //
+//make song change abilities
+DEFINE_PATCH_FUNCTION switchablesongs BEGIN
+  SAY NAME1 @105
+  SAY UNIDENTIFIED_DESC ~%songchange%~
+  LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
+  LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
+  LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
+  WRITE_ASCII 0x3a ~%m1%~ #8
+  WRITE_ASCII 0x76 ~%m1%~ #8
+
+  // tweak casting
+  LPF ALTER_SPELL_HEADER INT_VAR target=7 END
+  LPF DELETE_EFFECT INT_VAR match_opcode=174 END
+  LPF ADD_SPELL_EFFECT INT_VAR opcode=174 target=1 timing=1 STR_VAR resource=EFF_M02 END
+  LPF ADD_SPELL_EFFECT INT_VAR opcode=146 target=1 timing=1 STR_VAR resource=d2spell END
+END
+
 //IWDification (jester/skald song tweak)
 //ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~cdcl751~) BEGIN
 ACTION_IF (RESOURCE_CONTAINS ~cdcl751.spl~  ~SPCL751A~) BEGIN
   COPY ~override/cdcl751.spl~  ~override/%m1%.SPL~
-    SAY NAME1 @105
-    SAY UNIDENTIFIED_DESC ~%songchange%~
-    LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
-    LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
-    LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
-
-    // tweak casting
-    LPF ALTER_SPELL_HEADER INT_VAR target=7 END
-    LPF DELETE_EFFECT INT_VAR match_opcode=174 END
-    LPF CLONE_EFFECT INT_VAR match_opcode=251 opcode=174 timing=1 STR_VAR resource=EFF_M02 END
+    LPF switchablesongs END
   IF_EXISTS
-
-  // add to kit clab
-  ACTION_IF (FILE_EXISTS ~override/%m1%.SPL~) BEGIN
-    COPY_EXISTING ~%kitid%.2DA~  ~override~
-      LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%m1%~ END
-    BUT_ONLY
-  END
-
-  LAF refinements_edits END    // refinementsprep.tph
 END
 
-
-//
 //ToF selectable Jester song (IWD songs + minor/HLAs)
 //ACTION_IF (RESOURCE_CONTAINS ~CLABBA03.2da~ ~dw-sng2~) BEGIN
 ACTION_IF (RESOURCE_CONTAINS ~dw-sng2.spl~  ~SPCL751A~) BEGIN
   COPY ~override/dw-sng2.spl~  ~override/%m1%.SPL~
-    SAY NAME1 @105
-    SAY UNIDENTIFIED_DESC ~%songchange%~
-    LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
-    LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
-    LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
-
-    // tweak casting
-    LPF ALTER_SPELL_HEADER INT_VAR target=7 END
-    LPF DELETE_EFFECT INT_VAR match_opcode=174 END
-    LPF CLONE_EFFECT INT_VAR match_opcode=251 opcode=174 timing=1 STR_VAR resource=EFF_M02 END
+    LPF switchablesongs END
   IF_EXISTS
+END
 
-  // add to kit clab
-  ACTION_IF (FILE_EXISTS ~override/%m1%.SPL~) BEGIN
+//fallback if no ToF or IWDification
+ACTION_IF !(RESOURCE_CONTAINS ~%m1%.spl~  ~%s1%~) BEGIN
+  COPY ~%abilities%/changebardsong.spl~  ~override/%m1%.SPL~
+    LPF DELETE_EFFECT INT_VAR match_opcode=326 END
+    LPF switchablesongs END
+END
+COPY ~%icons%/jestersong.BAM~  ~override/%m1%.BAM~
+
+
+//
+DEFINE_ACTION_FUNCTION switchablesongs BEGIN
+  //shell spell
+  ACTION_IF !(RESOURCE_CONTAINS ~%#1%.SPL~  ~%m1%~) BEGIN
+    COPY ~%passives%/giveability.SPL~  ~override/%#1%.SPL~
+      LPF ALTER_EFFECT STR_VAR resource=~%m1%~ END
+  END
+
+  //add to kit clab
+  ACTION_IF !(RESOURCE_CONTAINS ~%kitid%.2DA~  ~%#1%~) BEGIN
     COPY_EXISTING ~%kitid%.2DA~  ~override~
-      LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%m1%~ END
+      LPF d2_kit_ability_adder INT_VAR passive=1 STR_VAR resource=~%#1%~ END
     BUT_ONLY
   END
 
-  LAF refinements_edits END    // refinementsprep.tph
+  LAF jesterhlasongs END    // jesterblader.tph
 END
+
+LAF switchablesongs END
+
 
 
 /*changed to make ambidexterity choosable as feat
@@ -212,7 +249,6 @@ END
 */
 
 
-//
 //dummy files (so updater doesn't create new files)
 COPY_EXISTING - ~SPCL142.SPL~  ~inlined/dummy.SPL~
   LPF ALTER_EFFECT INT_VAR opcode=0 parameter1=0 parameter2=0 timing=0 duration=0 END
@@ -224,6 +260,7 @@ ACTION_FOR_EACH spell IN
   ~%m2%~
   ~%m3%~
 //  ~%m5%~
+  ~%#1%~
 BEGIN
   ACTION_IF !(FILE_EXISTS ~override/%spell%.SPL~) BEGIN
     COPY ~inlined/dummy.SPL~  ~override/%spell%.SPL~
@@ -236,6 +273,9 @@ END
 
 
 //variables
+OUTER_TEXT_SPRINT jester1  ~%m1%~
+OUTER_TEXT_SPRINT jester2  ~%m2%~
+OUTER_TEXT_SPRINT jester3  ~%m3%~
 OUTER_TEXT_SPRINT heckle  ~C0JES01~
 
 

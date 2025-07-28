@@ -76,7 +76,7 @@ END
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_kit BEGIN    // kit => res (can be a list)
   d2kensaizerker => ~AP_DW-FTDDL~
   d2monastery    => ~GA_SPCL820 GA_SPCL811 GA_c0mn#h05 GA_c0mn#h06 GA_c0mn#h07 AP_c0mn#h14 GA_TG#TIGS~
-  d2jesterblade  => ~AP_LI#FINE~
+  d2jesterblade  => ~AP_LI#FINE AP_C0BWHL0~
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_res BEGIN    // ability => mod (right side not used)
@@ -95,6 +95,7 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY d2mk_removehlas_res BEGIN    // ability => mod (
   GA_SPCL820   => delete    // quivering palm
   GA_SPCL811   => delete    // stunning blow
   AP_LI#FINE   => delete    // finesse (refinements), bad design (changes kit)
+  AP_C0BWHL0   => delete    // Bardic Wonders skald hla
 END
 
 ACTION_PHP_EACH d2mk_removehlas_kit AS kit => res BEGIN

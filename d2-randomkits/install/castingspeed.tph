@@ -17,6 +17,9 @@ ACTION_FOR_EACH ability IN
     ~%monasteryconfig2%~
     ~%monasteryconfig3%~
     ~%heckle%~
+    ~%jester1%~
+    ~%jester2%~
+    ~%jester3%~
 BEGIN
 
   COPY_EXISTING ~%ability%.SPL~  ~override~
