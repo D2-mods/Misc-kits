@@ -178,8 +178,8 @@ DEFINE_PATCH_FUNCTION switchablesongs BEGIN
   LPF ALTER_EFFECT INT_VAR match_opcode=251 STR_VAR resource=~%s1%~ END
   LPF ALTER_EFFECT INT_VAR match_opcode=171 STR_VAR resource=~%DEST_RES%~ END
   LPF ALTER_EFFECT INT_VAR match_opcode=172 STR_VAR resource=~%DEST_RES%~ END
-  WRITE_ASCII 0x3a ~%m1%~ #8
-  WRITE_ASCII 0x76 ~%m1%~ #8
+  WRITE_ASCII 0x3a ~%m1%b~ #8
+  WRITE_ASCII 0x76 ~%m1%b~ #8
 
   // tweak casting
   LPF ALTER_SPELL_HEADER INT_VAR target=7 END
@@ -210,7 +210,7 @@ ACTION_IF !(RESOURCE_CONTAINS ~%m1%.spl~  ~%s1%~) BEGIN
     LPF DELETE_EFFECT INT_VAR match_opcode=326 END
     LPF switchablesongs END
 END
-COPY ~%icons%/jestersong.BAM~  ~override/%m1%.BAM~
+COPY ~%icons%/jestersong.BAM~  ~override/%m1%b.BAM~
 
 
 //

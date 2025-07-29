@@ -44,8 +44,8 @@ Kit Updater:
 
 Talents of Faerun notes:
 - Run the Updater after ToF. This is REQUIRED for compatibility.
-- Jesterblade can select Blade-only abilities at same level as Blade. If ToF selectable songs are detected, the Jesterblade song will also have a song switching ability.
-- Monastery Swordsman can learn some fighter abilities at same level as fighter. It has access to all fighter HLAs, in addition to most monk ones.
+- Jesterblade can select Blade-only abilities at same level as Blade.
+- Monastery Swordsman can learn some fighter abilities at same level as fighter.
 
 --
 
@@ -66,6 +66,10 @@ Tools:
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v3.8
+- EEs: fixed BAM icons not appearing in the ability description when right-clicking icon.
+- BG2 (classic): import bug from last update also applies to original BG2, so it's fixed here as well.
 
 v3.7
 - Jesterblade song now has a song switching ability by default. Previously, this was only with ToF or IWDification. If taking the vanilla HLA song, it will gain a separate ability so you can switch between them. If learning the ToF jester song, it will replace the Jesterblade song with an ability for the HLA song.

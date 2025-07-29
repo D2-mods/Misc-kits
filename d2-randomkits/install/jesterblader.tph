@@ -291,13 +291,9 @@ ACTION_IF !(FILE_EXISTS_IN_GAME ~%m2%a.spl~) BEGIN
   OUTER_SET opcode = 146
   OUTER_SET param = 1
   OUTER_SET key = 206
-  ACTION_IF (ee_game > 0) BEGIN
-    OUTER_SET opcode=326 OUTER_SET param=0 OUTER_SET key=318
-    LAF hlasubspells STR_VAR spell=~%m2%~ cleanup=~%m1%~ END    // mod HLA 1 (removes Jesterblade Song)
-    LAF hlasubspells STR_VAR spell=~%m3%~ cleanup=~%m2%~ END    // mod HLA 2 (removes hla 1 song)
-  END ELSE BEGIN
-    LAF hlasubspells_old END
-  END
+  ACTION_IF (ee_game > 0) BEGIN  OUTER_SET opcode=326 OUTER_SET param=0 OUTER_SET key=318  END
+  LAF hlasubspells STR_VAR spell=~%m2%~ cleanup=~%m1%~ END    // mod HLA 1 (removes Jesterblade Song)
+  LAF hlasubspells STR_VAR spell=~%m3%~ cleanup=~%m2%~ END    // mod HLA 2 (removes hla 1 song)
 END
 
 

@@ -1,6 +1,6 @@
 BACKUP ~weidu_external/backup/d2-randomkits~
 AUTHOR ~Dan_P~
-VERSION ~3.7~
+VERSION ~3.8~
 AUTO_EVAL_STRINGS
 
 ALWAYS

@@ -171,5 +171,5 @@ Components:
 
 **Talents of Faerun notes:**
 - Run the Updater after ToF. This is **REQUIRED** for compatibility.
-- Jesterblade can select Blade-only abilities at same level as Blade. If ToF selectable songs are detected, the Jesterblade song will also have a song switching ability.
-- Monastery Swordsman can learn some fighter abilities at same level as fighter. It has access to all fighter HLAs, in addition to most monk ones.
+- Jesterblade can select Blade-only abilities at same level as Blade.
+- Monastery Swordsman can learn some fighter abilities at same level as fighter.
