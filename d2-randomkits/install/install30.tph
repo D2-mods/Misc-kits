@@ -64,6 +64,14 @@ ACTION_IF (RESOURCE_CONTAINS ~kit.ids~ ~d2monastery~) BEGIN
     LAF d2_weapprof_kitedits INT_VAR amount=0 STR_VAR kit=~%ids_name%~ attribute=ranged END
     LAF d2_weapprof_styles INT_VAR b=0 STR_VAR kit=~%ids_name%~ END    // no shield style
   END
+
+  //function to block vorpal effects (visual/sound)
+  DEFINE_PATCH_FUNCTION block_sever_visual BEGIN
+    SET vorpal = 13
+    LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=d2vorpal END
+    LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=vorpal END
+  END
+  OUTER_SET block_sever_visual = 1
 END
 
 //Jesterblade (d2mk3)
@@ -86,6 +94,7 @@ END
 //
 INCLUDE ~%install%/tofenragepatch.tph~
 INCLUDE ~%install%/castingspeed.tph~
+INCLUDE ~%install%/mkspellpatching.tph~
 INCLUDE ~%install%/waninjapatch2.tph~
 INCLUDE ~%install%/tofavatarfix.tph~
 

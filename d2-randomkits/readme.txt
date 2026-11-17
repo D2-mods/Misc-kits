@@ -49,6 +49,8 @@ Talents of Faerun notes:
 
 --
 
+Contact: Dan_P at Beamdog or Gibberlings3 forums
+
 Translations:
 - French (JohnBob)
 
@@ -56,6 +58,7 @@ Functions (not including my own):
 - ADD_KIT_EX function by Argent77 (https://github.com/Argent77/A7-add_kit_ex)
 - CD_EXTEND-O-MATIC function by CamDawg (https://www.gibberlings3.net/forums/topic/28835-toss-your-semi-useful-weidu-macros-here/page/13/#comment-332943)
 - GET_KIT_STRREF (source unknown)
+- d2_validate_spellitem.tpa uses functions written by Google Gemini
 
 Older (v2.x) ki system:
 - semi_innate_casting function by subtledoctor (https://github.com/subtledoctor/SD_useful_functions)
@@ -66,6 +69,12 @@ Tools:
 
 ----------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------
+
+v3.9
+- kensaizerker Enrage: items/spells that block fatigue effects will also now block the winded effect. This is checked from both the main component and the kit updater.
+- Sever ability: Running the kit updater now also checks new death ward variant spells/items installed after this mod and patches them to also block the Sever ability. Previously, this was only checked from the main component.
+- Better structure for mass patching related stuff.
+- fixed possible reinstall error if a previous mod used "fmc" or "fmt" as integer variables.
 
 v3.8
 - EEs: fixed BAM icons not appearing in the ability description when right-clicking icon.

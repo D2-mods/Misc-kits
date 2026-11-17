@@ -222,6 +222,7 @@ DEFINE_PATCH_FUNCTION block_sever_visual BEGIN
   LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=d2vorpal END
   LPF d2_immunity_spl_block INT_VAR effect=vorpal STR_VAR block=vorpal END
 END
+OUTER_SET block_sever_visual = 1
 
 
 //Set variables for external use
