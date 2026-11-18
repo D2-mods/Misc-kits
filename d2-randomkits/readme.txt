@@ -32,7 +32,7 @@ Components
 
 Install notes:
 - config.ini: Set a kit to = 0 to prevent install
-- Updater and Enrage components can be re-run at any time.
+- Updater and Enrage components can be rerun at any time.
 - Install after class revisions, except for Talents of Faerun. If another revision says to install after all kit mods, you can try it both ways.
 - Safe to install before or after most tweak mods, including proficiency revisions. It's still recommended to follow normal install order guidelines.
 
@@ -40,7 +40,7 @@ Kit Updater:
 - Updates HLA tables, Proficiencies, misc fixes, mod compat, etc.
 - Monastery Swordsman: Can put max slots in any melee weapon usable by base Monk.
 - Run after all tweak and overhaul mods, including mods that say to install last.
-- Dual to Kit note: Run this once before Dual to Kit if using a proficiency tweak. It can be re-run after if you need to update other things later. (note: it's specifically component 3 of Dual to Kit that needs to be after any proficiency edits)
+- Dual to Kit note: Run this once before Dual to Kit if using a proficiency tweak. It can be rerun after if you need to update other things later. (note: it's specifically component 3 of Dual to Kit that needs to be after any proficiency edits)
 
 Talents of Faerun notes:
 - Run the Updater after ToF. This is REQUIRED for compatibility.
@@ -72,7 +72,7 @@ Tools:
 
 v3.9
 - kensaizerker Enrage: items/spells that block fatigue effects will also now block the winded effect. This is checked from both the main component and the kit updater.
-- Sever ability: Running the kit updater now also checks new death ward variant spells/items installed after this mod and patches them to also block the Sever ability. Previously, this was only checked from the main component.
+- Sever ability: Running the kit updater now also checks new death ward variant spells/items installed after this mod and patches them to block all Sever death effects (i.e. visual/sound). Previously, this was only checked from the main component.
 - Better structure for mass patching related stuff.
 - fixed possible reinstall error if a previous mod used "fmc" or "fmt" as integer variables.
 
@@ -132,7 +132,7 @@ v3.0
 - BG2 (classic): Fixed installer error if you didn't have TobEx installed. It was scanning a file that I didn't realize was added by TobEx and not in the base game.
 - Fixed possible install error on Mac systems, caused by using text files without extensions.
 - EEs: Monastery Swordsman now starts with 2 slots in Single Weapon Style, matching what a fighter class could do at level 1 (note: for compatibility, single weapon is not removed from the prof screen, so don't put points at creation. A tweak mod can increase the max number of points in weapon styles.)
-- Monastery Swordsman: If using a tweak that lets monks use 2-handed weapons, it also starts with 2 points in 2-handed style. You can re-run the updater at any time to recheck this. The description is also updated to match the current files.
+- Monastery Swordsman: If using a tweak that lets monks use 2-handed weapons, it also starts with 2 points in 2-handed style. You can rerun the updater at any time to recheck this. The description is also updated to match the current files.
 
 v2.16
 - Kit Updater: Fixed issue where the updater was removing tweaks to the Jesterblade's clab/abilities table. Now, anything not accounted for is left untouched by the updater.
@@ -149,7 +149,7 @@ Talents of Faerun notes:
 - Monastery Swordsman can now learn Improved Criticals and Dirty Fighting at same level as fighter.
 
 v2.14
-- Changed "Update HLAs" component to "Kit Updater". It now also updates the Monastery Swordsman's HLAs and proficiencies if relevant tweaks were installed after this mod. This component can be re-run at any time.
+- Changed "Update HLAs" component to "Kit Updater". It now also updates the Monastery Swordsman's HLAs and proficiencies if relevant tweaks were installed after this mod. This component can be rerun at any time.
 - Monastery Swordsman can now be installed before or after Monk usability tweaks and proficiency overhauls (except for Talents of Faerun overhaul). Any melee weapon or fighting style that the base monk has access to will be set to max ("max" being whatever the base fighter class is set to).
 - ToF note: Monastery Swordsman can gain grandmastery in all melee weapons with the ToF overhaul. The overhaul does this part by itself (the updater isn't needed specifically for this).
 - Fix ids warning when installing on original BG2 engine (this was harmless, but annoying to see).
@@ -196,7 +196,7 @@ Jesterblade - Compat notes:
 
 Kensaizerker - Compat notes:
 	- Artisan's kitpack: no longer gains Rapid Shot when installed after fighter revision. It will gain the melee abilities. It does not gain passives from Berserker or Kensai revisions (balanced too different from the unmodded kits).
-	- Added component "Choose Enrage version". Can set the kit's Enrage to a custom spell that always has vanilla effects (default), or set to the base game Enrage, including possible tweaks (ex. from ToF). This component can be re-run at any time to change setting, and works with existing save games (will update any Enrages already gained).
+	- Added component "Choose Enrage version". Can set the kit's Enrage to a custom spell that always has vanilla effects (default), or set to the base game Enrage, including possible tweaks (ex. from ToF). This component can be rerun at any time to change setting, and works with existing save games (will update any Enrages already gained).
 
 
 v2.8

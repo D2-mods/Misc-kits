@@ -159,7 +159,7 @@ Components:
 
 **Install notes:**
 - config.ini: Set a kit to = 0 to prevent install
-- Updater and Enrage components can be re-run at any time.
+- Updater and Enrage components can be rerun at any time.
 - Install after class revisions, except for Talents of Faerun. If another revision says to install after all kit mods, you can try it both ways.
 - Safe to install before or after most tweak mods, including proficiency revisions. It's still recommended to follow normal install order guidelines.
 
@@ -167,7 +167,7 @@ Components:
 - Updates HLA tables, Proficiencies, misc fixes, mod compat, etc.
 - Monastery Swordsman: Can put max slots in any melee weapon usable by base Monk.
 - Run after all tweak and overhaul mods, including mods that say to install last.
-- Dual to Kit note: Run this once before Dual to Kit if using a proficiency tweak. It can be re-run after if you need to update other things later. (note: it's specifically component 3 of Dual to Kit that needs to be after any proficiency edits)
+- Dual to Kit note: Run this once before Dual to Kit if using a proficiency tweak. It can be rerun after if you need to update other things later. (note: it's specifically component 3 of Dual to Kit that needs to be after any proficiency edits)
 
 **Talents of Faerun notes:**
 - Run the Updater after ToF. This is **REQUIRED** for compatibility.
